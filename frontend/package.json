@@ -1,0 +1,49 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@gosim-clone/shared": "*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.22.3",
+    "@tanstack/react-query": "^5.28.4",
+    "framer-motion": "^11.0.8",
+    "lucide-react": "^0.359.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1",
+    "@stripe/stripe-js": "^3.0.0",
+    "@stripe/react-stripe-js": "^2.6.0",
+    "canvas-confetti": "^1.9.2",
+    "@tanstack/react-table": "^8.13.2",
+    "recharts": "^2.12.2",
+    "react-hot-toast": "^2.4.1",
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.4.27",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.0",
+    "vite": "^8.0.4",
+    "@tailwindcss/vite": "^4.2.2"
+  }
+}

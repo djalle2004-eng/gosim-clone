@@ -1,0 +1,25 @@
+{
+  "name": "gosim-clone",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev": "npm run dev:frontend & npm run dev:backend",
+    "build:shared": "npm run build --workspace=shared",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "prettier": "^3.2.5",
+    "eslint": "^8.57.0"
+  }
+}

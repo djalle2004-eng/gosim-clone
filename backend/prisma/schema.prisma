@@ -1,0 +1,337 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =======================
+// ENUMS
+// =======================
+
+enum KycStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DocumentType {
+  PASSPORT
+  NATIONAL_ID
+  DRIVERS_LICENSE
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Currency {
+  DZD
+  USD
+  EUR
+}
+
+enum Region {
+  EUROPE
+  ASIA
+  AMERICAS
+  AFRICA
+  MIDDLEEAST
+  GLOBAL
+}
+
+enum Speed {
+  FOUR_G       @map("4G")
+  FIVE_G       @map("5G")
+  FOUR_G_FIVE_G @map("4G_5G")
+}
+
+enum PlanProvider {
+  AIRALO
+  ESIMGO
+  SIMFONY
+  CUSTOM
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  CIB
+  EDAHABIA
+}
+
+enum EsimStatus {
+  INACTIVE
+  ACTIVE
+  EXHAUSTED
+  EXPIRED
+}
+
+enum PaymentProvider {
+  STRIPE
+  CIB
+  EDAHABIA
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// =======================
+// MODELS
+// =======================
+
+model User {
+  id               String          @id @default(uuid())
+  email            String          @unique
+  password         String // hashed
+  firstName        String?
+  lastName         String?
+  phone            String?
+  avatar           String?
+  country          String?
+  preferredCurrency Currency       @default(USD)
+  role             Role            @default(USER)
+  isVerified       Boolean         @default(false)
+  isActive         Boolean         @default(true)
+  googleId         String?         @unique
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  orders           Order[]
+  esims            ESim[]
+  payments         Payment[]
+  reviews          Review[]
+  supportTickets   SupportTicket[]
+  notifications    Notification[]
+  loginHistories   LoginHistory[]
+  auditLogs        AuditLog[]
+
+  kyc              IdentityVerification?
+}
+
+model Country {
+  id        String     @id @default(uuid())
+  nameEn    String
+  nameAr    String?
+  code      String     @unique // ISO 3166-1 alpha-2
+  flag      String?    // emoji
+  region    Region
+  isPopular Boolean    @default(false)
+  isActive  Boolean    @default(true)
+
+  esimPlans ESimPlan[]
+}
+
+model ESimPlan {
+  id           String       @id @default(uuid())
+  name         String
+  slug         String       @unique
+  countryId    String?
+  country      Country?     @relation(fields: [countryId], references: [id])
+  isGlobal     Boolean      @default(false)
+  isRegional   Boolean      @default(false)
+  
+  dataAmount   Int          // MB (e.g., 1024 for 1GB, -1 for unlimited)
+  validity     Int          // days
+  speed        Speed        @default(FOUR_G)
+  
+  price        Float        // In USD
+  priceDZD     Float?       
+  priceEUR     Float?
+  
+  provider     PlanProvider @default(CUSTOM)
+  providerId   String?      // External plan ID
+  
+  features     Json?        // JSON array of features e.g. ["Data Only", "No Setup Fee"]
+  
+  isBestSeller Boolean      @default(false)
+  isUnlimited  Boolean      @default(false)
+  isActive     Boolean      @default(true)
+  
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  orderItems   OrderItem[]
+  reviews      Review[]
+}
+
+model Order {
+  id                    String        @id @default(uuid())
+  userId                String
+  user                  User          @relation(fields: [userId], references: [id])
+  status                OrderStatus   @default(PENDING)
+  totalAmount           Float
+  currency              Currency      @default(USD)
+  
+  stripePaymentIntentId String?       @unique
+  stripeSessionId       String?       @unique
+  paymentMethod         PaymentMethod @default(CARD)
+  notes                 String?
+
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  orderItems            OrderItem[]
+  payments              Payment[]
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  planId     String
+  plan       ESimPlan @relation(fields: [planId], references: [id])
+  
+  quantity   Int      @default(1)
+  unitPrice  Float
+  totalPrice Float
+
+  assignedESims ESim[]
+}
+
+model ESim {
+  id             String     @id @default(uuid())
+  orderItemId    String
+  orderItem      OrderItem  @relation(fields: [orderItemId], references: [id])
+  userId         String
+  user           User       @relation(fields: [userId], references: [id])
+  
+  iccid          String     @unique
+  qrCode         String?    // base64 image or url
+  activationCode String?
+  status         EsimStatus @default(INACTIVE)
+  
+  dataUsed       Int        @default(0) // MB
+  dataTotal      Int        // MB
+  
+  activatedAt    DateTime?
+  expiresAt      DateTime?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Payment {
+  id                    String          @id @default(uuid())
+  orderId               String
+  order                 Order           @relation(fields: [orderId], references: [id])
+  userId                String
+  user                  User            @relation(fields: [userId], references: [id])
+  
+  amount                Float
+  currency              Currency        @default(USD)
+  
+  provider              PaymentProvider @default(STRIPE)
+  providerTransactionId String?
+  status                PaymentStatus   @default(PENDING)
+  metadata              Json?
+  
+  createdAt             DateTime        @default(now())
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  planId     String
+  plan       ESimPlan @relation(fields: [planId], references: [id])
+  
+  rating     Int      // 1-5
+  comment    String?
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model SupportTicket {
+  id         String         @id @default(uuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id])
+  
+  subject    String
+  message    String         @db.Text
+  status     TicketStatus   @default(OPEN)
+  priority   TicketPriority @default(MEDIUM)
+  assignedTo String?
+  
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  
+  type       String   // e.g., "SYSTEM", "PROMO", "ORDER"
+  title      String
+  message    String
+  isRead     Boolean  @default(false)
+  data       Json?
+  
+  createdAt  DateTime @default(now())
+}
+
+model LoginHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  ip        String?
+  device    String?
+  success   Boolean
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  adminId   String
+  admin     User     @relation(fields: [adminId], references: [id])
+  action    String
+  resource  String
+  details   Json?
+  
+  createdAt DateTime @default(now())
+}
+
+model IdentityVerification {
+  id           String       @id @default(uuid())
+  userId       String       @unique
+  user         User         @relation(fields: [userId], references: [id])
+  
+  documentType DocumentType
+  documentUrl  String       
+  status       KycStatus    @default(PENDING)
+  adminNotes   String?      @db.Text
+  
+  submittedAt  DateTime     @default(now())
+  verifiedAt   DateTime?
+}
