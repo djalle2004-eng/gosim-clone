@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { api } from '../lib/api';
 
 export type UserRole = 'USER' | 'ADMIN' | 'SUPER_ADMIN';
@@ -64,7 +70,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout, checkAuth }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, register, logout, checkAuth }}
+    >
       {children}
     </AuthContext.Provider>
   );

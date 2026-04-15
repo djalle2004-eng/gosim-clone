@@ -11,7 +11,10 @@ const fetchLiveRates = async () => {
   };
 };
 
-export const convertPrice = async (usdAmount: number, targetCurrency: string): Promise<number> => {
+export const convertPrice = async (
+  usdAmount: number,
+  targetCurrency: string
+): Promise<number> => {
   if (targetCurrency === 'USD') return usdAmount;
 
   try {

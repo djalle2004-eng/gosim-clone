@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <Navbar />
-      
+
       <main className="flex-grow">
         <HeroSection />
         <HowItWorks />

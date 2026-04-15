@@ -9,7 +9,11 @@ import { generateTokens } from './auth.service';
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
 
 // Rate limiter for login: max 5 failed attempts per IP per 15 minutes
-export const loginRateLimiter = async (req: Request, res: Response, next: NextFunction) => {
+export const loginRateLimiter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const limiter = new RateLimiterRedis({
     storeClient: redisClient,
     keyPrefix: 'login_fail',
@@ -21,11 +25,15 @@ export const loginRateLimiter = async (req: Request, res: Response, next: NextFu
   try {
     const ip = req.ip || req.socket.remoteAddress || 'unknown';
     const resLimiter = await limiter.get(ip);
-    
+
     if (resLimiter !== null && resLimiter.consumedPoints > 5) {
-      return res.status(429).json({ message: 'Trop de tentatives échouées. Réessayez dans 15 minutes.' });
+      return res
+        .status(429)
+        .json({
+          message: 'Trop de tentatives échouées. Réessayez dans 15 minutes.',
+        });
     }
-    
+
     // Attach limiter to request to consume point strictly on failure
     (req as any).rateLimiter = limiter;
     (req as any).limiterKey = ip;
@@ -35,8 +43,13 @@ export const loginRateLimiter = async (req: Request, res: Response, next: NextFu
   }
 };
 
-export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
-  const accessToken = req.cookies.accessToken || req.headers.authorization?.split(' ')[1];
+export const verifyToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const accessToken =
+    req.cookies.accessToken || req.headers.authorization?.split(' ')[1];
   const refreshToken = req.cookies.refreshToken;
 
   if (!accessToken && !refreshToken) {
@@ -59,15 +72,21 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
   // Automatic Refresh logic if we only have a valid refresh token left
   try {
     const decodedRefresh = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
-    
+
     // Check if refresh token is revoked in Redis
-    const isRevoked = await redisClient.get(`revoke_refresh:${decodedRefresh.id}:${refreshToken}`);
+    const isRevoked = await redisClient.get(
+      `revoke_refresh:${decodedRefresh.id}:${refreshToken}`
+    );
     if (isRevoked) {
-      return res.status(401).json({ message: 'Session expirée, veuillez vous reconnecter' });
+      return res
+        .status(401)
+        .json({ message: 'Session expirée, veuillez vous reconnecter' });
     }
 
     // Ensure user still exists and isActive
-    const user = await prisma.user.findUnique({ where: { id: decodedRefresh.id } });
+    const user = await prisma.user.findUnique({
+      where: { id: decodedRefresh.id },
+    });
     if (!user || !user.isActive) {
       return res.status(401).json({ message: 'Compte désactivé' });
     }
@@ -80,12 +99,14 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 15 * 60 * 1000 // 15 mins
+      maxAge: 15 * 60 * 1000, // 15 mins
     });
 
     (req as any).user = { id: user.id, role: user.role, email: user.email };
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Non autorisé - Refresh Token invalide' });
+    return res
+      .status(401)
+      .json({ message: 'Non autorisé - Refresh Token invalide' });
   }
 };

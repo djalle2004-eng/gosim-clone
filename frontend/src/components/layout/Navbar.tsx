@@ -27,14 +27,13 @@ export default function Navbar() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled 
-          ? 'bg-background/80 backdrop-blur-md border-b border-white/10 shadow-lg py-3' 
+        isScrolled
+          ? 'bg-background/80 backdrop-blur-md border-b border-white/10 shadow-lg py-3'
           : 'bg-transparent py-5'
       )}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">
@@ -65,11 +64,14 @@ export default function Navbar() {
               <Globe className="w-4 h-4" />
               <span>AR / DZD</span>
             </div>
-            
-            <Link to="/login" className="text-gray-300 hover:text-white transition-colors hidden lg:flex items-center gap-2">
+
+            <Link
+              to="/login"
+              className="text-gray-300 hover:text-white transition-colors hidden lg:flex items-center gap-2"
+            >
               <User className="w-4 h-4" /> تسجيل الدخول
             </Link>
-            
+
             <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full transition-colors relative">
               <ShoppingCart className="w-4 h-4" />
               <span>سلة المشتريات</span>
@@ -80,7 +82,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             className="md:hidden text-white p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -111,7 +113,9 @@ export default function Navbar() {
               ))}
               <hr className="border-border my-2" />
               <div className="flex items-center justify-between text-gray-300">
-                <span className="flex items-center gap-2"><Globe className="w-5 h-5"/> اللغة والعملة</span>
+                <span className="flex items-center gap-2">
+                  <Globe className="w-5 h-5" /> اللغة والعملة
+                </span>
                 <span>AR / DZD</span>
               </div>
               <button className="bg-gradient-to-r from-violet-600 to-cyan-500 text-white py-3 rounded-xl font-bold mt-4 shadow-lg shadow-violet-500/20">

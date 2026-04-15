@@ -23,22 +23,23 @@ export default function Pagination({ totalPages }: PaginationProps) {
 
   return (
     <div className="flex items-center justify-center gap-2 mt-12">
-      <button 
+      <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="w-10 h-10 rounded-xl bg-card border border-white/10 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
       >
-        <ChevronRight className="w-5 h-5" /> {/* Right arrow means previous in RTL */}
+        <ChevronRight className="w-5 h-5" />{' '}
+        {/* Right arrow means previous in RTL */}
       </button>
 
       <div className="flex items-center gap-1">
-        {pages.map(page => (
+        {pages.map((page) => (
           <button
             key={page}
             onClick={() => handlePageChange(page)}
             className={`w-10 h-10 rounded-xl font-bold transition-colors ${
-              currentPage === page 
-                ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white shadow-lg' 
+              currentPage === page
+                ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white shadow-lg'
                 : 'bg-transparent text-gray-400 hover:bg-white/5 hover:text-white'
             }`}
           >
@@ -47,7 +48,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
         ))}
       </div>
 
-      <button 
+      <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="w-10 h-10 rounded-xl bg-card border border-white/10 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"

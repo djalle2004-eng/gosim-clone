@@ -7,14 +7,14 @@ async function resetAdmin() {
   console.log('🔄 Forced reset of Admin Account...');
   try {
     const hashedPassword = await bcrypt.hash('Admin@123', 12);
-    
+
     await prisma.user.upsert({
       where: { email: 'admin@gosim.com' },
-      update: { 
-          password: hashedPassword,
-          role: 'SUPER_ADMIN',
-          isVerified: true,
-          isActive: true
+      update: {
+        password: hashedPassword,
+        role: 'SUPER_ADMIN',
+        isVerified: true,
+        isActive: true,
       },
       create: {
         email: 'admin@gosim.com',
@@ -24,7 +24,7 @@ async function resetAdmin() {
         role: 'SUPER_ADMIN',
         isVerified: true,
         isActive: true,
-      }
+      },
     });
     console.log('✅ Success! You can now login with:');
     console.log('Email: admin@gosim.com');

@@ -7,10 +7,18 @@ export const create = async (req: Request, res: Response) => {
     const userId = (req as any).user.id; // from JWT token middleware
 
     if (!planId || !price) {
-      return res.status(400).json({ message: 'Missing plan payload parameters.' });
+      return res
+        .status(400)
+        .json({ message: 'Missing plan payload parameters.' });
     }
 
-    const order = await ordersService.createOrder(userId, planId, quantity || 1, currency || 'USD', price);
+    const order = await ordersService.createOrder(
+      userId,
+      planId,
+      quantity || 1,
+      currency || 'USD',
+      price
+    );
     return res.status(201).json(order);
   } catch (err: any) {
     console.error(err);
@@ -58,7 +66,9 @@ export const refund = async (req: Request, res: Response) => {
     }
 
     await ordersService.refundOrder(req.params.id);
-    return res.json({ message: 'Order refunded securely. eSIMs have been destroyed.' });
+    return res.json({
+      message: 'Order refunded securely. eSIMs have been destroyed.',
+    });
   } catch (err: any) {
     return res.status(400).json({ message: err.message });
   }

@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { listPlans, getPopular, getBySlug, getByCountry, getByRegion } from './plans.controller';
+import {
+  listPlans,
+  getPopular,
+  getBySlug,
+  getByCountry,
+  getByRegion,
+} from './plans.controller';
 
 const router = Router();
 

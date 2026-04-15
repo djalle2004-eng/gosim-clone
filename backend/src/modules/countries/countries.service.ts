@@ -7,7 +7,7 @@ export const getCountries = async () => {
 
   const countries = await prisma.country.findMany({
     where: { isActive: true },
-    orderBy: { nameEn: 'asc' }
+    orderBy: { nameEn: 'asc' },
   });
 
   await redisClient.setEx('countries:all', 3600, JSON.stringify(countries));
@@ -32,22 +32,22 @@ export const getCountryByCode = async (code: string) => {
     include: {
       esimPlans: {
         where: { isActive: true },
-        orderBy: { price: 'asc' }
-      }
-    }
+        orderBy: { price: 'asc' },
+      },
+    },
   });
 };
 
 export const searchCountries = async (query: string) => {
   // Prisma postgres fullTextSearch parsing (word1 | word2)
   const searchQuery = query.trim().split(/\s+/).join(' | ');
-  
+
   return await prisma.country.findMany({
     where: {
       isActive: true,
       nameEn: {
-        search: searchQuery
-      }
-    }
+        search: searchQuery,
+      },
+    },
   });
 };

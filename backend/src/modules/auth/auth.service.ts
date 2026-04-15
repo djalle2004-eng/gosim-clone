@@ -17,12 +17,14 @@ export const hashPassword = async (password: string) => {
 
 export const generateTokens = (user: User, rememberMe: boolean = false) => {
   const payload = { id: user.id, role: user.role, email: user.email };
-  
+
   const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
-  
+
   // 90 days if rememberMe, otherwise 30 days
   const refreshExpiresIn = rememberMe ? '90d' : '30d';
-  const refreshToken = jwt.sign(payload, JWT_SECRET, { expiresIn: refreshExpiresIn });
+  const refreshToken = jwt.sign(payload, JWT_SECRET, {
+    expiresIn: refreshExpiresIn,
+  });
 
   return { accessToken, refreshToken };
 };
@@ -42,7 +44,7 @@ export const sendVerificationEmail = async (email: string, otp: string) => {
 export const sendResetPasswordEmail = async (email: string, token: string) => {
   const templatePath = path.join(__dirname, 'templates', 'reset-password.html');
   let html = fs.readFileSync(templatePath, 'utf8');
-  
+
   const resetLink = `${FRONTEND_URL}/reset-password?token=${token}`;
   html = html.replace('{{RESET_LINK}}', resetLink);
 
@@ -57,13 +59,18 @@ export const sendWelcomeEmail = async (email: string) => {
   await sendEmail(email, 'Welcome to GoSIM!', html);
 };
 
-export const logLoginHistory = async (userId: string, ip: string, device: string, success: boolean) => {
+export const logLoginHistory = async (
+  userId: string,
+  ip: string,
+  device: string,
+  success: boolean
+) => {
   await prisma.loginHistory.create({
     data: {
       userId,
       ip,
       device,
-      success
-    }
+      success,
+    },
   });
 };

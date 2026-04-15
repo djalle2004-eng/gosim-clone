@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-const passwordSchema = z.string()
+const passwordSchema = z
+  .string()
   .min(8, 'Password must be at least 8 characters')
   .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
   .regex(/[0-9]/, 'Password must contain at least one number')
@@ -11,7 +12,10 @@ export const registerSchema = z.object({
   password: passwordSchema,
   firstName: z.string().min(2).optional(),
   lastName: z.string().min(2).optional(),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format').optional(),
+  phone: z
+    .string()
+    .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format')
+    .optional(),
 });
 
 export const loginSchema = z.object({

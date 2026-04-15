@@ -36,7 +36,7 @@ function App() {
       {/* Public Auth Routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      
+
       {/* Semi-Protected for email verification only */}
       <Route path="/verify" element={<VerifyEmailPage />} />
 

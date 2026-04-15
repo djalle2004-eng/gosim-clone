@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { create, getHistory, getDetails, cancel, refund } from './orders.controller';
+import {
+  create,
+  getHistory,
+  getDetails,
+  cancel,
+  refund,
+} from './orders.controller';
 import { verifyToken } from '../auth/auth.middleware'; // Requires users to be logged in!
 
 const router = Router();

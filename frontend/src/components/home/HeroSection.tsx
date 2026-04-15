@@ -6,7 +6,10 @@ export default function HeroSection() {
     { label: '170+ دولة', icon: <Globe className="w-5 h-5 text-cyan-400" /> },
     { label: '50K+ مستخدم', icon: <Users className="w-5 h-5 text-cyan-400" /> },
     { label: 'تفعيل فوري', icon: <Zap className="w-5 h-5 text-cyan-400" /> },
-    { label: 'دعم 24/7', icon: <Headphones className="w-5 h-5 text-cyan-400" /> },
+    {
+      label: 'دعم 24/7',
+      icon: <Headphones className="w-5 h-5 text-cyan-400" />,
+    },
   ];
 
   return (
@@ -17,9 +20,8 @@ export default function HeroSection() {
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
-          
           {/* Text Content */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -32,13 +34,17 @@ export default function HeroSection() {
               </span>
               بدون رسوم تجوال مخفية
             </div>
-            
+
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 tracking-tight">
-              ابق متصلاً في <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">أكثر من 170 دولة</span>
+              ابق متصلاً في{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">
+                أكثر من 170 دولة
+              </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0">
-              احصل على شريحة إلكترونية (eSIM) في ثوانٍ. لا حاجة لتغيير شريحتك الفعلية، استمتع بإنترنت سريع وآمن أينما سافرت.
+              احصل على شريحة إلكترونية (eSIM) في ثوانٍ. لا حاجة لتغيير شريحتك
+              الفعلية، استمتع بإنترنت سريع وآمن أينما سافرت.
             </p>
 
             {/* Search Input */}
@@ -46,8 +52,8 @@ export default function HeroSection() {
               <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
                 <Search className="w-6 h-6 text-gray-400 group-focus-within:text-cyan-400 transition-colors" />
               </div>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="إلى أين تسافر؟ (مثال: تركيا، فرنسا...)"
                 className="w-full bg-white/5 border border-white/10 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 rounded-2xl py-5 pr-14 pl-6 text-white text-lg outline-none transition-all placeholder:text-gray-500 shadow-xl"
               />
@@ -61,16 +67,18 @@ export default function HeroSection() {
               {stats.map((stat, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                     {stat.icon}
+                    {stat.icon}
                   </div>
-                  <span className="text-gray-300 font-medium">{stat.label}</span>
+                  <span className="text-gray-300 font-medium">
+                    {stat.label}
+                  </span>
                 </div>
               ))}
             </div>
           </motion.div>
 
           {/* Visual Device Mockup */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -78,24 +86,35 @@ export default function HeroSection() {
           >
             <motion.div
               animate={{ y: [0, -15, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
               className="relative mx-auto rounded-[3rem] border-[8px] border-gray-900 bg-gray-950 aspect-[9/19] w-3/4 max-w-[320px] shadow-2xl shadow-cyan-500/20 overflow-hidden"
             >
               <div className="absolute top-0 inset-x-0 h-6 bg-gray-900 rounded-b-3xl w-1/2 mx-auto z-20"></div>
               {/* App UI Simulation inside the phone */}
               <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black p-6 pt-12 flex flex-col items-center">
                 <div className="w-full bg-white/10 rounded-2xl p-4 mb-4 border border-white/5">
-                  <div className="text-cyan-400 text-sm font-bold mb-1">eSIM فرنسا</div>
-                  <div className="text-white text-2xl font-bold mb-2">50 GB</div>
-                  <div className="w-full bg-white/10 rounded-full h-2 mb-2"><div className="bg-gradient-to-r from-violet-500 to-cyan-500 h-2 rounded-full w-3/4"></div></div>
-                  <div className="text-gray-400 text-xs text-left"> صالحة لمدة 30 يوم</div>
+                  <div className="text-cyan-400 text-sm font-bold mb-1">
+                    eSIM فرنسا
+                  </div>
+                  <div className="text-white text-2xl font-bold mb-2">
+                    50 GB
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2 mb-2">
+                    <div className="bg-gradient-to-r from-violet-500 to-cyan-500 h-2 rounded-full w-3/4"></div>
+                  </div>
+                  <div className="text-gray-400 text-xs text-left">
+                    {' '}
+                    صالحة لمدة 30 يوم
+                  </div>
                 </div>
 
                 <div className="mt-auto w-full bg-white rounded-2xl p-4 aspect-square flex items-center justify-center relative overflow-hidden group border-4 border-white/10">
                   <div className="w-10/12 h-10/12 bg-gray-900 rounded-lg animate-pulse" />
                   <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400/20 to-transparent"></div>
                 </div>
-                <p className="text-white font-medium mt-4 text-sm bg-white/10 px-4 py-2 rounded-full">امسح لتفعيل الشبكة</p>
+                <p className="text-white font-medium mt-4 text-sm bg-white/10 px-4 py-2 rounded-full">
+                  امسح لتفعيل الشبكة
+                </p>
               </div>
             </motion.div>
           </motion.div>

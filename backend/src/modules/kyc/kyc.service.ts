@@ -30,7 +30,7 @@ export const getKycStatus = async (userId: string) => {
       status: true,
       documentType: true,
       submittedAt: true,
-      adminNotes: true
-    }
+      adminNotes: true,
+    },
   });
 };

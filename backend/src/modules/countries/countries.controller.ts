@@ -33,7 +33,7 @@ export const search = async (req: Request, res: Response) => {
   try {
     const q = req.query.q as string;
     if (!q) return res.status(400).json({ message: 'Search query required' });
-    
+
     const results = await countriesService.searchCountries(q);
     return res.json(results);
   } catch (error) {

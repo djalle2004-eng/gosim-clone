@@ -2,13 +2,17 @@ import { Request, Response } from 'express';
 import stripe from '../../services/stripe.service';
 import * as paymentsService from './payments.service';
 
-const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || 'fallback_whsec';
+const STRIPE_WEBHOOK_SECRET =
+  process.env.STRIPE_WEBHOOK_SECRET || 'fallback_whsec';
 
 export const createIntent = async (req: Request, res: Response) => {
   try {
     const { orderId } = req.body;
     const userId = (req as any).user.id;
-    const clientSecret = await paymentsService.createPaymentIntent(orderId, userId);
+    const clientSecret = await paymentsService.createPaymentIntent(
+      orderId,
+      userId
+    );
     return res.json({ clientSecret });
   } catch (err: any) {
     return res.status(400).json({ message: err.message });
@@ -32,7 +36,11 @@ export const webhook = async (req: Request, res: Response) => {
 
   try {
     // req.body is a raw Buffer because of express.raw injected in index.ts specifically for this route!
-    event = stripe.webhooks.constructEvent(req.body, sig as string, STRIPE_WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      sig as string,
+      STRIPE_WEBHOOK_SECRET
+    );
   } catch (err: any) {
     console.error('Webhook signature mismatch:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -43,14 +51,19 @@ export const webhook = async (req: Request, res: Response) => {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as any;
         if (paymentIntent.metadata.orderId) {
-          await paymentsService.handleSuccessfulPayment(paymentIntent.metadata.orderId, paymentIntent.id);
+          await paymentsService.handleSuccessfulPayment(
+            paymentIntent.metadata.orderId,
+            paymentIntent.id
+          );
         }
         break;
 
       case 'payment_intent.payment_failed':
         const failedIntent = event.data.object as any;
         if (failedIntent.metadata.orderId) {
-          await paymentsService.handleFailedPayment(failedIntent.metadata.orderId);
+          await paymentsService.handleFailedPayment(
+            failedIntent.metadata.orderId
+          );
         }
         break;
 
@@ -58,7 +71,10 @@ export const webhook = async (req: Request, res: Response) => {
         const session = event.data.object as any;
         if (session.metadata.orderId && session.payment_status === 'paid') {
           // checkout session actually spins up a payment intent under the hood
-          await paymentsService.handleSuccessfulPayment(session.metadata.orderId, session.payment_intent);
+          await paymentsService.handleSuccessfulPayment(
+            session.metadata.orderId,
+            session.payment_intent
+          );
         }
         break;
 

@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from '@stripe/react-stripe-js';
 import { Loader2 } from 'lucide-react';
 
 interface StripePaymentFormProps {
@@ -37,18 +41,18 @@ export default function StripePaymentForm({ amount }: StripePaymentFormProps) {
     } else {
       // The payment has been processed!
     }
-    
+
     setIsProcessing(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-inner mb-6">
-        <PaymentElement 
+        <PaymentElement
           options={{
             layout: 'tabs',
-            paymentMethodOrder: ['card', 'apple_pay', 'google_pay']
-          }} 
+            paymentMethodOrder: ['card', 'apple_pay', 'google_pay'],
+          }}
         />
       </div>
 
@@ -63,14 +67,17 @@ export default function StripePaymentForm({ amount }: StripePaymentFormProps) {
         className="w-full relative overflow-hidden group bg-gradient-to-r from-violet-600 to-cyan-500 text-white py-4 rounded-xl font-bold transition-all disabled:opacity-70 flex justify-center items-center shadow-lg hover:shadow-cyan-500/20"
       >
         {isProcessing ? (
-          <span className="flex items-center gap-2"><Loader2 className="w-5 h-5 animate-spin"/> جاري الدفع...</span>
+          <span className="flex items-center gap-2">
+            <Loader2 className="w-5 h-5 animate-spin" /> جاري الدفع...
+          </span>
         ) : (
           <span>دفع {amount.toFixed(2)} DZD</span>
         )}
       </button>
 
       <p className="text-gray-500 text-xs text-center mt-4 flex items-center justify-center gap-2">
-        <span className="w-3 h-3 bg-green-500 rounded-full inline-block"></span> معالجة آمنة مشفرة 256-bit
+        <span className="w-3 h-3 bg-green-500 rounded-full inline-block"></span>{' '}
+        معالجة آمنة مشفرة 256-bit
       </p>
     </form>
   );
