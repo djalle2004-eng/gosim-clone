@@ -46,8 +46,8 @@ enum Region {
 }
 
 enum Speed {
-  FOUR_G       @map("4G")
-  FIVE_G       @map("5G")
+  FOUR_G        @map("4G")
+  FIVE_G        @map("5G")
   FOUR_G_FIVE_G @map("4G_5G")
 }
 
@@ -112,226 +112,296 @@ enum TicketPriority {
 // =======================
 
 model User {
-  id               String          @id @default(uuid())
-  email            String          @unique
-  password         String // hashed
-  firstName        String?
-  lastName         String?
-  phone            String?
-  avatar           String?
-  country          String?
-  preferredCurrency Currency       @default(USD)
-  role             Role            @default(USER)
-  isVerified       Boolean         @default(false)
-  isActive         Boolean         @default(true)
-  googleId         String?         @unique
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  id                String   @id @default(uuid())
+  email             String   @unique
+  password          String // hashed with bcrypt
+  firstName         String?
+  lastName          String?
+  phone             String?
+  avatar            String?
+  country           String?
+  preferredCurrency Currency @default(USD)
+  role              Role     @default(USER)
+  isVerified        Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  googleId          String?  @unique
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  verifyToken       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  orders           Order[]
-  esims            ESim[]
-  payments         Payment[]
-  reviews          Review[]
-  supportTickets   SupportTicket[]
-  notifications    Notification[]
-  loginHistories   LoginHistory[]
-  auditLogs        AuditLog[]
+  orders         Order[]
+  esims          ESim[]
+  payments       Payment[]
+  reviews        Review[]
+  supportTickets SupportTicket[]
+  notifications  Notification[]
+  loginHistories LoginHistory[]
+  auditLogs      AuditLog[]
+  kyc            IdentityVerification?
 
-  kyc              IdentityVerification?
+  @@index([email])
+  @@index([role])
+  @@map("users")
 }
 
 model Country {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   nameEn    String
   nameAr    String?
-  code      String     @unique // ISO 3166-1 alpha-2
-  flag      String?    // emoji
+  code      String   @unique // ISO 3166-1 alpha-2
+  flag      String? // emoji flag
   region    Region
-  isPopular Boolean    @default(false)
-  isActive  Boolean    @default(true)
+  isPopular Boolean  @default(false)
+  isActive  Boolean  @default(true)
 
   esimPlans ESimPlan[]
+
+  @@index([region])
+  @@index([isPopular])
+  @@map("countries")
 }
 
 model ESimPlan {
-  id           String       @id @default(uuid())
-  name         String
-  slug         String       @unique
-  countryId    String?
-  country      Country?     @relation(fields: [countryId], references: [id])
-  isGlobal     Boolean      @default(false)
-  isRegional   Boolean      @default(false)
-  
-  dataAmount   Int          // MB (e.g., 1024 for 1GB, -1 for unlimited)
-  validity     Int          // days
-  speed        Speed        @default(FOUR_G)
-  
-  price        Float        // In USD
-  priceDZD     Float?       
-  priceEUR     Float?
-  
-  provider     PlanProvider @default(CUSTOM)
-  providerId   String?      // External plan ID
-  
-  features     Json?        // JSON array of features e.g. ["Data Only", "No Setup Fee"]
-  
-  isBestSeller Boolean      @default(false)
-  isUnlimited  Boolean      @default(false)
-  isActive     Boolean      @default(true)
-  
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id         String       @id @default(uuid())
+  name       String
+  slug       String       @unique
+  countryId  String?
+  country    Country?     @relation(fields: [countryId], references: [id])
+  isGlobal   Boolean      @default(false)
+  isRegional Boolean      @default(false)
 
-  orderItems   OrderItem[]
-  reviews      Review[]
+  // Data specs
+  dataAmount Int // MB — use -1 for unlimited
+  validity   Int // Days
+  speed      Speed        @default(FOUR_G)
+
+  // Pricing (multi-currency)
+  price    Float // USD
+  priceDZD Float? // Algerian Dinar
+  priceEUR Float? // Euro
+
+  // Provider
+  provider   PlanProvider @default(CUSTOM)
+  providerId String? // External provider plan ID
+
+  // Metadata
+  features     Json? // e.g. ["Data Only", "No Phone Number", "Easy QR Setup"]
+  isBestSeller Boolean  @default(false)
+  isUnlimited  Boolean  @default(false)
+  isActive     Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems OrderItem[]
+  reviews    Review[]
+
+  @@index([countryId])
+  @@index([isActive, isBestSeller])
+  @@index([provider])
+  @@index([isGlobal, isRegional])
+  @@map("esim_plans")
 }
 
 model Order {
-  id                    String        @id @default(uuid())
-  userId                String
-  user                  User          @relation(fields: [userId], references: [id])
-  status                OrderStatus   @default(PENDING)
-  totalAmount           Float
-  currency              Currency      @default(USD)
-  
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  status      OrderStatus   @default(PENDING)
+  totalAmount Float
+  currency    Currency      @default(USD)
+
+  // Stripe
   stripePaymentIntentId String?       @unique
   stripeSessionId       String?       @unique
-  paymentMethod         PaymentMethod @default(CARD)
-  notes                 String?
 
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
+  paymentMethod PaymentMethod @default(CARD)
+  notes         String?
 
-  orderItems            OrderItem[]
-  payments              Payment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems OrderItem[]
+  payments   Payment[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("orders")
 }
 
 model OrderItem {
-  id         String   @id @default(uuid())
-  orderId    String
-  order      Order    @relation(fields: [orderId], references: [id])
-  planId     String
-  plan       ESimPlan @relation(fields: [planId], references: [id])
-  
-  quantity   Int      @default(1)
+  id      String   @id @default(uuid())
+  orderId String
+  order   Order    @relation(fields: [orderId], references: [id])
+  planId  String
+  plan    ESimPlan @relation(fields: [planId], references: [id])
+
+  quantity   Int   @default(1)
   unitPrice  Float
   totalPrice Float
 
   assignedESims ESim[]
+
+  @@index([orderId])
+  @@index([planId])
+  @@map("order_items")
 }
 
 model ESim {
-  id             String     @id @default(uuid())
-  orderItemId    String
-  orderItem      OrderItem  @relation(fields: [orderItemId], references: [id])
-  userId         String
-  user           User       @relation(fields: [userId], references: [id])
-  
+  id          String    @id @default(uuid())
+  orderItemId String
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+
   iccid          String     @unique
-  qrCode         String?    // base64 image or url
+  qrCode         String? // base64 encoded QR or URL
   activationCode String?
   status         EsimStatus @default(INACTIVE)
-  
-  dataUsed       Int        @default(0) // MB
-  dataTotal      Int        // MB
-  
-  activatedAt    DateTime?
-  expiresAt      DateTime?
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
+
+  dataUsed  Int @default(0) // MB consumed
+  dataTotal Int // MB total
+
+  activatedAt DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([iccid])
+  @@map("esims")
 }
 
 model Payment {
-  id                    String          @id @default(uuid())
-  orderId               String
-  order                 Order           @relation(fields: [orderId], references: [id])
-  userId                String
-  user                  User            @relation(fields: [userId], references: [id])
-  
-  amount                Float
-  currency              Currency        @default(USD)
-  
+  id      String @id @default(uuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+
+  amount   Float
+  currency Currency        @default(USD)
+
   provider              PaymentProvider @default(STRIPE)
   providerTransactionId String?
   status                PaymentStatus   @default(PENDING)
-  metadata              Json?
-  
-  createdAt             DateTime        @default(now())
+  metadata              Json? // raw provider response
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([userId])
+  @@index([status])
+  @@map("payments")
 }
 
 model Review {
-  id         String   @id @default(uuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  planId     String
-  plan       ESimPlan @relation(fields: [planId], references: [id])
-  
-  rating     Int      // 1-5
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  planId String
+  plan   ESimPlan @relation(fields: [planId], references: [id])
+
+  rating     Int // 1–5
   comment    String?
   isVerified Boolean  @default(false)
   createdAt  DateTime @default(now())
+
+  @@unique([userId, planId]) // one review per user per plan
+  @@index([planId])
+  @@map("reviews")
 }
 
 model SupportTicket {
-  id         String         @id @default(uuid())
-  userId     String
-  user       User           @relation(fields: [userId], references: [id])
-  
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
   subject    String
   message    String         @db.Text
   status     TicketStatus   @default(OPEN)
   priority   TicketPriority @default(MEDIUM)
-  assignedTo String?
-  
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  assignedTo String? // admin userId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("support_tickets")
 }
 
 model Notification {
-  id         String   @id @default(uuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  
-  type       String   // e.g., "SYSTEM", "PROMO", "ORDER"
-  title      String
-  message    String
-  isRead     Boolean  @default(false)
-  data       Json?
-  
-  createdAt  DateTime @default(now())
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  type    String // ORDER | ESIM | PROMO | SYSTEM | SUPPORT
+  title   String
+  message String
+  isRead  Boolean @default(false)
+  data    Json? // optional extra payload
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+  @@map("notifications")
 }
+
+// =======================
+// AUDIT & SECURITY MODELS
+// =======================
 
 model LoginHistory {
   id        String   @id @default(uuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+
   ip        String?
   device    String?
+  userAgent String?
   success   Boolean
+
   createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("login_histories")
 }
 
 model AuditLog {
-  id        String   @id @default(uuid())
-  adminId   String
-  admin     User     @relation(fields: [adminId], references: [id])
-  action    String
-  resource  String
-  details   Json?
-  
+  id      String @id @default(uuid())
+  adminId String
+  admin   User   @relation(fields: [adminId], references: [id])
+
+  action   String // CREATE | UPDATE | DELETE | APPROVE | REJECT
+  resource String // users | plans | orders | esims
+  targetId String? // ID of the affected resource
+  details  Json? // before/after snapshot
+
   createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([resource])
+  @@map("audit_logs")
 }
 
 model IdentityVerification {
-  id           String       @id @default(uuid())
-  userId       String       @unique
-  user         User         @relation(fields: [userId], references: [id])
-  
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
   documentType DocumentType
-  documentUrl  String       
-  status       KycStatus    @default(PENDING)
-  adminNotes   String?      @db.Text
-  
-  submittedAt  DateTime     @default(now())
-  verifiedAt   DateTime?
+  documentUrl  String
+  selfieUrl    String?
+  status       KycStatus @default(PENDING)
+  adminNotes   String?   @db.Text
+
+  submittedAt DateTime  @default(now())
+  verifiedAt  DateTime?
+
+  @@map("identity_verifications")
 }
