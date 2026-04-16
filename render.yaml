@@ -20,7 +20,7 @@ services:
           property: connectionString
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: web
           name: gosim-web
           property: url
       - key: JWT_SECRET
@@ -28,19 +28,19 @@ services:
       - key: PORT
         value: 10000
       - key: AIRALO_AUTH_URL
-        value: "https://sandbox-auth.airalo.com/api/v1/token"
+        value: 'https://sandbox-auth.airalo.com/api/v1/token'
       - key: AIRALO_BASE_URL
-        value: "https://sandbox-api.airalo.com/api/v2"
+        value: 'https://sandbox-api.airalo.com/api/v2'
       # These should be updated manually in the Render Dashboard:
       - key: AIRALO_CLIENT_ID
-        value: "YOUR_AIRALO_CLIENT_ID"
+        value: 'YOUR_AIRALO_CLIENT_ID'
       - key: AIRALO_CLIENT_SECRET
-        value: "YOUR_AIRALO_CLIENT_SECRET"
+        value: 'YOUR_AIRALO_CLIENT_SECRET'
 
   # 2. Frontend Static Site
-  - type: static
+  - type: web
     name: gosim-web
-    env: static
+    runtime: static
     buildCommand: npm install && npm run build:shared && npm run build:frontend
     staticPublishPath: frontend/dist
     envVars:
