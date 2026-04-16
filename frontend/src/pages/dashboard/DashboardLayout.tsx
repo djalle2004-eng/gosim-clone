@@ -79,7 +79,9 @@ export default function DashboardLayout() {
         {/* User Card */}
         <div className="bg-background border border-white/5 rounded-2xl p-4 mb-8 flex items-center gap-4 relative overflow-hidden group">
           <img
-            src={(user as any).avatar || `https://i.pravatar.cc/150?u=${user.id}`}
+            src={
+              (user as any).avatar || `https://i.pravatar.cc/150?u=${user.id}`
+            }
             alt="Avatar"
             className="w-12 h-12 rounded-full border-2 border-cyan-500/30"
           />

@@ -16,7 +16,6 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { api } from '../lib/api';
 
-
 // Initialize Stripe (requires Vite environment variable mapped in real app)
 // For mocking UI quickly without hitting real API, I will implement a safe fallback
 const stripePromise = loadStripe(
@@ -35,7 +34,6 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState('');
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
 
   // Fetch plan info to calculate secure prices (Never trust frontend price states)
   const { data: plan, isLoading } = useQuery({

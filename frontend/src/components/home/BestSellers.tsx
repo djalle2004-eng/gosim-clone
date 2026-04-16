@@ -1,17 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Zap, Wifi } from 'lucide-react';
+import { api } from '../../lib/api';
 
 export default function BestSellers() {
   const { data: plans, isLoading } = useQuery({
     queryKey: ['plans', 'popular'],
     queryFn: async () => {
-      // Assuming server port 5000 is open based on previous backend logs
-      const res = await fetch(
-        'http://localhost:5000/api/plans/popular?currency=DZD'
-      );
-      if (!res.ok) throw new Error('Failed to fetch bestsellers');
-      return res.json();
+      const res = await api.get('/plans/popular?currency=DZD');
+      return res.data;
     },
   });
 

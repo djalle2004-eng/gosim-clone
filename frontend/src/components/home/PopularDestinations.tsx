@@ -1,18 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../lib/api';
 
 export default function PopularDestinations() {
   const navigate = useNavigate();
   const { data: countries, isLoading } = useQuery({
     queryKey: ['countries', 'popular'],
     queryFn: async () => {
-      const res = await fetch(
-        'http://localhost:5000/api/countries/popular?currency=DZD'
-      );
-      if (!res.ok) throw new Error('Failed to fetch popular countries');
-      return res.json();
+      const res = await api.get('/countries/popular?currency=DZD');
+      return res.data;
     },
   });
 

@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import { api } from '../lib/api';
 
 export default function PlanDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -27,11 +28,8 @@ export default function PlanDetailPage() {
   const { data: plan, isLoading } = useQuery({
     queryKey: ['plan', slug],
     queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:5000/api/plans/${slug}?currency=DZD`
-      );
-      if (!res.ok) throw new Error('Plan not found');
-      return res.json();
+      const res = await api.get(`/plans/${slug}?currency=DZD`);
+      return res.data;
     },
   });
 

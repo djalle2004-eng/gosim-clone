@@ -9,6 +9,7 @@ import FilterSidebar from '../components/plans/FilterSidebar';
 import PlanCard from '../components/plans/PlanCard';
 import Pagination from '../components/plans/Pagination';
 import { useState } from 'react';
+import { api } from '../lib/api';
 
 export default function PlansPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,10 +22,8 @@ export default function PlansPage() {
     queryKey: ['plans-list', queryDependencyString],
     queryFn: async () => {
       // Pass the currency dynamically
-      const url = `http://localhost:5000/api/plans?${queryDependencyString}&currency=DZD`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Network response was not ok');
-      return res.json();
+      const res = await api.get(`/plans?${queryDependencyString}&currency=DZD`);
+      return res.data;
     },
   });
 
