@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { createIntent, createSession, webhook, simulateSuccess } from './payments.controller';
+import {
+  createIntent,
+  createSession,
+  webhook,
+  simulateSuccess,
+} from './payments.controller';
 import { verifyToken } from '../auth/auth.middleware';
 
 const router = Router();

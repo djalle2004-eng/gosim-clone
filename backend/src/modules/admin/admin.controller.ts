@@ -33,7 +33,9 @@ export const createCountry = async (req: Request, res: Response) => {
     return res.status(201).json(country);
   } catch (err: any) {
     if (err.code === 'P2002') {
-      return res.status(409).json({ message: 'هذا الكود (ISO) مسجل مسبقاً. استخدم كوداً مختلفاً.' });
+      return res.status(409).json({
+        message: 'هذا الكود (ISO) مسجل مسبقاً. استخدم كوداً مختلفاً.',
+      });
     }
     return res.status(500).json({ message: err.message || 'خطأ داخلي' });
   }

@@ -9,21 +9,17 @@ export const uploadDocument = async (req: Request, res: Response) => {
 
     // Ensure Multer passed the file
     if (!req.file) {
-      return res
-        .status(400)
-        .json({
-          message: 'Aucun fichier détecté. Veuillez attacher un document.',
-        });
+      return res.status(400).json({
+        message: 'Aucun fichier détecté. Veuillez attacher un document.',
+      });
     }
 
     const { documentType } = req.body;
     if (!Object.values(DocumentType).includes(documentType)) {
-      return res
-        .status(400)
-        .json({
-          message:
-            'Type de document invalide (PASSPORT, NATIONAL_ID, DRIVERS_LICENSE).',
-        });
+      return res.status(400).json({
+        message:
+          'Type de document invalide (PASSPORT, NATIONAL_ID, DRIVERS_LICENSE).',
+      });
     }
 
     // Since we are saving locally, we reconstruct the public URL

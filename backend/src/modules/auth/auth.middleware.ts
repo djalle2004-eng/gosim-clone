@@ -27,11 +27,9 @@ export const loginRateLimiter = async (
     const resLimiter = await limiter.get(ip);
 
     if (resLimiter !== null && resLimiter.consumedPoints > 5) {
-      return res
-        .status(429)
-        .json({
-          message: 'Trop de tentatives échouées. Réessayez dans 15 minutes.',
-        });
+      return res.status(429).json({
+        message: 'Trop de tentatives échouées. Réessayez dans 15 minutes.',
+      });
     }
 
     // Attach limiter to request to consume point strictly on failure

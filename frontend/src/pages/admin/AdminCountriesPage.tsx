@@ -73,7 +73,8 @@ export default function AdminCountriesPage() {
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => api.delete(`/admin/countries/${id}`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-countries'] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['admin-countries'] }),
   });
 
   const resetForm = () => {
@@ -119,10 +120,14 @@ export default function AdminCountriesPage() {
         accessorKey: 'nameEn',
         cell: (info: any) => (
           <div className="flex items-center gap-3">
-            <span className="text-2xl drop-shadow-sm">{info.row.original.flag}</span>
+            <span className="text-2xl drop-shadow-sm">
+              {info.row.original.flag}
+            </span>
             <div>
               <div className="font-bold text-white">{info.getValue()}</div>
-              <div className="text-xs text-gray-400 font-mono">{info.row.original.code}</div>
+              <div className="text-xs text-gray-400 font-mono">
+                {info.row.original.code}
+              </div>
             </div>
           </div>
         ),
@@ -131,7 +136,9 @@ export default function AdminCountriesPage() {
         header: 'الاسم بالعربية',
         accessorKey: 'nameAr',
         cell: (info: any) => (
-          <span className="text-gray-300 font-medium">{info.getValue() || '-'}</span>
+          <span className="text-gray-300 font-medium">
+            {info.getValue() || '-'}
+          </span>
         ),
       },
       {
@@ -267,8 +274,12 @@ export default function AdminCountriesPage() {
                           header.getContext()
                         )}
                         {{
-                          asc: <ArrowUpDown className="w-3 h-3 text-cyan-400" />,
-                          desc: <ArrowUpDown className="w-3 h-3 text-cyan-400 rotate-180" />,
+                          asc: (
+                            <ArrowUpDown className="w-3 h-3 text-cyan-400" />
+                          ),
+                          desc: (
+                            <ArrowUpDown className="w-3 h-3 text-cyan-400 rotate-180" />
+                          ),
                         }[header.column.getIsSorted() as string] ??
                           (header.column.getCanSort() && (
                             <ArrowUpDown className="w-3 h-3 opacity-0 group-hover:opacity-50 transition-opacity" />
@@ -284,24 +295,31 @@ export default function AdminCountriesPage() {
                 <tr>
                   <td colSpan={100} className="py-20 text-center">
                     <Loader2 className="w-10 h-10 text-cyan-500 animate-spin mx-auto mb-4" />
-                    <p className="text-gray-500 font-bold">جاري تحميل البيانات...</p>
+                    <p className="text-gray-500 font-bold">
+                      جاري تحميل البيانات...
+                    </p>
                   </td>
                 </tr>
-              ) : table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="hover:bg-white/[0.02] transition-colors group/row"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="py-5 px-8 text-right whitespace-nowrap border-b border-white/[0.02]"
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              ) : (
+                table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="hover:bg-white/[0.02] transition-colors group/row"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="py-5 px-8 text-right whitespace-nowrap border-b border-white/[0.02]"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -348,110 +366,166 @@ export default function AdminCountriesPage() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="relative w-full max-w-2xl bg-[#12121a] border border-white/10 rounded-[2.5rem] shadow-2xl p-8 md:p-10 overflow-hidden"
             >
-               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-600 to-cyan-500" />
-               
-               <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                   {editingCountry ? <Edit2 className="w-5 h-5 text-cyan-400" /> : <Plus className="w-5 h-5 text-cyan-400" />}
-                 </div>
-                 {editingCountry ? 'تعديل بيانات الدولة' : 'إضافة دولة جديدة'}
-               </h2>
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-600 to-cyan-500" />
 
-               <form onSubmit={handleSubmit} className="space-y-6">
-                 <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 mr-1">الاسم (EN)</label>
-                       <input 
-                         required
-                         value={formData.nameEn}
-                         onChange={e => setFormData({...formData, nameEn: e.target.value})}
-                         className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all"
-                         placeholder="e.g. France"
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 mr-1">الاسم (AR)</label>
-                       <input 
-                         required
-                         value={formData.nameAr}
-                         onChange={e => setFormData({...formData, nameAr: e.target.value})}
-                         className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all text-right"
-                         placeholder="مثال: فرنسا"
-                         dir="rtl"
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 mr-1">الكود (ISO 2)</label>
-                       <input 
-                         required
-                         maxLength={2}
-                         value={formData.code}
-                         onChange={e => setFormData({...formData, code: e.target.value.toUpperCase()})}
-                         className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all font-mono"
-                         placeholder="e.g. FR"
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 mr-1">العلم (Emoji)</label>
-                       <input 
-                         required
-                         value={formData.flag}
-                         onChange={e => setFormData({...formData, flag: e.target.value})}
-                         className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all text-center text-2xl"
-                         placeholder="🇫🇷"
-                       />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-400 mr-1">الإقليم / القارة</label>
-                       <select
-                         value={formData.region}
-                         onChange={e => setFormData({...formData, region: e.target.value})}
-                         className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all appearance-none"
-                       >
-                         {['EUROPE', 'ASIA', 'AMERICAS', 'AFRICA', 'MIDDLEEAST', 'GLOBAL'].map(r => (
-                           <option key={r} value={r}>{r}</option>
-                         ))}
-                       </select>
-                    </div>
-                    <div className="flex items-center gap-8 md:pt-8 pr-2">
-                       <label className="flex items-center gap-3 cursor-pointer group">
-                          <input 
-                            type="checkbox"
-                            checked={formData.isPopular}
-                            onChange={e => setFormData({...formData, isPopular: e.target.checked})}
-                            className="w-5 h-5 rounded border-white/10 bg-background checked:bg-yellow-500"
-                          />
-                          <span className="text-sm font-bold text-gray-300 group-hover:text-white transition-colors">دولة رائجة</span>
-                       </label>
-                       <label className="flex items-center gap-3 cursor-pointer group">
-                          <input 
-                            type="checkbox"
-                            checked={formData.isActive}
-                            onChange={e => setFormData({...formData, isActive: e.target.checked})}
-                            className="w-5 h-5 rounded border-white/10 bg-background checked:bg-emerald-500"
-                          />
-                          <span className="text-sm font-bold text-gray-300 group-hover:text-white transition-colors">تفعيل</span>
-                       </label>
-                    </div>
-                 </div>
+              <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                  {editingCountry ? (
+                    <Edit2 className="w-5 h-5 text-cyan-400" />
+                  ) : (
+                    <Plus className="w-5 h-5 text-cyan-400" />
+                  )}
+                </div>
+                {editingCountry ? 'تعديل بيانات الدولة' : 'إضافة دولة جديدة'}
+              </h2>
 
-                 <div className="pt-6 flex gap-4">
-                    <button 
-                      type="submit"
-                      disabled={createMutation.isPending || updateMutation.isPending}
-                      className="flex-1 bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-black py-4 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-400 mr-1">
+                      الاسم (EN)
+                    </label>
+                    <input
+                      required
+                      value={formData.nameEn}
+                      onChange={(e) =>
+                        setFormData({ ...formData, nameEn: e.target.value })
+                      }
+                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all"
+                      placeholder="e.g. France"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-400 mr-1">
+                      الاسم (AR)
+                    </label>
+                    <input
+                      required
+                      value={formData.nameAr}
+                      onChange={(e) =>
+                        setFormData({ ...formData, nameAr: e.target.value })
+                      }
+                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all text-right"
+                      placeholder="مثال: فرنسا"
+                      dir="rtl"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-400 mr-1">
+                      الكود (ISO 2)
+                    </label>
+                    <input
+                      required
+                      maxLength={2}
+                      value={formData.code}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          code: e.target.value.toUpperCase(),
+                        })
+                      }
+                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all font-mono"
+                      placeholder="e.g. FR"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-400 mr-1">
+                      العلم (Emoji)
+                    </label>
+                    <input
+                      required
+                      value={formData.flag}
+                      onChange={(e) =>
+                        setFormData({ ...formData, flag: e.target.value })
+                      }
+                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all text-center text-2xl"
+                      placeholder="🇫🇷"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-400 mr-1">
+                      الإقليم / القارة
+                    </label>
+                    <select
+                      value={formData.region}
+                      onChange={(e) =>
+                        setFormData({ ...formData, region: e.target.value })
+                      }
+                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all appearance-none"
                     >
-                      {createMutation.isPending || updateMutation.isPending ? 'جاري الحفظ...' : (editingCountry ? 'حفظ التغييرات' : 'إضافة الدولة')}
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setIsModalOpen(false)}
-                      className="px-8 bg-white/5 text-gray-400 font-bold py-4 rounded-2xl hover:bg-white/10 transition-all"
-                    >
-                      إلغاء
-                    </button>
-                 </div>
-               </form>
+                      {[
+                        'EUROPE',
+                        'ASIA',
+                        'AMERICAS',
+                        'AFRICA',
+                        'MIDDLEEAST',
+                        'GLOBAL',
+                      ].map((r) => (
+                        <option key={r} value={r}>
+                          {r}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-8 md:pt-8 pr-2">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={formData.isPopular}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            isPopular: e.target.checked,
+                          })
+                        }
+                        className="w-5 h-5 rounded border-white/10 bg-background checked:bg-yellow-500"
+                      />
+                      <span className="text-sm font-bold text-gray-300 group-hover:text-white transition-colors">
+                        دولة رائجة
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={formData.isActive}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            isActive: e.target.checked,
+                          })
+                        }
+                        className="w-5 h-5 rounded border-white/10 bg-background checked:bg-emerald-500"
+                      />
+                      <span className="text-sm font-bold text-gray-300 group-hover:text-white transition-colors">
+                        تفعيل
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="pt-6 flex gap-4">
+                  <button
+                    type="submit"
+                    disabled={
+                      createMutation.isPending || updateMutation.isPending
+                    }
+                    className="flex-1 bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-black py-4 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                  >
+                    {createMutation.isPending || updateMutation.isPending
+                      ? 'جاري الحفظ...'
+                      : editingCountry
+                        ? 'حفظ التغييرات'
+                        : 'إضافة الدولة'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-8 bg-white/5 text-gray-400 font-bold py-4 rounded-2xl hover:bg-white/10 transition-all"
+                  >
+                    إلغاء
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </div>
         )}

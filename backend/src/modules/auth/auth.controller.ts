@@ -70,12 +70,10 @@ export const register = async (req: Request, res: Response) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    return res
-      .status(201)
-      .json({
-        message: 'Utilisateur créé, veuillez vérifier votre email.',
-        user: { id: user.id, email: user.email },
-      });
+    return res.status(201).json({
+      message: 'Utilisateur créé, veuillez vérifier votre email.',
+      user: { id: user.id, email: user.email },
+    });
   } catch (err) {
     if (err instanceof z.ZodError)
       return res.status(400).json({ errors: err.errors });

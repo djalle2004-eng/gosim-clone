@@ -15,7 +15,12 @@
     "build:frontend": "npm run build --workspace=frontend",
     "build:backend": "npm run build --workspace=backend",
     "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
-    "prepare": "husky || true"
+    "prepare": "husky || true",
+    "prisma:generate": "prisma generate --schema=backend/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate deploy --schema=backend/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "prisma": "^5.22.0"
   },
   "devDependencies": {
     "husky": "^9.0.11",

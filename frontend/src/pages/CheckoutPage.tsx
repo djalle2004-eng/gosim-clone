@@ -96,7 +96,10 @@ export default function CheckoutPage() {
       navigate('/checkout/success?mock=true');
     } catch (error: any) {
       console.error('Payment simulation failed:', error);
-      alert('خطأ في معالجة الدفع: ' + (error.response?.data?.message || error.message));
+      alert(
+        'خطأ في معالجة الدفع: ' +
+          (error.response?.data?.message || error.message)
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -250,7 +253,9 @@ export default function CheckoutPage() {
                         disabled={isProcessing}
                         className="w-full bg-gradient-to-r from-green-500 to-emerald-400 text-white py-4 rounded-xl font-bold shadow-lg shadow-green-500/20 hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {isProcessing ? 'جاري المعالجة...' : 'الدفع الآن وتفعيل الشريحة'}
+                        {isProcessing
+                          ? 'جاري المعالجة...'
+                          : 'الدفع الآن وتفعيل الشريحة'}
                       </button>
                     </motion.div>
                   )}

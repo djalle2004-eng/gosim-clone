@@ -134,7 +134,7 @@ export default function DashboardLayout() {
           ))}
         </nav>
 
-        <button 
+        <button
           onClick={() => {
             logout();
             navigate('/login');

@@ -24,7 +24,6 @@
     "nodemailer": "^6.9.12",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "prisma": "^5.22.0",
     "qrcode": "^1.5.3",
     "rate-limiter-flexible": "^5.0.0",
     "redis": "^4.6.13",

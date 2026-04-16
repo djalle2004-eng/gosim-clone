@@ -62,7 +62,7 @@ function App() {
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="esims" element={<AdminESimsPage />} />
-          
+
           {/* Countries is Super Admin Only */}
           <Route element={<ProtectedRoute requireSuperAdmin={true} />}>
             <Route path="countries" element={<AdminCountriesPage />} />

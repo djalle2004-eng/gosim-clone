@@ -119,7 +119,7 @@ export default function AdminLayout() {
         </nav>
 
         <div className="p-4 border-t border-white/5">
-          <button 
+          <button
             onClick={() => {
               logout();
               navigate('/login');
