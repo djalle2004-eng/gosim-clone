@@ -15,7 +15,7 @@ import StripePaymentForm from '../components/checkout/StripePaymentForm';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { api } from '../lib/api';
-import { useAuth } from '../context/AuthContext';
+
 
 // Initialize Stripe (requires Vite environment variable mapped in real app)
 // For mocking UI quickly without hitting real API, I will implement a safe fallback
@@ -35,7 +35,7 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState('');
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const { user } = useAuth();
+
 
   // Fetch plan info to calculate secure prices (Never trust frontend price states)
   const { data: plan, isLoading } = useQuery({

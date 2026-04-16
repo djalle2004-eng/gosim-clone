@@ -8,7 +8,7 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table';
 import type { SortingState } from '@tanstack/react-table';
-import { Search, Eye, Download, CreditCard, ChevronDown } from 'lucide-react';
+import { Search, Eye, Download, CreditCard } from 'lucide-react';
 
 export default function AdminOrdersPage() {
   const [sorting, setSorting] = useState<SortingState>([

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, History, X } from 'lucide-react';
+import { Search, History } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 
 export default function SearchBar() {

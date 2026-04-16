@@ -15,8 +15,6 @@ import {
   Trash2,
   ArrowUpDown,
   ServerCog,
-  Check,
-  X,
 } from 'lucide-react';
 
 export default function AdminPlansPage() {

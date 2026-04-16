@@ -16,10 +16,6 @@ export default function FilterSidebar() {
   };
 
   const currentRegion = searchParams.get('region') || 'ANY';
-  const currentData =
-    searchParams.get('minData') || searchParams.get('unlimited') === 'true'
-      ? 'unlimited'
-      : 'ANY';
   const currentValidity = searchParams.get('validity') || 'ANY';
   const maxPrice = Number(searchParams.get('maxPrice')) || 100;
 

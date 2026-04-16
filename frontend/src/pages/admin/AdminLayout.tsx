@@ -6,7 +6,6 @@ import {
   ShoppingCart,
   Activity,
   Bell,
-  Settings,
   LogOut,
   ChevronDown,
   Globe,
@@ -50,7 +49,6 @@ export default function AdminLayout() {
     },
   ];
 
-  const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
   const isSuperAdmin = user?.role === 'SUPER_ADMIN';
 
   // Add Super Admin only items
