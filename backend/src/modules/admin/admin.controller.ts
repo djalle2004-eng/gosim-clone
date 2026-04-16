@@ -27,10 +27,28 @@ export const syncPlans = async (req: Request, res: Response) =>
 // Countries
 export const getCountries = async (req: Request, res: Response) =>
   res.json(await adminService.getCountries());
-export const createCountry = async (req: Request, res: Response) =>
-  res.json(await adminService.createCountry(req.body));
-export const updateCountry = async (req: Request, res: Response) =>
-  res.json(await adminService.updateCountry(req.params.id, req.body));
+export const createCountry = async (req: Request, res: Response) => {
+  try {
+    const country = await adminService.createCountry(req.body);
+    return res.status(201).json(country);
+  } catch (err: any) {
+    if (err.code === 'P2002') {
+      return res.status(409).json({ message: 'هذا الكود (ISO) مسجل مسبقاً. استخدم كوداً مختلفاً.' });
+    }
+    return res.status(500).json({ message: err.message || 'خطأ داخلي' });
+  }
+};
+export const updateCountry = async (req: Request, res: Response) => {
+  try {
+    const country = await adminService.updateCountry(req.params.id, req.body);
+    return res.json(country);
+  } catch (err: any) {
+    if (err.code === 'P2002') {
+      return res.status(409).json({ message: 'هذا الكود (ISO) مسجل مسبقاً.' });
+    }
+    return res.status(500).json({ message: err.message || 'خطأ داخلي' });
+  }
+};
 export const deleteCountry = async (req: Request, res: Response) =>
   res.json(await adminService.deleteCountry(req.params.id));
 

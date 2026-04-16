@@ -14,6 +14,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import StripePaymentForm from '../components/checkout/StripePaymentForm';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import { api } from '../lib/api';
+import { useAuth } from '../context/AuthContext';
 
 // Initialize Stripe (requires Vite environment variable mapped in real app)
 // For mocking UI quickly without hitting real API, I will implement a safe fallback
@@ -32,17 +34,16 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { user } = useAuth();
 
   // Fetch plan info to calculate secure prices (Never trust frontend price states)
   const { data: plan, isLoading } = useQuery({
     queryKey: ['plan-checkout', planId],
     queryFn: async () => {
       if (!planId) throw new Error('No plan provided');
-      const res = await fetch(
-        `http://localhost:5000/api/plans/${planId}?currency=DZD`
-      );
-      if (!res.ok) throw new Error('Failed to load plan');
-      return res.json();
+      const res = await api.get(`/plans/${planId}?currency=DZD`);
+      return res.data;
     },
     enabled: !!planId,
   });
@@ -71,9 +72,38 @@ export default function CheckoutPage() {
       </div>
     );
 
+  const handlePayment = async () => {
+    if (!plan || isProcessing) return;
+
+    try {
+      setIsProcessing(true);
+
+      // 1. Create the Order in the backend
+      const orderRes = await api.post('/orders', {
+        planId: plan.id,
+        quantity,
+        currency: plan.currency || 'USD',
+        price: plan.price,
+      });
+
+      const orderId = orderRes.data.id;
+
+      // 2. Simulate Payment Success (Dev Mode)
+      // In production, this would happen via Stripe/CIB redirect or Webhook
+      await api.post('/payments/simulate-success', { orderId });
+
+      // 3. Navigate to success
+      navigate('/checkout/success?mock=true');
+    } catch (error: any) {
+      console.error('Payment simulation failed:', error);
+      alert('خطأ في معالجة الدفع: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   const mockCibCheckout = () => {
-    // Navigate safely to success
-    navigate('/checkout/success?mock=true');
+    handlePayment();
   };
 
   return (
@@ -217,9 +247,10 @@ export default function CheckoutPage() {
                       </p>
                       <button
                         onClick={mockCibCheckout}
-                        className="w-full bg-gradient-to-r from-green-500 to-emerald-400 text-white py-4 rounded-xl font-bold shadow-lg shadow-green-500/20 hover:scale-[1.02] transition-transform"
+                        disabled={isProcessing}
+                        className="w-full bg-gradient-to-r from-green-500 to-emerald-400 text-white py-4 rounded-xl font-bold shadow-lg shadow-green-500/20 hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        الدفع الآن وتفعيل الشريحة
+                        {isProcessing ? 'جاري المعالجة...' : 'الدفع الآن وتفعيل الشريحة'}
                       </button>
                     </motion.div>
                   )}

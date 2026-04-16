@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function PopularDestinations() {
+  const navigate = useNavigate();
   const { data: countries, isLoading } = useQuery({
     queryKey: ['countries', 'popular'],
     queryFn: async () => {
@@ -49,6 +51,7 @@ export default function PopularDestinations() {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.05 }}
                 key={country.id}
+                onClick={() => navigate(`/plans?search=${country.nameEn}`)}
                 className="group relative overflow-hidden rounded-2xl bg-card border border-white/5 p-5 cursor-pointer hover:border-cyan-500/50 transition-colors"
               >
                 {/* Background Gradient overlay */}

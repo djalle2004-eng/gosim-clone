@@ -8,16 +8,16 @@ import {
   LogOut,
   ShieldCheck,
 } from 'lucide-react';
-import { cn } from '../../lib/utils';
 import { useState } from 'react';
+import { cn } from '../../lib/utils';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function DashboardLayout() {
-  const [user] = useState({
-    name: 'أحمد بن علي',
-    email: 'ahmed@dz.com',
-    avatar: 'https://i.pravatar.cc/150?u=ahmed',
-    isVerified: true,
-  });
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  if (!user) return null; // Should be handled by ProtectedRoute anyway
 
   const navItems = [
     {
@@ -59,7 +59,7 @@ export default function DashboardLayout() {
           </span>
         </Link>
         <img
-          src={user.avatar}
+          src={user.avatar || `https://i.pravatar.cc/150?u=${user.id}`}
           alt="Avatar"
           className="w-8 h-8 rounded-full border border-cyan-500/30"
         />
@@ -79,13 +79,13 @@ export default function DashboardLayout() {
         {/* User Card */}
         <div className="bg-background border border-white/5 rounded-2xl p-4 mb-8 flex items-center gap-4 relative overflow-hidden group">
           <img
-            src={user.avatar}
+            src={user.avatar || `https://i.pravatar.cc/150?u=${user.id}`}
             alt="Avatar"
             className="w-12 h-12 rounded-full border-2 border-cyan-500/30"
           />
           <div className="flex-1">
             <h3 className="text-white font-bold text-sm flex items-center gap-1">
-              {user.name}
+              {user.firstName} {user.lastName}
               {user.isVerified && (
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
               )}
@@ -134,7 +134,13 @@ export default function DashboardLayout() {
           ))}
         </nav>
 
-        <button className="flex items-center gap-4 px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition-colors mt-auto font-medium cursor-pointer">
+        <button 
+          onClick={() => {
+            logout();
+            navigate('/login');
+          }}
+          className="flex items-center gap-4 px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition-colors mt-auto font-medium cursor-pointer"
+        >
           <LogOut className="w-5 h-5" /> تسجيل الخروج
         </button>
       </aside>

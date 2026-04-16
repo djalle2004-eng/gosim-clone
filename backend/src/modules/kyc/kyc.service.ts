@@ -1,4 +1,4 @@
-import { db } from '../../lib/db';
+import prisma from '../../lib/db';
 import { DocumentType, KycStatus, IdentityVerification } from '@prisma/client';
 
 export const createOrUpdateKyc = async (
@@ -6,7 +6,7 @@ export const createOrUpdateKyc = async (
   documentType: DocumentType,
   documentUrl: string
 ): Promise<IdentityVerification> => {
-  return await db.identityVerification.upsert({
+  return await prisma.identityVerification.upsert({
     where: { userId },
     update: {
       documentType,
@@ -24,7 +24,7 @@ export const createOrUpdateKyc = async (
 };
 
 export const getKycStatus = async (userId: string) => {
-  return await db.identityVerification.findUnique({
+  return await prisma.identityVerification.findUnique({
     where: { userId },
     select: {
       status: true,

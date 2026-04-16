@@ -88,3 +88,27 @@ export const webhook = async (req: Request, res: Response) => {
     res.status(500).end(); // Do not return payload on 500 inside webhooks to avoid Stripe retries locking
   }
 };
+
+/**
+ * SIMULATION ONLY: Manually trigger a successful payment flow.
+ * Only use in development/testing.
+ */
+export const simulateSuccess = async (req: Request, res: Response) => {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) return res.status(400).json({ message: 'OrderId required' });
+
+    // Use a dummy transaction ID
+    const mockTxId = 'sim_' + Math.random().toString(36).substring(7);
+
+    await paymentsService.handleSuccessfulPayment(orderId, mockTxId);
+
+    return res.json({
+      message: 'Simulation successful. Provisioning triggered.',
+      txId: mockTxId,
+    });
+  } catch (err: any) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+

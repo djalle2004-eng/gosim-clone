@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createIntent, createSession, webhook } from './payments.controller';
+import { createIntent, createSession, webhook, simulateSuccess } from './payments.controller';
 import { verifyToken } from '../auth/auth.middleware';
 
 const router = Router();
@@ -12,5 +12,6 @@ router.use(verifyToken);
 
 router.post('/create-intent', createIntent);
 router.post('/create-session', createSession);
+router.post('/simulate-success', simulateSuccess);
 
 export default router;

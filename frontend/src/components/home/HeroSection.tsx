@@ -1,7 +1,19 @@
 import { Search, Globe, Users, Zap, Headphones } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function HeroSection() {
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (query.trim()) {
+      navigate(`/plans?search=${encodeURIComponent(query)}`);
+    } else {
+      navigate('/plans');
+    }
+  };
   const stats = [
     { label: '170+ دولة', icon: <Globe className="w-5 h-5 text-cyan-400" /> },
     { label: '50K+ مستخدم', icon: <Users className="w-5 h-5 text-cyan-400" /> },
@@ -54,10 +66,16 @@ export default function HeroSection() {
               </div>
               <input
                 type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 placeholder="إلى أين تسافر؟ (مثال: تركيا، فرنسا...)"
                 className="w-full bg-white/5 border border-white/10 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 rounded-2xl py-5 pr-14 pl-6 text-white text-lg outline-none transition-all placeholder:text-gray-500 shadow-xl"
               />
-              <button className="absolute inset-y-2 left-2 bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-6 rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+              <button
+                onClick={handleSearch}
+                className="absolute inset-y-2 left-2 bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-6 rounded-xl font-bold hover:shadow-lg hover:shadow-cyan-500/25 transition-all"
+              >
                 ابحث
               </button>
             </div>

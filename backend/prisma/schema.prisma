@@ -78,6 +78,7 @@ enum EsimStatus {
   ACTIVE
   EXHAUSTED
   EXPIRED
+  DELETED
 }
 
 enum PaymentProvider {

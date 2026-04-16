@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import { airaloClient } from './airalo.client';
-import { db } from '../../lib/db';
+import prisma from '../../lib/db';
 import { PlanProvider } from '@prisma/client';
 
 export class AiraloSyncService {
@@ -22,11 +22,11 @@ export class AiraloSyncService {
         // Find or create country logic via Airalo's typical ISO shortcode inside package
         let countryId = null;
         if (pkg.country?.code) {
-          let country = await db.country.findUnique({
+          let country = await prisma.country.findUnique({
             where: { code: pkg.country.code.toUpperCase() },
           });
           if (!country) {
-            country = await db.country.create({
+            country = await prisma.country.create({
               data: {
                 code: pkg.country.code.toUpperCase(),
                 nameEn: pkg.country.title || pkg.country.code,
@@ -40,7 +40,7 @@ export class AiraloSyncService {
         const dataAmountInt = this.parseDataAmount(pkg.data); // "10 GB" -> 10240
         const isUnlimited = dataAmountInt === -1;
 
-        await db.eSimPlan.upsert({
+        await prisma.eSimPlan.upsert({
           where: { slug: pkg.slug },
           create: {
             name: pkg.title,

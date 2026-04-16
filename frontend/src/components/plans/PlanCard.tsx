@@ -1,5 +1,6 @@
 import { Wifi, Zap, Bookmark } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 interface PlanCardProps {
   plan: any;
@@ -7,6 +8,12 @@ interface PlanCardProps {
 }
 
 export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
+  const navigate = useNavigate();
+
+  const handleBuy = () => {
+    navigate(`/checkout?planId=${plan.id}&qty=1`);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -80,7 +87,10 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
           </span>
         </div>
 
-        <button className="w-full relative overflow-hidden group/btn bg-white/5 text-white py-4 rounded-xl font-bold transition-all border border-white/10 hover:border-transparent">
+        <button
+          onClick={handleBuy}
+          className="w-full relative overflow-hidden group/btn bg-white/5 text-white py-4 rounded-xl font-bold transition-all border border-white/10 hover:border-transparent"
+        >
           <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 to-cyan-500 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
           <span className="relative z-10 flex items-center justify-center gap-2">
             شراء الباقة

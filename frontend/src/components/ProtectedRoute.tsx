@@ -3,8 +3,10 @@ import { useAuth } from '../context/AuthContext';
 
 export function ProtectedRoute({
   requireAdmin = false,
+  requireSuperAdmin = false,
 }: {
   requireAdmin?: boolean;
+  requireSuperAdmin?: boolean;
 }) {
   const { user, isLoading } = useAuth();
   const location = useLocation();
@@ -33,6 +35,10 @@ export function ProtectedRoute({
   }
 
   // Role guarding
+  if (requireSuperAdmin && user.role !== 'SUPER_ADMIN') {
+    return <Navigate to="/admin" replace />;
+  }
+
   if (requireAdmin && user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN') {
     return <Navigate to="/dashboard" replace />;
   }

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { providersConfig } from '../../config/providers.config';
-import { redisClient } from '../../utils/redis';
+import redisClient from '../../utils/redis';
 
 class AiraloClient {
   private client: AxiosInstance;

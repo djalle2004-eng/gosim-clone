@@ -1,6 +1,6 @@
 import QRCode from 'qrcode';
 import { airaloClient } from './airalo.client';
-import { db } from '../../lib/db';
+import prisma from '../../lib/db';
 import { OrderStatus, EsimStatus } from '@prisma/client';
 
 export class AiraloOrderService {
@@ -11,7 +11,7 @@ export class AiraloOrderService {
   async provisionOrder(orderId: string) {
     console.log(`🔄 [Provisioning] Starting fulfillment for Order ${orderId}`);
 
-    const order = await db.order.findUnique({
+    const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: { orderItems: { include: { plan: true } } },
     });
@@ -22,7 +22,7 @@ export class AiraloOrderService {
     }
 
     // Move to PROCESSING
-    await db.order.update({
+    await prisma.order.update({
       where: { id: orderId },
       data: { status: OrderStatus.PROCESSING },
     });
@@ -51,7 +51,7 @@ export class AiraloOrderService {
     }
 
     if (allSuccessful) {
-      await db.order.update({
+      await prisma.order.update({
         where: { id: orderId },
         data: { status: OrderStatus.COMPLETED },
       });
@@ -93,7 +93,7 @@ export class AiraloOrderService {
       : await QRCode.toDataURL(sim.lpa);
 
     // 5. Store in Local Database
-    await db.eSim.create({
+    await prisma.eSim.create({
       data: {
         userId,
         orderItemId,

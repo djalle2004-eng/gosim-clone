@@ -1,4 +1,4 @@
-import { Outlet, NavLink, Link } from 'react-router-dom';
+import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -9,12 +9,15 @@ import {
   Settings,
   LogOut,
   ChevronDown,
+  Globe,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function AdminLayout() {
-  const [isAdmin] = useState(true); // Mock RBAC check
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Real app: if(!isAdmin) return <Navigate to="/login" />
@@ -46,6 +49,18 @@ export default function AdminLayout() {
       icon: <Smartphone className="w-5 h-5" />,
     },
   ];
+
+  const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
+  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
+
+  // Add Super Admin only items
+  if (isSuperAdmin) {
+    navItems.push({
+      label: 'إدارة الدول',
+      path: '/admin/countries',
+      icon: <Globe className="w-5 h-5" />,
+    });
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] flex">
@@ -104,7 +119,13 @@ export default function AdminLayout() {
         </nav>
 
         <div className="p-4 border-t border-white/5">
-          <button className="flex items-center gap-3 w-full px-4 py-3 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl font-medium transition-colors">
+          <button 
+            onClick={() => {
+              logout();
+              navigate('/login');
+            }}
+            className="flex items-center gap-3 w-full px-4 py-3 text-gray-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl font-medium transition-colors"
+          >
             <LogOut className="w-5 h-5" /> تسجيل الخروج
           </button>
         </div>

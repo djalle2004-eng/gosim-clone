@@ -37,20 +37,23 @@ router.post(
   controller.syncPlans
 );
 
-// Countries
-router.get('/countries', controller.getCountries);
+// Countries (Super Admin only for management)
+router.get('/countries', requireSuperAdmin, controller.getCountries);
 router.post(
   '/countries',
+  requireSuperAdmin,
   audit('CREATE_COUNTRY', 'Country'),
   controller.createCountry
 );
 router.put(
   '/countries/:id',
+  requireSuperAdmin,
   audit('UPDATE_COUNTRY', 'Country'),
   controller.updateCountry
 );
 router.delete(
   '/countries/:id',
+  requireSuperAdmin,
   audit('DELETE_COUNTRY', 'Country'),
   controller.deleteCountry
 );

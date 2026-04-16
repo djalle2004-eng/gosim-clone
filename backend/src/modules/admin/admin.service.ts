@@ -122,7 +122,7 @@ export const getUsers = async (search?: string) => {
 export const getUserDetails = async (id: string) => {
   return await prisma.user.findUnique({
     where: { id },
-    include: { orders: true, eSims: true },
+    include: { orders: true, esims: true },
   });
 };
 

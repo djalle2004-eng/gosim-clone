@@ -17,6 +17,7 @@ import AdminPlansPage from './pages/admin/AdminPlansPage';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminESimsPage from './pages/admin/AdminESimsPage';
+import AdminCountriesPage from './pages/admin/AdminCountriesPage';
 
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -61,6 +62,11 @@ function App() {
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="esims" element={<AdminESimsPage />} />
+          
+          {/* Countries is Super Admin Only */}
+          <Route element={<ProtectedRoute requireSuperAdmin={true} />}>
+            <Route path="countries" element={<AdminCountriesPage />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

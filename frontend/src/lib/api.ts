@@ -18,21 +18,10 @@ export const api = axios.create({
   },
 });
 
-// Optional: Add global response interceptor to handle unauthenticated ejects easily
+// Optional: Remove global response interceptor to handle unauthenticated ejects easily
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // If backend middleware throws 401 Unauthorized securely
-    if (error.response && error.response.status === 401) {
-      // Avoid redirect loops on the login page itself
-      if (
-        window.location.pathname !== '/login' &&
-        window.location.pathname !== '/register' &&
-        window.location.pathname !== '/verify'
-      ) {
-        window.location.href = '/login';
-      }
-    }
     return Promise.reject(error);
   }
 );

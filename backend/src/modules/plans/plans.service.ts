@@ -86,9 +86,12 @@ export const getPopularPlans = async (currency: string) => {
   return mappedPlans;
 };
 
-export const getPlanBySlug = async (slug: string, currency: string) => {
+export const getPlanBySlug = async (identifier: string, currency: string) => {
+  // Check if identifier is UUID
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(identifier);
+
   const plan = await prisma.eSimPlan.findUnique({
-    where: { slug },
+    where: isUuid ? { id: identifier } : { slug: identifier },
     include: { country: true, reviews: { select: { rating: true } } },
   });
 
