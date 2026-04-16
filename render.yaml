@@ -1,0 +1,62 @@
+services:
+  # 1. Backend Web Service (Node.js)
+  - type: web
+    name: gosim-api
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build:shared && npm run build:backend
+    startCommand: npx prisma migrate deploy --schema=backend/prisma/schema.prisma && npm run start --workspace=backend
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gosim-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: gosim-redis
+          property: connectionString
+      - key: FRONTEND_URL
+        fromService:
+          type: static
+          name: gosim-web
+          property: url
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+      - key: AIRALO_AUTH_URL
+        value: "https://sandbox-auth.airalo.com/api/v1/token"
+      - key: AIRALO_BASE_URL
+        value: "https://sandbox-api.airalo.com/api/v2"
+      # These should be updated manually in the Render Dashboard:
+      - key: AIRALO_CLIENT_ID
+        value: "YOUR_AIRALO_CLIENT_ID"
+      - key: AIRALO_CLIENT_SECRET
+        value: "YOUR_AIRALO_CLIENT_SECRET"
+
+  # 2. Frontend Static Site
+  - type: static
+    name: gosim-web
+    env: static
+    buildCommand: npm install && npm run build:shared && npm run build:frontend
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: gosim-api
+          property: url
+
+# 3. Database (PostgreSQL)
+databases:
+  - name: gosim-db
+    plan: free
+
+# 4. Redis Cache
+redis:
+  - name: gosim-redis
+    plan: free
+    ipAllowList: [] # Only allow internal Render services
