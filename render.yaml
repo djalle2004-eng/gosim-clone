@@ -19,10 +19,7 @@ services:
           name: gosim-redis
           property: connectionString
       - key: FRONTEND_URL
-        fromService:
-          type: web
-          name: gosim-web
-          property: url
+        value: "https://gosim-web.onrender.com" # Update this manually in Render Dashboard once deployment is done
       - key: JWT_SECRET
         generateValue: true
       - key: PORT
@@ -55,8 +52,8 @@ databases:
   - name: gosim-db
     plan: free
 
-# 4. Redis Cache
-redis:
+# 4. Redis Cache (Key-Value)
+keyvalues:
   - name: gosim-redis
     plan: free
     ipAllowList: [] # Only allow internal Render services
