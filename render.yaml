@@ -44,6 +44,10 @@ services:
     runtime: static
     buildCommand: npm install && npm run build:shared && npm run build:frontend
     staticPublishPath: frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: NPM_CONFIG_PRODUCTION
         value: 'false'
