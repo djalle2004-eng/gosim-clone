@@ -7,6 +7,8 @@ services:
     buildCommand: npm install && npm run build:shared && npm run build:backend
     startCommand: npx prisma migrate deploy --schema=backend/prisma/schema.prisma && npm run start --workspace=backend
     envVars:
+      - key: HUSKY
+        value: "0"
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
@@ -41,8 +43,10 @@ services:
     buildCommand: npm install && npm run build:shared && npm run build:frontend
     staticPublishPath: frontend/dist
     envVars:
+      - key: HUSKY
+        value: "0"
       - key: VITE_API_URL
-        value: "https://gosim-api.onrender.com" # Update this manually in Render Dashboard once deployment is done
+        value: 'https://gosim-api.onrender.com' # Update this manually in Render Dashboard once deployment is done
 
   # 3. Redis Cache (Key-Value)
   - type: keyvalue

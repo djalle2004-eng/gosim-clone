@@ -15,7 +15,7 @@
     "build:frontend": "npm run build --workspace=frontend",
     "build:backend": "npm run build --workspace=backend",
     "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "devDependencies": {
     "husky": "^9.0.11",
