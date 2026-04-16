@@ -15,7 +15,7 @@ services:
           property: connectionString
       - key: REDIS_URL
         fromService:
-          type: redis
+          type: keyvalue
           name: gosim-redis
           property: connectionString
       - key: FRONTEND_URL
@@ -47,13 +47,13 @@ services:
           name: gosim-api
           property: url
 
-# 3. Database (PostgreSQL)
+  # 3. Redis Cache (Key-Value)
+  - type: keyvalue
+    name: gosim-redis
+    plan: free
+    ipAllowList: [] # Only allow internal Render services
+
+# 4. Database (PostgreSQL)
 databases:
   - name: gosim-db
     plan: free
-
-# 4. Redis Cache
-redis:
-  - name: gosim-redis
-    plan: free
-    ipAllowList: [] # Only allow internal Render services
