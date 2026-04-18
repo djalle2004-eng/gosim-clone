@@ -9,11 +9,9 @@ export const requireAdmin = (
   const user = (req as any).user;
   const adminRoles = ['ADMIN', 'SUPER_ADMIN', 'EMPLOYEE', 'RESELLER'];
   if (!user || !adminRoles.includes(user.role)) {
-    return res
-      .status(403)
-      .json({
-        message: 'Accès restreint aux membres du personnel et partenaires',
-      });
+    return res.status(403).json({
+      message: 'Accès restreint aux membres du personnel et partenaires',
+    });
   }
   next();
 };

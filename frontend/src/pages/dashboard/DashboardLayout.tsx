@@ -54,7 +54,7 @@ export default function DashboardLayout() {
           <img
             src="/soufsim-logo.png"
             alt="SoufSim Logo"
-            className="h-8 object-contain"
+            className="h-12 w-auto object-contain"
           />
         </Link>
         <img
@@ -70,7 +70,7 @@ export default function DashboardLayout() {
           <img
             src="/soufsim-logo.png"
             alt="SoufSim Logo"
-            className="h-10 object-contain"
+            className="h-16 w-auto object-contain drop-shadow-md"
           />
         </Link>
 

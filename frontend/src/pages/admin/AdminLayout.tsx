@@ -71,7 +71,7 @@ export default function AdminLayout() {
             <img
               src="/soufsim-logo.png"
               alt="SoufSim Logo"
-              className="h-10 object-contain"
+              className="h-16 w-auto object-contain drop-shadow-md"
             />
             <div className="flex flex-col">
               <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-[0.2em] mt-1 text-right">
