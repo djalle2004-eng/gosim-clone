@@ -23,8 +23,9 @@ export default function LoginPage() {
 
     try {
       const loggedInUser = await login({ emailOrPhone, password, rememberMe });
-      
-      const isAdmin = loggedInUser.role === 'ADMIN' || loggedInUser.role === 'SUPER_ADMIN';
+
+      const isAdmin =
+        loggedInUser.role === 'ADMIN' || loggedInUser.role === 'SUPER_ADMIN';
       const defaultPath = isAdmin ? '/admin' : '/dashboard';
       const targetRoute = fromState || defaultPath;
 
