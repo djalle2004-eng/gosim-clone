@@ -9,7 +9,7 @@ export default function SearchBar() {
   const [recent, setRecent] = useState<string[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('gosim_recent_searches');
+    const saved = localStorage.getItem('soufsim_recent_searches');
     if (saved) setRecent(JSON.parse(saved));
   }, []);
 
@@ -22,7 +22,7 @@ export default function SearchBar() {
       5
     );
     setRecent(newRecent);
-    localStorage.setItem('gosim_recent_searches', JSON.stringify(newRecent));
+    localStorage.setItem('soufsim_recent_searches', JSON.stringify(newRecent));
 
     // Update URL Params explicitly
     const newParams = new URLSearchParams(searchParams);
@@ -34,7 +34,7 @@ export default function SearchBar() {
 
   const clearRecent = () => {
     setRecent([]);
-    localStorage.removeItem('gosim_recent_searches');
+    localStorage.removeItem('soufsim_recent_searches');
   };
 
   return (

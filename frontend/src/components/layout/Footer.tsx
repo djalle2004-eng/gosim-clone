@@ -39,13 +39,8 @@ export default function Footer() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-6 text-white text-2xl font-bold">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center">
-                G
-              </div>
-              <span>
-                Go<span className="text-cyan-400">SIM</span>
-              </span>
+            <div className="flex items-center gap-2 mb-6">
+              <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-12 object-contain" />
             </div>
             <p className="text-gray-400 leading-relaxed mb-6 max-w-sm">
               أول منصة جزائرية وعربية توفر حلول الاتصال الدولي السلس للأفراد
@@ -102,7 +97,7 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 bg-clip-text">
-            © {new Date().getFullYear()} GoSIM Marketplace. جميع الحقوق محفوظة.
+            © {new Date().getFullYear()} SoufSim Marketplace. جميع الحقوق محفوظة.
           </p>
 
           <div className="flex items-center gap-4 opacity-70">

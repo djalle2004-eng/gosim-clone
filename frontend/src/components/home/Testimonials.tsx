@@ -8,7 +8,7 @@ export default function Testimonials() {
       avatar: 'https://i.pravatar.cc/150?u=ahmed',
       country: '🇩🇿 الجزائر',
       rating: 5,
-      text: 'استخدمت الخدمة في رحلتي إلى إسبانيا، التفعيل كان فورياً والإنترنت سريع جداً. شكراً GoSIM!',
+      text: 'استخدمت الخدمة في رحلتي إلى إسبانيا، التفعيل كان فورياً والإنترنت سريع جداً. شكراً SoufSim!',
     },
     {
       name: 'سارة محمد',
@@ -37,7 +37,7 @@ export default function Testimonials() {
             ماذا يقول <span className="text-cyan-400">عملاؤنا</span>
           </h2>
           <p className="text-gray-400 text-lg">
-            آلاف المسافرين يثقون في GoSIM ليبقوا متصلين في رحلاتهم.
+            آلاف المسافرين يثقون في SoufSim ليبقوا متصلين في رحلاتهم.
           </p>
         </div>
 

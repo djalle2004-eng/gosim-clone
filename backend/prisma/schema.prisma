@@ -28,6 +28,8 @@ enum Role {
   USER
   ADMIN
   SUPER_ADMIN
+  EMPLOYEE
+  RESELLER
 }
 
 enum Currency {
@@ -140,6 +142,11 @@ model User {
   notifications  Notification[]
   loginHistories LoginHistory[]
   auditLogs      AuditLog[]
+  // RBAC Reseller link
+  resellerId        String?
+  reseller          User?    @relation("ResellerClients", fields: [resellerId], references: [id])
+  clients           User[]   @relation("ResellerClients")
+
   kyc            IdentityVerification?
 
   @@index([email])

@@ -125,7 +125,7 @@ export const handleSuccessfulPayment = async (
         `;
       await sendEmail(
         order.user.email,
-        'Your GoSIM eSIM Installation',
+        'Your SoufSim eSIM Installation',
         messageHtml
       );
     }

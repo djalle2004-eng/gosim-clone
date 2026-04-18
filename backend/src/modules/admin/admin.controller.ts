@@ -4,11 +4,11 @@ import { refundOrder } from '../orders/orders.service';
 
 // Dashboard
 export const getStats = async (req: Request, res: Response) =>
-  res.json(await adminService.getStats());
+  res.json(await adminService.getStats((req as any).user));
 export const getAnalytics = async (req: Request, res: Response) =>
-  res.json(await adminService.getAnalytics());
+  res.json(await adminService.getAnalytics((req as any).user));
 export const getRecentOrders = async (req: Request, res: Response) =>
-  res.json(await adminService.getRecentOrders());
+  res.json(await adminService.getRecentOrders((req as any).user));
 
 // Plans
 export const getPlans = async (req: Request, res: Response) =>
@@ -56,7 +56,20 @@ export const deleteCountry = async (req: Request, res: Response) =>
 
 // Users
 export const getUsers = async (req: Request, res: Response) =>
-  res.json(await adminService.getUsers(req.query.q as string));
+  res.json(await adminService.getUsers(req.query.q as string, (req as any).user));
+
+export const createStaff = async (req: Request, res: Response) => {
+  try {
+    const staff = await adminService.createStaff(req.body);
+    return res.status(201).json(staff);
+  } catch (err: any) {
+    if (err.code === 'P2002') {
+      return res.status(409).json({ message: 'البريد الإلكتروني موجود بالفعل.' });
+    }
+    return res.status(500).json({ message: err.message || 'خطأ داخلي' });
+  }
+};
+
 export const getUserInfo = async (req: Request, res: Response) =>
   res.json(await adminService.getUserDetails(req.params.id));
 export const toggleBanUser = async (req: Request, res: Response) =>
@@ -66,7 +79,7 @@ export const changeUserRole = async (req: Request, res: Response) =>
 
 // Orders
 export const getOrders = async (req: Request, res: Response) =>
-  res.json(await adminService.getOrders());
+  res.json(await adminService.getOrders((req as any).user));
 export const getOrderDetails = async (req: Request, res: Response) =>
   res.json(await adminService.getOrderDetails(req.params.id));
 export const patchOrderStatus = async (req: Request, res: Response) =>
@@ -84,7 +97,7 @@ export const triggerRefund = async (req: Request, res: Response) => {
 
 // eSIMs
 export const getEsims = async (req: Request, res: Response) =>
-  res.json(await adminService.getEsims());
+  res.json(await adminService.getEsims((req as any).user));
 export const getEsimDetails = async (req: Request, res: Response) =>
   res.json(await adminService.getEsimDetails(req.params.iccid));
 export const deactivateEsim = async (req: Request, res: Response) =>

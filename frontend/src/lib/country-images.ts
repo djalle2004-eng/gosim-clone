@@ -11,7 +11,7 @@ const COUNTRY_IMAGES: Record<string, string> = {
   PT: 'https://images.unsplash.com/photo-1520610334800-4740e53a22f7?q=80&w=800&auto=format&fit=crop', // Portugal
   GR: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=800&auto=format&fit=crop', // Greece / Santorini
   TR: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=800&auto=format&fit=crop', // Turkey / Cappadocia or Istanbul
-  
+
   // Americas
   US: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=800&auto=format&fit=crop', // USA / New York
   CA: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=800&auto=format&fit=crop', // Canada
@@ -32,12 +32,17 @@ const COUNTRY_IMAGES: Record<string, string> = {
 };
 
 const REGION_FALLBACKS: Record<string, string> = {
-  EUROPE: 'https://images.unsplash.com/photo-1469796466635-455ede028aca?q=80&w=800&auto=format&fit=crop',
+  EUROPE:
+    'https://images.unsplash.com/photo-1469796466635-455ede028aca?q=80&w=800&auto=format&fit=crop',
   ASIA: 'https://images.unsplash.com/photo-1535139262971-c5184570f711?q=80&w=800&auto=format&fit=crop',
-  AMERICAS: 'https://images.unsplash.com/photo-1466096115517-bceecbfb6fde?q=80&w=800&auto=format&fit=crop',
-  AFRICA: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=800&auto=format&fit=crop',
-  MIDDLEEAST: 'https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=800&auto=format&fit=crop',
-  GLOBAL: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=800&auto=format&fit=crop' // beautiful generic travel/plane wing
+  AMERICAS:
+    'https://images.unsplash.com/photo-1466096115517-bceecbfb6fde?q=80&w=800&auto=format&fit=crop',
+  AFRICA:
+    'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=800&auto=format&fit=crop',
+  MIDDLEEAST:
+    'https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=800&auto=format&fit=crop',
+  GLOBAL:
+    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=800&auto=format&fit=crop', // beautiful generic travel/plane wing
 };
 
 export function getCountryImage(code: string, region?: string): string {

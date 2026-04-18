@@ -26,7 +26,6 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
       className="relative group flex flex-col h-full"
     >
       <div className="bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-sm border border-white/[0.06] hover:border-cyan-500/30 transition-all duration-500 rounded-3xl relative overflow-hidden flex flex-col h-full shadow-lg hover:shadow-cyan-500/10 group-hover:-translate-y-1">
-        
         {/* Dark gradient overlay for readability over the background image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-20 group-hover:opacity-30"
@@ -99,7 +98,9 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
                 ) : (
                   <>
                     {plan.dataAmount}{' '}
-                    <span className="text-gray-400 text-sm font-medium">GB</span>
+                    <span className="text-gray-400 text-sm font-medium">
+                      GB
+                    </span>
                   </>
                 )}
               </span>
@@ -109,7 +110,8 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
                 الصلاحية
               </span>
               <span className="text-white font-bold text-lg">
-                {plan.validity} <span className="text-gray-400 text-xs">يوم</span>
+                {plan.validity}{' '}
+                <span className="text-gray-400 text-xs">يوم</span>
               </span>
             </div>
             <div className="bg-black/30 backdrop-blur-sm rounded-xl p-3.5 text-center border border-white/[0.05] group-hover:border-white/[0.1] transition-colors">

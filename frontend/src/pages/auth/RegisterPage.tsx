@@ -66,7 +66,7 @@ export default function RegisterPage() {
             إنشاء حساب جديد
           </h1>
           <p className="text-gray-400">
-            انضم إلى GoSIM لاكتشاف أفضل باقات التجوال.
+            انضم إلى SoufSim لاكتشاف أفضل باقات التجوال.
           </p>
         </div>
 

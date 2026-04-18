@@ -69,7 +69,10 @@ export default function BestSellers() {
         ) : (
           <div className="flex overflow-x-auto pb-8 gap-6 snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:grid-flow-row lg:overflow-visible no-scrollbar">
             {plans?.map((plan: any, idx: number) => {
-              const bgImage = getCountryImage(plan.country?.code, plan.country?.region);
+              const bgImage = getCountryImage(
+                plan.country?.code,
+                plan.country?.region
+              );
 
               return (
                 <motion.div
@@ -81,7 +84,6 @@ export default function BestSellers() {
                   className="min-w-[300px] lg:min-w-0 snap-start relative group flex flex-col"
                 >
                   <div className="bg-gradient-to-b from-white/[0.06] to-white/[0.02] backdrop-blur-sm border border-white/[0.08] rounded-3xl relative overflow-hidden hover:border-violet-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-violet-500/10 flex flex-col h-full group-hover:-translate-y-2">
-                    
                     {/* Dark gradient overlay for readability over the background image */}
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-30 group-hover:opacity-40"

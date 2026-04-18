@@ -36,12 +36,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">
-              G
-            </div>
-            <span className="text-xl font-bold tracking-tight text-white">
-              Go<span className="text-cyan-400">SIM</span>
-            </span>
+            <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-10 object-contain group-hover:scale-105 transition-transform" />
           </Link>
 
           {/* Desktop Links */}

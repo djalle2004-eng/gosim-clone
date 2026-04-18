@@ -119,7 +119,7 @@ class AiraloClient {
       {
         id: `mock_${countryCode}_10gb`,
         slug: `mock-${countryCode}-10gb`,
-        title: `GOSIM Core ${countryCode}`,
+        title: `SOUFSIM Core ${countryCode}`,
         data: '10 GB',
         validity: '30 days',
         price: 15.0,

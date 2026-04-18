@@ -7,10 +7,11 @@ export const requireAdmin = (
   next: NextFunction
 ) => {
   const user = (req as any).user;
-  if (!user || (user.role !== 'ADMIN' && user.role !== 'SUPER_ADMIN')) {
+  const adminRoles = ['ADMIN', 'SUPER_ADMIN', 'EMPLOYEE', 'RESELLER'];
+  if (!user || !adminRoles.includes(user.role)) {
     return res
       .status(403)
-      .json({ message: 'Accès restreint aux administrateurs' });
+      .json({ message: 'Accès restreint aux membres du personnel et partenaires' });
   }
   next();
 };

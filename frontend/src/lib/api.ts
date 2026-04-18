@@ -5,7 +5,7 @@ export const API_URL =
   import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 /**
- * Global Axios Instance for GoSIM.
+ * Global Axios Instance for SoufSim.
  * Automatically attaches cookies (withCredentials: true) ensuring the Backend's
  * JWT HTTPOnly architecture correctly authenticates every request without
  * relying on insecure LocalStorage mechanics.

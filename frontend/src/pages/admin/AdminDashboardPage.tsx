@@ -18,8 +18,13 @@ import {
   Pie,
   Cell,
 } from 'recharts';
+import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function AdminDashboardPage() {
+  const { user } = useAuth();
+  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
+
   const lineData = [
     { name: '1 أفريل', revenue: 4000 },
     { name: '5 أفريل', revenue: 3000 },
@@ -68,6 +73,8 @@ export default function AdminDashboardPage() {
     },
   ];
 
+  const visibleKpis = isSuperAdmin ? kpis : kpis.filter(k => k.label !== 'إجمالي الإيراد');
+
   return (
     <div className="max-w-[1600px] mx-auto space-y-8">
       {/* Header */}
@@ -76,13 +83,13 @@ export default function AdminDashboardPage() {
           مرحباً بعودتك، أيها المدير 👋
         </h1>
         <p className="text-gray-400">
-          إليك نظرة عامة على أداء منصة GoSIM هذا الشهر.
+          إليك نظرة عامة على أداء منصة SoufSim هذا الشهر.
         </p>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        {kpis.map((kpi, idx) => (
+        {visibleKpis.map((kpi, idx) => (
           <div
             key={idx}
             className="bg-card border border-white/5 rounded-3xl p-6 relative overflow-hidden shadow-lg"
@@ -218,6 +225,12 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
+      
+      {!isSuperAdmin && (
+        <div className="bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 p-4 rounded-xl flex items-center justify-center font-medium">
+          أنت تتصفح حالياً لوحة التحكم بصلاحيات محدودة لموزع/موظف. لا تُعرض البيانات المالية هنا.
+        </div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@gosim-clone/shared",
+  "name": "@soufsim-clone/shared",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

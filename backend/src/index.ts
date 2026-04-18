@@ -12,7 +12,7 @@ import ordersRoutes from './modules/orders/orders.routes';
 import paymentsRoutes from './modules/payments/payments.routes';
 import adminRoutes from './modules/admin/admin.routes';
 import kycRoutes from './modules/kyc/kyc.routes';
-import { User } from '@gosim-clone/shared';
+import { User } from '@soufsim-clone/shared';
 import path from 'path';
 
 const app = express();
@@ -56,11 +56,11 @@ app.get('/', (req, res) => {
   // Example of using shared type
   const dummyUser: User = {
     id: '1',
-    name: 'Test GoSIM',
-    email: 'test@gosim.com',
+    name: 'Test SoufSim',
+    email: 'test@soufsim.com',
     createdAt: new Date(),
   };
-  res.json({ message: 'Welcome to GoSIM Clone API', user: dummyUser });
+  res.json({ message: 'Welcome to SoufSim Clone API', user: dummyUser });
 });
 
 app.listen(PORT, async () => {

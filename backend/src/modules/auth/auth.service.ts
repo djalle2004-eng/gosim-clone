@@ -38,7 +38,7 @@ export const sendVerificationEmail = async (email: string, otp: string) => {
   let html = fs.readFileSync(templatePath, 'utf8');
   html = html.replace('{{OTP}}', otp);
 
-  await sendEmail(email, 'Verify your GoSIM Account', html);
+  await sendEmail(email, 'Verify your SoufSim Account', html);
 };
 
 export const sendResetPasswordEmail = async (email: string, token: string) => {
@@ -48,7 +48,7 @@ export const sendResetPasswordEmail = async (email: string, token: string) => {
   const resetLink = `${FRONTEND_URL}/reset-password?token=${token}`;
   html = html.replace('{{RESET_LINK}}', resetLink);
 
-  await sendEmail(email, 'Reset Your Password - GoSIM', html);
+  await sendEmail(email, 'Reset Your Password - SoufSim', html);
 };
 
 export const sendWelcomeEmail = async (email: string) => {
@@ -56,7 +56,7 @@ export const sendWelcomeEmail = async (email: string) => {
   let html = fs.readFileSync(templatePath, 'utf8');
   html = html.replace('{{APP_URL}}', FRONTEND_URL);
 
-  await sendEmail(email, 'Welcome to GoSIM!', html);
+  await sendEmail(email, 'Welcome to SoufSim!', html);
 };
 
 export const logLoginHistory = async (

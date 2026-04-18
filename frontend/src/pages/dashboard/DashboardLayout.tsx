@@ -51,12 +51,7 @@ export default function DashboardLayout() {
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
       <header className="md:hidden bg-card border-b border-white/5 py-4 px-4 sticky top-0 z-50 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center text-white font-bold shadow-lg">
-            G
-          </div>
-          <span className="font-bold tracking-tight text-white">
-            Go<span className="text-cyan-400">SIM</span>
-          </span>
+          <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-8 object-contain" />
         </Link>
         <img
           src={(user as any).avatar || `https://i.pravatar.cc/150?u=${user.id}`}
@@ -68,12 +63,7 @@ export default function DashboardLayout() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-72 flex-col bg-card border-l border-white/5 h-screen sticky top-0 p-6 z-40">
         <Link to="/" className="flex items-center gap-2 group mb-10">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-            G
-          </div>
-          <span className="text-2xl font-bold tracking-tight text-white">
-            Go<span className="text-cyan-400">SIM</span>
-          </span>
+          <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-10 object-contain" />
         </Link>
 
         {/* User Card */}

@@ -55,7 +55,7 @@ export default function OrderSuccessPage() {
               تم الدفع بنجاح!
             </h1>
             <p className="text-gray-400 text-lg mb-8 relative z-10 max-w-md mx-auto">
-              شكراً لاختيارك GoSIM. لقد تم إرسال الشريحة الإلكترونية إلى بريدك{' '}
+              شكراً لاختيارك SoufSim. لقد تم إرسال الشريحة الإلكترونية إلى بريدك{' '}
               {isMock ? '(عملية دفع CIBจำลอง)' : ''}
               مع إرشادات التفعيل خطوة بخطوة.
             </p>

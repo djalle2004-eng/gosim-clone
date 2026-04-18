@@ -100,10 +100,14 @@ export default function PopularDestinations() {
                         className="shadow-2xl ring-2 ring-white/20"
                       />
                     </div>
-                    
+
                     <div className="bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl shrink-0">
                       <span className="text-white text-xs drop-shadow-md block text-center">
-                        من <span className="text-cyan-400 font-bold text-sm">{Math.round(country.lowestPrice || 0)}</span> {country.displayCurrency || 'DZD'}
+                        من{' '}
+                        <span className="text-cyan-400 font-bold text-sm">
+                          {Math.round(country.lowestPrice || 0)}
+                        </span>{' '}
+                        {country.displayCurrency || 'DZD'}
                       </span>
                     </div>
                   </div>
@@ -114,7 +118,8 @@ export default function PopularDestinations() {
                         {country.nameEn}
                       </h3>
                       <p className="text-white/80 font-medium text-xs truncate drop-shadow-md flex items-center gap-1 mt-0.5">
-                        <MapPin className="w-3 h-3 text-cyan-400" /> {country.nameAr}
+                        <MapPin className="w-3 h-3 text-cyan-400" />{' '}
+                        {country.nameAr}
                       </p>
                     </div>
                   </div>

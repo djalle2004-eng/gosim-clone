@@ -51,12 +51,9 @@ export default function LoginPage() {
 
       <Link
         to="/"
-        className="absolute top-8 right-8 text-white font-black text-2xl flex items-center gap-2 z-10 transition-transform hover:scale-105"
+        className="absolute top-8 right-8 z-10 transition-transform hover:scale-105"
       >
-        <div className="w-8 h-8 rounded-lg bg-cyan-500 text-background flex items-center justify-center text-xl shadow-[0_0_15px_rgba(6,182,212,0.5)]">
-          G
-        </div>
-        Go<span className="text-cyan-400">SIM</span>
+        <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-10 object-contain" />
       </Link>
 
       <motion.div
