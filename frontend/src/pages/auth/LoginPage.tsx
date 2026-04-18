@@ -42,7 +42,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative overflow-hidden"
+      className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 relative overflow-hidden"
       dir="rtl"
     >
       {/* Background decorations */}
@@ -53,19 +53,23 @@ export default function LoginPage() {
         to="/"
         className="absolute top-8 right-8 z-10 transition-transform hover:scale-105"
       >
-        <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-20 w-auto object-contain drop-shadow-xl" />
+        <img
+          src="/soufsim-logo.png"
+          alt="SoufSim Logo"
+          className="h-20 w-auto object-contain drop-shadow-xl"
+        />
       </Link>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-card border border-white/10 rounded-3xl p-8 relative z-10 shadow-2xl backdrop-blur-sm"
+        className="w-full max-w-md bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-8 relative z-10 shadow-2xl backdrop-blur-sm"
       >
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">
             مرحباً بعودتك! 👋
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             سجل الدخول لإدارة باقات eSIM الخاصة بك
           </p>
         </div>
@@ -85,16 +89,16 @@ export default function LoginPage() {
           className="space-y-5 flex flex-col text-right"
         >
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-slate-600 mb-2">
               البريد الإلكتروني أو رقم الهاتف
             </label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 value={emailOrPhone}
                 onChange={(e) => setEmailOrPhone(e.target.value)}
-                className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 pl-12 text-white outline-none focus:border-cyan-500 transition-colors text-right"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 pl-12 text-slate-800 outline-none focus:border-cyan-500 transition-colors text-right"
                 placeholder="مثال: user@mail.com"
                 required
               />
@@ -103,7 +107,7 @@ export default function LoginPage() {
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium text-gray-300">
+              <label className="block text-sm font-medium text-slate-600">
                 كلمة المرور
               </label>
               <Link
@@ -114,12 +118,12 @@ export default function LoginPage() {
               </Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 pl-12 text-white outline-none focus:border-cyan-500 transition-colors text-right"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 pl-12 text-slate-800 outline-none focus:border-cyan-500 transition-colors text-right"
                 placeholder="••••••••"
                 required
               />
@@ -136,7 +140,7 @@ export default function LoginPage() {
             />
             <label
               htmlFor="remember"
-              className="text-sm text-gray-400 cursor-pointer select-none"
+              className="text-sm text-slate-500 cursor-pointer select-none"
             >
               تذكرني على هذا الجهاز (90 يوماً)
             </label>
@@ -145,7 +149,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-bold rounded-xl px-4 py-3.5 flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-lg shadow-cyan-500/20 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            className="w-full bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 font-bold rounded-xl px-4 py-3.5 flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-lg shadow-cyan-500/20 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
           >
             {isSubmitting ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -157,7 +161,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 text-center text-gray-400 text-sm">
+        <div className="mt-8 text-center text-slate-500 text-sm">
           ليس لديك حساب؟{' '}
           <Link
             to="/register"

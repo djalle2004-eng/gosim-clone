@@ -13,7 +13,7 @@ export function ProtectedRoute({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4 blur-[1px]"></div>
           <p className="text-cyan-400 font-bold tracking-widest uppercase animate-pulse">

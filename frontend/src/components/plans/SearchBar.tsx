@@ -41,7 +41,7 @@ export default function SearchBar() {
     <div className="relative z-30 max-w-2xl mx-auto w-full">
       <div className="relative">
         <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-          <Search className="w-6 h-6 text-gray-400" />
+          <Search className="w-6 h-6 text-slate-500" />
         </div>
         <input
           type="text"
@@ -51,11 +51,11 @@ export default function SearchBar() {
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch(query)}
           placeholder="ابحث عن دولة أو منطقة..."
-          className="w-full bg-card border border-white/10 focus:border-cyan-500 rounded-2xl py-4 pr-12 pl-4 text-white text-lg outline-none transition-all placeholder:text-gray-500 shadow-xl"
+          className="w-full bg-white/90 backdrop-blur-md border border-slate-200 focus:border-cyan-500 rounded-2xl py-4 pr-12 pl-4 text-slate-800 text-lg outline-none transition-all placeholder:text-slate-400 shadow-xl"
         />
         <button
           onClick={() => handleSearch(query)}
-          className="absolute inset-y-2 left-2 bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-6 rounded-xl font-bold hover:shadow-cyan-500/25 transition-shadow"
+          className="absolute inset-y-2 left-2 bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 px-6 rounded-xl font-bold hover:shadow-cyan-500/25 transition-shadow"
         >
           بحث
         </button>
@@ -63,12 +63,12 @@ export default function SearchBar() {
 
       {/* Autocomplete Dropdown */}
       {isFocused && recent.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-white/10 rounded-2xl shadow-2xl py-2 overflow-hidden">
-          <div className="px-4 py-2 flex justify-between items-center border-b border-white/5 mb-2">
-            <span className="text-gray-400 text-sm">عمليات البحث الأخيرة</span>
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-2xl py-2 overflow-hidden">
+          <div className="px-4 py-2 flex justify-between items-center border-b border-slate-200/50 mb-2">
+            <span className="text-slate-500 text-sm">عمليات البحث الأخيرة</span>
             <button
               onClick={clearRecent}
-              className="text-xs text-gray-500 hover:text-white transition-colors"
+              className="text-xs text-slate-400 hover:text-slate-900 transition-colors"
             >
               مسح
             </button>
@@ -81,9 +81,9 @@ export default function SearchBar() {
                   setQuery(item);
                   handleSearch(item);
                 }}
-                className="px-4 py-3 hover:bg-white/5 cursor-pointer flex items-center gap-3 text-white transition-colors"
+                className="px-4 py-3 hover:bg-slate-100 cursor-pointer flex items-center gap-3 text-slate-800 transition-colors"
               >
-                <History className="w-4 h-4 text-gray-500" />
+                <History className="w-4 h-4 text-slate-400" />
                 {item}
               </li>
             ))}

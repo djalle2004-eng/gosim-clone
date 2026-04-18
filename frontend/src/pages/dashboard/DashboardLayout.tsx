@@ -48,8 +48,8 @@ export default function DashboardLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex flex-col md:flex-row">
-      <header className="md:hidden bg-card border-b border-white/5 py-4 px-4 sticky top-0 z-50 flex items-center justify-between">
+    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
+      <header className="md:hidden bg-white/90 backdrop-blur-md border-b border-slate-200/50 py-4 px-4 sticky top-0 z-50 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
           <img
             src="/soufsim-logo.png"
@@ -65,7 +65,7 @@ export default function DashboardLayout() {
       </header>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-72 flex-col bg-card border-l border-white/5 h-screen sticky top-0 p-6 z-40">
+      <aside className="hidden md:flex w-72 flex-col bg-white/90 backdrop-blur-md border-l border-slate-200/50 h-screen sticky top-0 p-6 z-40">
         <Link to="/" className="flex items-center gap-2 group mb-10">
           <img
             src="/soufsim-logo.png"
@@ -75,7 +75,7 @@ export default function DashboardLayout() {
         </Link>
 
         {/* User Card */}
-        <div className="bg-background border border-white/5 rounded-2xl p-4 mb-8 flex items-center gap-4 relative overflow-hidden group">
+        <div className="bg-slate-50 border border-slate-200/50 rounded-2xl p-4 mb-8 flex items-center gap-4 relative overflow-hidden group">
           <img
             src={
               (user as any).avatar || `https://i.pravatar.cc/150?u=${user.id}`
@@ -84,13 +84,13 @@ export default function DashboardLayout() {
             className="w-12 h-12 rounded-full border-2 border-cyan-500/30"
           />
           <div className="flex-1">
-            <h3 className="text-white font-bold text-sm flex items-center gap-1">
+            <h3 className="text-slate-800 font-bold text-sm flex items-center gap-1">
               {user.firstName} {user.lastName}
               {user.isVerified && (
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
               )}
             </h3>
-            <p className="text-gray-500 text-xs truncate max-w-[120px]">
+            <p className="text-slate-400 text-xs truncate max-w-[120px]">
               {user.email}
             </p>
           </div>
@@ -102,7 +102,7 @@ export default function DashboardLayout() {
           {(user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') && (
             <Link
               to="/admin/dashboard"
-              className="flex items-center justify-center gap-2 w-full bg-violet-600/20 text-violet-400 hover:bg-violet-600/30 hover:text-white px-4 py-3 rounded-xl border border-violet-600/30 transition-colors font-bold mb-4"
+              className="flex items-center justify-center gap-2 w-full bg-violet-600/20 text-violet-400 hover:bg-violet-600/30 hover:text-slate-900 px-4 py-3 rounded-xl border border-violet-600/30 transition-colors font-bold mb-4"
             >
               <ShieldCheck className="w-5 h-5" />
               لوحة تحكم الإدارة
@@ -118,7 +118,7 @@ export default function DashboardLayout() {
                   'flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all group',
                   isActive
                     ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-inner'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent'
                 )
               }
             >
@@ -164,7 +164,7 @@ export default function DashboardLayout() {
       </main>
 
       {/* Mobile Bottom Tab Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-white/5 flex px-2 pb-safe z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200/50 flex px-2 pb-safe z-50">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
@@ -172,7 +172,7 @@ export default function DashboardLayout() {
             className={({ isActive }) =>
               cn(
                 'flex-1 flex flex-col items-center justify-center py-3 gap-1 relative',
-                isActive ? 'text-cyan-400' : 'text-gray-500 hover:text-gray-300'
+                isActive ? 'text-cyan-400' : 'text-slate-400 hover:text-slate-600'
               )
             }
           >

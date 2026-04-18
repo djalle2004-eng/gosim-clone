@@ -18,7 +18,7 @@ export default function PopularDestinations() {
 
   return (
     <section
-      className="py-24 bg-background relative overflow-hidden"
+      className="py-24 bg-slate-50 relative overflow-hidden"
       id="destinations"
     >
       {/* Background decorations */}
@@ -34,19 +34,19 @@ export default function PopularDestinations() {
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-                <Globe className="w-5 h-5 text-white" />
+                <Globe className="w-5 h-5 text-slate-800" />
               </div>
               <span className="text-cyan-400 font-bold text-sm tracking-widest uppercase">
                 الوجهات الشعبية
               </span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
               وجهات{' '}
               <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
                 رائجة
               </span>
             </h2>
-            <p className="text-gray-400 max-w-lg">
+            <p className="text-slate-500 max-w-lg">
               اكتشف أفضل باقات الإنترنت للبلدان الأكثر زيارة.
             </p>
           </motion.div>
@@ -63,7 +63,7 @@ export default function PopularDestinations() {
             {[...Array(12)].map((_, i) => (
               <div
                 key={i}
-                className="h-44 bg-white/5 rounded-3xl animate-pulse border border-white/5"
+                className="h-44 bg-slate-100 rounded-3xl animate-pulse border border-slate-200/50"
               />
             ))}
           </div>
@@ -80,7 +80,7 @@ export default function PopularDestinations() {
                   transition={{ delay: idx * 0.05, duration: 0.4 }}
                   key={country.id}
                   onClick={() => navigate(`/plans?search=${country.nameEn}`)}
-                  className="group relative overflow-hidden rounded-3xl p-5 cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-1 min-h-[180px] flex flex-col justify-end border border-white/10"
+                  className="group relative overflow-hidden rounded-3xl p-5 cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-1 min-h-[180px] flex flex-col justify-end border border-slate-200"
                 >
                   {/* Background Image */}
                   <div
@@ -101,8 +101,8 @@ export default function PopularDestinations() {
                       />
                     </div>
 
-                    <div className="bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl shrink-0">
-                      <span className="text-white text-xs drop-shadow-md block text-center">
+                    <div className="bg-black/40 backdrop-blur-md border border-slate-200 px-3 py-1.5 rounded-xl shrink-0">
+                      <span className="text-slate-800 text-xs drop-shadow-md block text-center">
                         من{' '}
                         <span className="text-cyan-400 font-bold text-sm">
                           {Math.round(country.lowestPrice || 0)}
@@ -114,10 +114,10 @@ export default function PopularDestinations() {
 
                   <div className="relative z-10 flex items-end justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-black text-xl lg:text-2xl truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                      <h3 className="text-slate-800 font-black text-xl lg:text-2xl truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                         {country.nameEn}
                       </h3>
-                      <p className="text-white/80 font-medium text-xs truncate drop-shadow-md flex items-center gap-1 mt-0.5">
+                      <p className="text-slate-800/80 font-medium text-xs truncate drop-shadow-md flex items-center gap-1 mt-0.5">
                         <MapPin className="w-3 h-3 text-cyan-400" />{' '}
                         {country.nameAr}
                       </p>
@@ -131,7 +131,7 @@ export default function PopularDestinations() {
 
         <button
           onClick={() => navigate('/plans')}
-          className="flex md:hidden w-full items-center justify-center gap-2 mt-10 py-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-2xl text-cyan-400 font-bold active:bg-white/10 transition-colors"
+          className="flex md:hidden w-full items-center justify-center gap-2 mt-10 py-4 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-2xl text-cyan-400 font-bold active:bg-slate-200 transition-colors"
         >
           عرض كل الدول <ArrowLeft className="w-4 h-4" />
         </button>

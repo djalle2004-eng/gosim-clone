@@ -59,7 +59,7 @@ export default function NotificationsPage() {
     <div className="max-w-4xl">
       <div className="flex flex-col md:flex-row justify-between items-end gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-slate-800 mb-2 flex items-center gap-3">
             الإشعارات
             {unreadCount > 0 && (
               <span className="bg-violet-600 text-white text-sm px-3 py-1 rounded-full">
@@ -67,7 +67,7 @@ export default function NotificationsPage() {
               </span>
             )}
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             ابقَ مطلعاً على تفاصيل الباقات والعروض الترويجية وتنبيهات النظام.
           </p>
         </div>
@@ -88,28 +88,28 @@ export default function NotificationsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: idx * 0.1 }}
             key={notif.id}
-            className={`bg-card border p-6 rounded-3xl flex gap-4 transition-all ${
+            className={`bg-white/90 backdrop-blur-md border p-6 rounded-3xl flex gap-4 transition-all ${
               notif.isRead
-                ? 'border-white/5 opacity-70'
-                : 'border-white/20 shadow-lg shadow-white/5'
+                ? 'border-slate-200/50 opacity-70'
+                : 'border-slate-300 shadow-lg shadow-white/5'
             }`}
           >
-            <div className="w-12 h-12 rounded-full bg-background border border-white/5 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-200/50 flex items-center justify-center shrink-0">
               {notif.icon}
             </div>
             <div className="flex-1">
               <div className="flex justify-between items-start mb-1">
                 <h3
-                  className={`font-bold ${notif.isRead ? 'text-gray-300' : 'text-white'}`}
+                  className={`font-bold ${notif.isRead ? 'text-slate-600' : 'text-slate-800'}`}
                 >
                   {notif.title}
                 </h3>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                <div className="flex items-center gap-2 text-xs text-slate-400">
                   <Clock className="w-3 h-3" /> {notif.time}
                 </div>
               </div>
               <p
-                className={`text-sm leading-relaxed ${notif.isRead ? 'text-gray-500' : 'text-gray-300'}`}
+                className={`text-sm leading-relaxed ${notif.isRead ? 'text-slate-400' : 'text-slate-600'}`}
               >
                 {notif.message}
               </p>
@@ -123,12 +123,12 @@ export default function NotificationsPage() {
         ))}
       </div>
 
-      <div className="mt-12 bg-background border border-white/5 p-6 rounded-3xl">
-        <h4 className="text-white font-bold mb-4">إعدادات الإشعارات</h4>
-        <div className="flex justify-between items-center py-3 border-b border-white/5">
+      <div className="mt-12 bg-slate-50 border border-slate-200/50 p-6 rounded-3xl">
+        <h4 className="text-slate-800 font-bold mb-4">إعدادات الإشعارات</h4>
+        <div className="flex justify-between items-center py-3 border-b border-slate-200/50">
           <div>
-            <div className="text-white">إشعارات البريد الإلكتروني</div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-slate-800">إشعارات البريد الإلكتروني</div>
+            <div className="text-slate-400 text-xs">
               احصل على رسائل حول الفواتير والانتهاء التدريجي
             </div>
           </div>
@@ -138,12 +138,12 @@ export default function NotificationsPage() {
         </div>
         <div className="flex justify-between items-center py-3">
           <div>
-            <div className="text-white">العروض الترويجية</div>
-            <div className="text-gray-500 text-xs">
+            <div className="text-slate-800">العروض الترويجية</div>
+            <div className="text-slate-400 text-xs">
               احصل على أكواد التخفيضات والعروض الجديدة
             </div>
           </div>
-          <div className="w-12 h-6 bg-white/10 rounded-full relative cursor-pointer">
+          <div className="w-12 h-6 bg-slate-200 rounded-full relative cursor-pointer">
             <div className="w-4 h-4 bg-gray-400 rounded-full absolute left-1 top-1"></div>
           </div>
         </div>

@@ -64,7 +64,7 @@ export default function StripePaymentForm({ amount }: StripePaymentFormProps) {
 
       <button
         disabled={!stripe || isProcessing}
-        className="w-full relative overflow-hidden group bg-gradient-to-r from-violet-600 to-cyan-500 text-white py-4 rounded-xl font-bold transition-all disabled:opacity-70 flex justify-center items-center shadow-lg hover:shadow-cyan-500/20"
+        className="w-full relative overflow-hidden group bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 py-4 rounded-xl font-bold transition-all disabled:opacity-70 flex justify-center items-center shadow-lg hover:shadow-cyan-500/20"
       >
         {isProcessing ? (
           <span className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export default function StripePaymentForm({ amount }: StripePaymentFormProps) {
         )}
       </button>
 
-      <p className="text-gray-500 text-xs text-center mt-4 flex items-center justify-center gap-2">
+      <p className="text-slate-400 text-xs text-center mt-4 flex items-center justify-center gap-2">
         <span className="w-3 h-3 bg-green-500 rounded-full inline-block"></span>{' '}
         معالجة آمنة مشفرة 256-bit
       </p>

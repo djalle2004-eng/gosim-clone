@@ -73,14 +73,14 @@ export default function AdminOrdersPage() {
         header: 'العميل',
         accessorKey: 'user',
         cell: (info: any) => (
-          <div className="text-white text-sm">{info.getValue()}</div>
+          <div className="text-slate-800 text-sm">{info.getValue()}</div>
         ),
       },
       {
         header: 'الباقة المشتراة',
         accessorKey: 'plan',
         cell: (info: any) => (
-          <div className="text-gray-300 text-sm max-w-[150px] truncate">
+          <div className="text-slate-600 text-sm max-w-[150px] truncate">
             {info.getValue()}
           </div>
         ),
@@ -89,14 +89,14 @@ export default function AdminOrdersPage() {
         header: 'المبلغ',
         accessorKey: 'amount',
         cell: (info: any) => (
-          <span className="text-white font-bold">{info.getValue()} د.ج</span>
+          <span className="text-slate-800 font-bold">{info.getValue()} د.ج</span>
         ),
       },
       {
         header: 'طريقة الدفع',
         accessorKey: 'payment',
         cell: (info: any) => (
-          <div className="flex items-center justify-end gap-1 text-gray-400 text-xs bg-white/5 px-2 py-1 rounded w-max ml-auto">
+          <div className="flex items-center justify-end gap-1 text-slate-500 text-xs bg-slate-100 px-2 py-1 rounded w-max ml-auto">
             <CreditCard className="w-3 h-3" /> {info.getValue()}
           </div>
         ),
@@ -119,7 +119,7 @@ export default function AdminOrdersPage() {
         header: 'التاريخ',
         accessorKey: 'date',
         cell: (info: any) => (
-          <span className="text-gray-500 text-xs font-mono">
+          <span className="text-slate-400 text-xs font-mono">
             {info.getValue()}
           </span>
         ),
@@ -128,7 +128,7 @@ export default function AdminOrdersPage() {
         id: 'actions',
         header: '',
         cell: () => (
-          <button className="flex items-center gap-1 text-xs text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors border border-white/5">
+          <button className="flex items-center gap-1 text-xs text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors border border-slate-200/50">
             <Eye className="w-3 h-3" /> عرض
           </button>
         ),
@@ -151,34 +151,34 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-end gap-4 p-6 bg-card border border-white/5 rounded-3xl shadow-lg mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-end gap-4 p-6 bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl shadow-lg mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">
             سجل الطلبات والمدفوعات
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             تابع المبيعات الجارية واصدار المبالغ المستردة للعملاء.
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-background border border-white/10 hover:border-white/20 text-white px-5 py-2.5 rounded-xl transition-all shadow-sm">
+        <button className="flex items-center gap-2 bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-800 px-5 py-2.5 rounded-xl transition-all shadow-sm">
           <Download className="w-4 h-4" /> تصدير (CSV)
         </button>
       </div>
 
-      <div className="bg-card border border-white/5 rounded-3xl overflow-hidden shadow-lg">
-        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-[#181822]">
+      <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl overflow-hidden shadow-lg">
+        <div className="p-4 border-b border-slate-200/50 flex justify-between items-center bg-slate-50">
           <div className="relative w-96">
-            <Search className="w-4 h-4 text-gray-500 absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none" />
+            <Search className="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none" />
             <input
               value={globalFilter ?? ''}
               onChange={(e) => setGlobalFilter(e.target.value)}
               type="text"
               placeholder="بحث برقم الطلب، البريد الإلكتروني..."
-              className="w-full bg-background border border-white/10 rounded-xl py-2 pr-10 pl-4 outline-none text-white focus:border-cyan-500/50 text-sm"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pr-10 pl-4 outline-none text-slate-800 focus:border-cyan-500/50 text-sm"
             />
           </div>
           <div className="flex gap-2">
-            <select className="bg-background border border-white/10 rounded-xl px-4 py-2 text-white outline-none focus:border-cyan-500/50 text-sm appearance-none pr-10 relative">
+            <select className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800 outline-none focus:border-cyan-500/50 text-sm appearance-none pr-10 relative">
               <option value="">جميع الحالات</option>
               <option value="COMPLETED">مكتمل</option>
               <option value="PROCESSING">معالجة</option>
@@ -188,13 +188,13 @@ export default function AdminOrdersPage() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-[#12121a]">
+            <thead className="bg-white">
               {table.getHeaderGroups().map((hg) => (
                 <tr key={hg.id}>
                   {hg.headers.map((h) => (
                     <th
                       key={h.id}
-                      className="py-4 px-6 text-right text-gray-400 font-medium text-sm whitespace-nowrap cursor-pointer hover:text-white"
+                      className="py-4 px-6 text-right text-slate-500 font-medium text-sm whitespace-nowrap cursor-pointer hover:text-slate-900"
                       onClick={h.column.getToggleSortingHandler()}
                     >
                       {flexRender(h.column.columnDef.header, h.getContext())}
@@ -207,7 +207,7 @@ export default function AdminOrdersPage() {
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="hover:bg-white/[0.02] transition-colors"
+                  className="hover:bg-slate-50/50 transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td

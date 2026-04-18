@@ -71,18 +71,18 @@ export default function MyESimsPage() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">eSIM الخاصة بي</h1>
-        <p className="text-gray-400">
+        <h1 className="text-3xl font-bold text-slate-800 mb-2">eSIM الخاصة بي</h1>
+        <p className="text-slate-500">
           قم بإدارة وتتبع استهلاك باقات الإنترنت الحالية والسابقة.
         </p>
       </div>
 
       {esims.length === 0 ? (
-        <div className="bg-card border border-white/5 rounded-3xl p-12 text-center py-32">
-          <h3 className="text-2xl font-bold text-white mb-2">
+        <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-12 text-center py-32">
+          <h3 className="text-2xl font-bold text-slate-800 mb-2">
             لا توجد باقات مفعلة
           </h3>
-          <p className="text-gray-400 mb-8 max-w-md mx-auto">
+          <p className="text-slate-500 mb-8 max-w-md mx-auto">
             يبدو أنك لم تقم بشراء أي شريحة eSIM بعد. يمكنك استكشاف باقاتنا
             المميزة.
           </p>
@@ -95,12 +95,12 @@ export default function MyESimsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               key={esim.id}
-              className={`bg-card border rounded-3xl p-6 relative overflow-hidden flex flex-col ${
+              className={`bg-white/90 backdrop-blur-md border rounded-3xl p-6 relative overflow-hidden flex flex-col ${
                 esim.status === 'ACTIVE'
                   ? 'border-emerald-500/50 shadow-lg shadow-emerald-500/5'
                   : esim.status === 'INACTIVE'
                     ? 'border-cyan-500/30'
-                    : 'border-white/5 opacity-75'
+                    : 'border-slate-200/50 opacity-75'
               }`}
             >
               {/* Status Head */}
@@ -112,10 +112,10 @@ export default function MyESimsPage() {
                     className="shadow-lg"
                   />
                   <div>
-                    <h3 className="text-xl font-bold text-white">
+                    <h3 className="text-xl font-bold text-slate-800">
                       {esim.planName}
                     </h3>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-slate-500 text-sm">
                       ICCID: {esim.iccid.slice(-6)}
                     </p>
                   </div>
@@ -134,7 +134,7 @@ export default function MyESimsPage() {
                     {esim.status === 'INACTIVE' && 'غير مفعّل'}
                     {esim.status === 'EXPIRED' && 'منتهي'}
                   </span>
-                  <button className="text-gray-500 hover:text-white transition-colors p-1">
+                  <button className="text-slate-400 hover:text-slate-900 transition-colors p-1">
                     <MoreVertical className="w-5 h-5" />
                   </button>
                 </div>
@@ -142,17 +142,17 @@ export default function MyESimsPage() {
 
               {/* Progress Body */}
               {esim.status !== 'INACTIVE' && (
-                <div className="bg-background rounded-2xl border border-white/5 p-4 mb-6 relative overflow-hidden">
+                <div className="bg-slate-50 rounded-2xl border border-slate-200/50 p-4 mb-6 relative overflow-hidden">
                   <div className="flex justify-between text-sm mb-3">
-                    <span className="text-gray-400">البيانات المستخدمة</span>
-                    <span className="text-white font-bold">
+                    <span className="text-slate-500">البيانات المستخدمة</span>
+                    <span className="text-slate-800 font-bold">
                       {esim.usedData} GB /{' '}
                       {esim.isUnlimited ? '∞' : `${esim.totalData} GB`}
                     </span>
                   </div>
 
                   {/* Progress Bar Container */}
-                  <div className="w-full bg-white/10 rounded-full h-3 mb-4 backdrop-blur-sm overflow-hidden flex">
+                  <div className="w-full bg-slate-200 rounded-full h-3 mb-4 backdrop-blur-sm overflow-hidden flex">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{
@@ -173,7 +173,7 @@ export default function MyESimsPage() {
 
                   <div className="flex justify-between items-center text-xs">
                     <div
-                      className={`flex items-center gap-1.5 ${esim.daysRemaining <= 3 ? 'text-red-400 font-bold' : 'text-gray-400'}`}
+                      className={`flex items-center gap-1.5 ${esim.daysRemaining <= 3 ? 'text-red-400 font-bold' : 'text-slate-500'}`}
                     >
                       <AlertTriangle className="w-4 h-4" />
                       {esim.daysRemaining} أيام متبقية
@@ -189,16 +189,16 @@ export default function MyESimsPage() {
               )}
 
               {/* Actions Footer */}
-              <div className="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-white/5">
+              <div className="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-slate-200/50">
                 <button
                   onClick={() => handleOpenQR(esim)}
-                  className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-3 rounded-xl transition-colors font-medium text-sm"
+                  className="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 py-3 rounded-xl transition-colors font-medium text-sm"
                 >
                   <QrCode className="w-4 h-4" /> عرض الكود
                 </button>
                 <button
                   disabled={esim.status === 'EXPIRED'}
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-cyan-500 text-white disabled:opacity-50 py-3 rounded-xl transition-all font-medium text-sm shadow-md"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 disabled:opacity-50 py-3 rounded-xl transition-all font-medium text-sm shadow-md"
                 >
                   <RefreshCw className="w-4 h-4" /> شحن بيانات
                 </button>
@@ -223,13 +223,13 @@ export default function MyESimsPage() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="bg-card w-full max-w-md rounded-3xl overflow-hidden relative z-10 border border-white/10 shadow-2xl"
+              className="bg-white/90 backdrop-blur-md w-full max-w-md rounded-3xl overflow-hidden relative z-10 border border-slate-200 shadow-2xl"
             >
               <div className="bg-gradient-to-r from-violet-600 to-cyan-500 p-6 text-center">
-                <h3 className="text-white font-bold text-xl mb-1">
+                <h3 className="text-slate-800 font-bold text-xl mb-1">
                   تثبيت شريحة eSIM
                 </h3>
-                <p className="text-white/80 text-sm">
+                <p className="text-slate-800/80 text-sm">
                   امسح الكود عبر إعدادات الشبكة الخلوية في هاتفك
                 </p>
               </div>
@@ -254,10 +254,10 @@ export default function MyESimsPage() {
 
                 {/* Manual Code */}
                 <div className="mb-6">
-                  <label className="block text-gray-500 text-xs mb-2 text-center">
+                  <label className="block text-slate-400 text-xs mb-2 text-center">
                     أو أدخل الرمز يدوياً
                   </label>
-                  <div className="flex bg-background border border-white/10 rounded-xl p-1 overflow-hidden">
+                  <div className="flex bg-slate-50 border border-slate-200 rounded-xl p-1 overflow-hidden">
                     <code className="flex-1 px-4 py-3 text-xs text-cyan-400 font-mono truncate self-center">
                       {selectedEsim.activationCode?.slice(0, 25)}...
                     </code>
@@ -265,7 +265,7 @@ export default function MyESimsPage() {
                       onClick={() =>
                         copyToClipboard(selectedEsim.activationCode)
                       }
-                      className="bg-white/10 hover:bg-white/20 text-white px-4 rounded-lg flex items-center gap-2 text-sm transition-colors"
+                      className="bg-slate-200 hover:bg-white/20 text-slate-800 px-4 rounded-lg flex items-center gap-2 text-sm transition-colors"
                     >
                       <Copy className="w-4 h-4" /> نسخ
                     </button>
@@ -274,7 +274,7 @@ export default function MyESimsPage() {
 
                 <button
                   onClick={() => setQrModalOpen(false)}
-                  className="w-full py-4 text-gray-400 hover:text-white font-medium transition-colors"
+                  className="w-full py-4 text-slate-500 hover:text-slate-900 font-medium transition-colors"
                 >
                   إغلاق وتخطي
                 </button>

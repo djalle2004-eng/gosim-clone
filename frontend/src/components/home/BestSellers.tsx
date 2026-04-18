@@ -39,19 +39,19 @@ export default function BestSellers() {
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-pink-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
-                <TrendingUp className="w-5 h-5 text-white" />
+                <TrendingUp className="w-5 h-5 text-slate-800" />
               </div>
               <span className="text-violet-400 font-bold text-sm tracking-widest uppercase">
                 الأكثر طلباً
               </span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">
               الباقات{' '}
               <span className="bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
                 الأكثر مبيعاً
               </span>
             </h2>
-            <p className="text-gray-400 max-w-lg">
+            <p className="text-slate-500 max-w-lg">
               انضم لآلاف المسافرين واختر من باقاتنا المفضلة.
             </p>
           </motion.div>
@@ -62,7 +62,7 @@ export default function BestSellers() {
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="h-[420px] bg-white/5 rounded-3xl animate-pulse border border-white/5"
+                className="h-[420px] bg-slate-100 rounded-3xl animate-pulse border border-slate-200/50"
               />
             ))}
           </div>
@@ -97,7 +97,7 @@ export default function BestSellers() {
                     {/* Popular Badge */}
                     <div className="absolute top-0 right-6 z-20">
                       <div className="relative">
-                        <div className="bg-gradient-to-r from-violet-600 via-pink-500 to-cyan-500 text-white text-[11px] font-bold px-4 py-1.5 rounded-b-xl shadow-lg shadow-violet-500/30 flex items-center gap-1.5">
+                        <div className="bg-gradient-to-r from-violet-600 via-pink-500 to-cyan-500 text-slate-800 text-[11px] font-bold px-4 py-1.5 rounded-b-xl shadow-lg shadow-violet-500/30 flex items-center gap-1.5">
                           <Star className="w-3 h-3 fill-yellow-300 text-yellow-300" />
                           الأكثر مبيعاً
                         </div>
@@ -115,33 +115,33 @@ export default function BestSellers() {
                           />
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold text-white drop-shadow-md">
+                          <h3 className="text-xl font-bold text-slate-800 drop-shadow-md">
                             {plan.country?.nameEn}
                           </h3>
-                          <p className="text-gray-400 text-sm">{plan.name}</p>
+                          <p className="text-slate-500 text-sm">{plan.name}</p>
                         </div>
                       </div>
 
                       {/* Data stats */}
                       <div className="grid grid-cols-2 gap-3 mb-5">
                         <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 text-center border border-white/[0.05] group-hover:border-white/[0.08] transition-colors">
-                          <span className="block text-gray-500 text-[11px] font-medium mb-1.5 uppercase tracking-wider">
+                          <span className="block text-slate-400 text-[11px] font-medium mb-1.5 uppercase tracking-wider">
                             البيانات
                           </span>
-                          <span className="text-white font-black text-xl">
+                          <span className="text-slate-800 font-black text-xl">
                             {plan.isUnlimited ? '∞' : plan.dataAmount}
-                            <span className="text-gray-400 text-xs font-medium mr-1">
+                            <span className="text-slate-500 text-xs font-medium mr-1">
                               {plan.isUnlimited ? '' : 'GB'}
                             </span>
                           </span>
                         </div>
                         <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 text-center border border-white/[0.05] group-hover:border-white/[0.08] transition-colors">
-                          <span className="block text-gray-500 text-[11px] font-medium mb-1.5 uppercase tracking-wider">
+                          <span className="block text-slate-400 text-[11px] font-medium mb-1.5 uppercase tracking-wider">
                             الصلاحية
                           </span>
-                          <span className="text-white font-black text-xl">
+                          <span className="text-slate-800 font-black text-xl">
                             {plan.validity}
-                            <span className="text-gray-400 text-xs font-medium mr-1">
+                            <span className="text-slate-500 text-xs font-medium mr-1">
                               يوم
                             </span>
                           </span>
@@ -150,13 +150,13 @@ export default function BestSellers() {
 
                       {/* Features */}
                       <ul className="flex flex-col gap-2.5 mb-6 flex-grow">
-                        <li className="flex items-center gap-3 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                        <li className="flex items-center gap-3 text-sm text-slate-500 group-hover:text-slate-600 transition-colors">
                           <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
                             <Zap className="w-3.5 h-3.5" />
                           </div>
                           شبكة {plan.speed}
                         </li>
-                        <li className="flex items-center gap-3 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                        <li className="flex items-center gap-3 text-sm text-slate-500 group-hover:text-slate-600 transition-colors">
                           <div className="p-1.5 rounded-lg bg-violet-500/10 text-violet-400 border border-violet-500/20">
                             <Wifi className="w-3.5 h-3.5" />
                           </div>
@@ -170,7 +170,7 @@ export default function BestSellers() {
                       {/* Footer */}
                       <div className="flex items-center justify-between mt-auto">
                         <div>
-                          <span className="block text-gray-500 text-[11px] font-medium mb-0.5">
+                          <span className="block text-slate-400 text-[11px] font-medium mb-0.5">
                             السعر
                           </span>
                           <div className="flex items-baseline gap-1.5">
@@ -186,7 +186,7 @@ export default function BestSellers() {
                           onClick={() =>
                             navigate(`/checkout?planId=${plan.id}&qty=1`)
                           }
-                          className="relative overflow-hidden bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 hover:scale-105 active:scale-95 flex items-center gap-2"
+                          className="relative overflow-hidden bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 hover:scale-105 active:scale-95 flex items-center gap-2"
                         >
                           <ShoppingCart className="w-4 h-4" />
                           اشتري

@@ -32,7 +32,7 @@ export default function PlansPage() {
   ).length;
 
   return (
-    <div className="min-h-screen flex flex-col bg-background overflow-hidden relative">
+    <div className="min-h-screen flex flex-col bg-slate-50 overflow-hidden relative">
       <Navbar />
 
       <main className="flex-grow pt-24 pb-20 relative">
@@ -41,7 +41,7 @@ export default function PlansPage() {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-white mb-6">
+            <h1 className="text-4xl font-bold text-slate-800 mb-6">
               اكتشف باقات الإنترنت
             </h1>
             <SearchBar />
@@ -56,9 +56,9 @@ export default function PlansPage() {
             {/* Content Area */}
             <div className="flex-1">
               {/* Header Actions */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-card border border-white/5 p-4 rounded-2xl">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 bg-white/90 backdrop-blur-md border border-slate-200/50 p-4 rounded-2xl">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-white font-bold">
+                  <span className="text-slate-800 font-bold">
                     {isLoading
                       ? 'جاري البحث...'
                       : `تم العثور على ${data?.pagination?.total || 0} باقة`}
@@ -76,7 +76,7 @@ export default function PlansPage() {
                   {/* Mobile Filter Trigger */}
                   <button
                     onClick={() => setIsMobileFilterOpen(true)}
-                    className="lg:hidden flex-1 md:flex-none flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white px-4 py-2 rounded-xl"
+                    className="lg:hidden flex-1 md:flex-none flex items-center justify-center gap-2 bg-slate-100 border border-slate-200 text-slate-800 px-4 py-2 rounded-xl"
                   >
                     <Filter className="w-4 h-4" /> فلاتر
                   </button>
@@ -88,7 +88,7 @@ export default function PlansPage() {
                       params.set('sortBy', e.target.value);
                       setSearchParams(params);
                     }}
-                    className="flex-1 md:flex-none bg-background border border-white/10 rounded-xl px-4 py-2 text-white outline-none focus:border-cyan-500"
+                    className="flex-1 md:flex-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800 outline-none focus:border-cyan-500"
                   >
                     <option value="popular">الأكثر مبيعاً</option>
                     <option value="price_asc">السعر: من الأقل للأعلى</option>
@@ -104,7 +104,7 @@ export default function PlansPage() {
                   {[...Array(6)].map((_, i) => (
                     <div
                       key={i}
-                      className="h-[450px] bg-white/5 rounded-3xl animate-pulse"
+                      className="h-[450px] bg-slate-100 rounded-3xl animate-pulse"
                     ></div>
                   ))}
                 </div>
@@ -119,20 +119,20 @@ export default function PlansPage() {
                   <Pagination totalPages={data.pagination.pages} />
                 </>
               ) : (
-                <div className="bg-card border border-white/5 rounded-3xl p-12 text-center py-32">
-                  <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Filter className="w-10 h-10 text-gray-500" />
+                <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-12 text-center py-32">
+                  <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Filter className="w-10 h-10 text-slate-400" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-2">
+                  <h3 className="text-2xl font-bold text-slate-800 mb-2">
                     لا توجد نتائج مطابقة
                   </h3>
-                  <p className="text-gray-400 mb-8 max-w-md mx-auto">
+                  <p className="text-slate-500 mb-8 max-w-md mx-auto">
                     لم نعثر على أي باقات إنترنت تتطابق مع فلاتر البحث الحالية.
                     جرب تغيير بعض الفلاتر لرؤية المزيد من النتائج.
                   </p>
                   <button
                     onClick={() => setSearchParams(new URLSearchParams())}
-                    className="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-bold transition-colors"
+                    className="bg-slate-200 hover:bg-white/20 text-slate-800 px-8 py-3 rounded-xl font-bold transition-colors"
                   >
                     مسح جميع الفلاتر
                   </button>
@@ -161,23 +161,23 @@ export default function PlansPage() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto bg-background z-50 rounded-t-3xl border-t border-white/10 p-4 lg:hidden"
+              className="fixed bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto bg-slate-50 z-50 rounded-t-3xl border-t border-slate-200 p-4 lg:hidden"
             >
               <div className="flex justify-between items-center mb-6 pt-2">
-                <h3 className="text-xl font-bold text-white">تصفية النتائج</h3>
+                <h3 className="text-xl font-bold text-slate-800">تصفية النتائج</h3>
                 <button
                   onClick={() => setIsMobileFilterOpen(false)}
-                  className="p-2 bg-white/5 rounded-full text-white"
+                  className="p-2 bg-slate-100 rounded-full text-slate-800"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <FilterSidebar />
 
-              <div className="sticky bottom-0 bg-background/90 backdrop-blur pt-4 pb-2 mt-8 border-t border-white/5">
+              <div className="sticky bottom-0 bg-slate-50/90 backdrop-blur pt-4 pb-2 mt-8 border-t border-slate-200/50">
                 <button
                   onClick={() => setIsMobileFilterOpen(false)}
-                  className="w-full bg-gradient-to-r from-violet-600 to-cyan-500 text-white py-4 rounded-xl font-bold"
+                  className="w-full bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 py-4 rounded-xl font-bold"
                 >
                   تطبيق الفلاتر وعرض النتائج
                 </button>

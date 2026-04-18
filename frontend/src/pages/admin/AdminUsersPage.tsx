@@ -67,19 +67,19 @@ export default function AdminUsersPage() {
         let RoleBadge = null;
         if (u.role === 'SUPER_ADMIN')
           RoleBadge = (
-            <span className="bg-purple-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">
+            <span className="bg-purple-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-slate-800">
               مدير عام
             </span>
           );
         else if (u.role === 'ADMIN' || u.role === 'EMPLOYEE')
           RoleBadge = (
-            <span className="bg-blue-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">
+            <span className="bg-blue-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-slate-800">
               موظف
             </span>
           );
         else if (u.role === 'RESELLER')
           RoleBadge = (
-            <span className="bg-orange-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">
+            <span className="bg-orange-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-slate-800">
               موزع
             </span>
           );
@@ -88,15 +88,15 @@ export default function AdminUsersPage() {
           <div className="flex items-center gap-3">
             <img
               src={`https://ui-avatars.com/api/?name=${u.firstName}+${u.lastName}&background=random`}
-              className="w-10 h-10 rounded-full border border-white/10"
+              className="w-10 h-10 rounded-full border border-slate-200"
               alt="avatar"
             />
             <div>
-              <div className="text-white font-bold text-sm flex items-center gap-2">
+              <div className="text-slate-800 font-bold text-sm flex items-center gap-2">
                 {u.firstName} {u.lastName}
                 {RoleBadge}
               </div>
-              <div className="text-gray-500 text-xs">{u.email}</div>
+              <div className="text-slate-400 text-xs">{u.email}</div>
             </div>
           </div>
         );
@@ -106,7 +106,7 @@ export default function AdminUsersPage() {
       header: 'تاريخ الانضمام',
       accessorKey: 'createdAt',
       cell: (info: any) => (
-        <span className="text-gray-400 text-sm">
+        <span className="text-slate-500 text-sm">
           {new Date(info.getValue()).toLocaleDateString('ar-DZ')}
         </span>
       ),
@@ -130,10 +130,10 @@ export default function AdminUsersPage() {
       header: '',
       cell: () => (
         <div className="flex justify-end gap-2">
-          <button className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+          <button className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
             <Mail className="w-4 h-4" />
           </button>
-          <button className="p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">
+          <button className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
             <MoreVertical className="w-4 h-4" />
           </button>
         </div>
@@ -155,12 +155,12 @@ export default function AdminUsersPage() {
 
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto">
-      <div className="flex justify-between items-end gap-4 p-6 bg-card border border-white/5 rounded-3xl shadow-lg mb-8">
+      <div className="flex justify-between items-end gap-4 p-6 bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl shadow-lg mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">
             إدارة قاعدة المستخدمين
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             التحكم في وصول المستخدمين، الصلاحيات، وعرض سجلات الحسابات.
           </p>
         </div>
@@ -174,34 +174,34 @@ export default function AdminUsersPage() {
         )}
       </div>
 
-      <div className="bg-card border border-white/5 rounded-3xl overflow-hidden shadow-lg">
-        <div className="p-4 border-b border-white/5 flex gap-4 items-center bg-[#181822]">
+      <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl overflow-hidden shadow-lg">
+        <div className="p-4 border-b border-slate-200/50 flex gap-4 items-center bg-slate-50">
           <div className="relative w-96">
-            <Search className="w-4 h-4 text-gray-500 absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none" />
+            <Search className="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none" />
             <input
               value={globalFilter ?? ''}
               onChange={(e) => setGlobalFilter(e.target.value)}
               type="text"
               placeholder="بحث بالاسم أو البريد..."
-              className="w-full bg-background border border-white/10 rounded-xl py-2 pr-10 pl-4 outline-none text-white focus:border-cyan-500/50 text-sm"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pr-10 pl-4 outline-none text-slate-800 focus:border-cyan-500/50 text-sm"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           {isLoading ? (
-            <div className="p-10 text-center text-gray-500">
+            <div className="p-10 text-center text-slate-400">
               جاري التحميل...
             </div>
           ) : (
             <table className="w-full text-left border-collapse">
-              <thead className="bg-[#12121a]">
+              <thead className="bg-white">
                 {table.getHeaderGroups().map((hg) => (
                   <tr key={hg.id}>
                     {hg.headers.map((h) => (
                       <th
                         key={h.id}
-                        className="py-4 px-6 text-right text-gray-400 font-medium text-sm border-b border-white/5"
+                        className="py-4 px-6 text-right text-slate-500 font-medium text-sm border-b border-slate-200/50"
                       >
                         {flexRender(h.column.columnDef.header, h.getContext())}
                       </th>
@@ -213,7 +213,7 @@ export default function AdminUsersPage() {
                 {table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="hover:bg-white/[0.02] transition-colors"
+                    className="hover:bg-slate-50/50 transition-colors"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
@@ -237,15 +237,15 @@ export default function AdminUsersPage() {
       {/* CREATE STAFF MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="bg-[#181822] border border-white/10 rounded-3xl w-full max-w-md p-6 shadow-2xl relative">
+          <div className="bg-slate-50 border border-slate-200 rounded-3xl w-full max-w-md p-6 shadow-2xl relative">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-white"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-900"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h2 className="text-xl font-bold text-white mb-6">
+            <h2 className="text-xl font-bold text-slate-800 mb-6">
               إضافة حساب إداري جديد
             </h2>
 
@@ -258,13 +258,13 @@ export default function AdminUsersPage() {
             >
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">
+                  <label className="block text-slate-500 text-xs mb-1">
                     الاسم
                   </label>
                   <input
                     required
                     type="text"
-                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800"
                     value={staffForm.firstName}
                     onChange={(e) =>
                       setStaffForm({ ...staffForm, firstName: e.target.value })
@@ -272,13 +272,13 @@ export default function AdminUsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">
+                  <label className="block text-slate-500 text-xs mb-1">
                     اللقب
                   </label>
                   <input
                     required
                     type="text"
-                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800"
                     value={staffForm.lastName}
                     onChange={(e) =>
                       setStaffForm({ ...staffForm, lastName: e.target.value })
@@ -288,13 +288,13 @@ export default function AdminUsersPage() {
               </div>
 
               <div>
-                <label className="block text-gray-400 text-xs mb-1">
+                <label className="block text-slate-500 text-xs mb-1">
                   البريد الإلكتروني (تسجيل الدخول)
                 </label>
                 <input
                   required
                   type="email"
-                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800"
                   value={staffForm.email}
                   onChange={(e) =>
                     setStaffForm({ ...staffForm, email: e.target.value })
@@ -303,14 +303,14 @@ export default function AdminUsersPage() {
               </div>
 
               <div>
-                <label className="block text-gray-400 text-xs mb-1">
+                <label className="block text-slate-500 text-xs mb-1">
                   كلمة المرور المؤقتة
                 </label>
                 <input
                   required
                   type="text"
                   minLength={6}
-                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800"
                   value={staffForm.password}
                   onChange={(e) =>
                     setStaffForm({ ...staffForm, password: e.target.value })
@@ -319,11 +319,11 @@ export default function AdminUsersPage() {
               </div>
 
               <div>
-                <label className="block text-gray-400 text-xs mb-1">
+                <label className="block text-slate-500 text-xs mb-1">
                   صلاحيات الحساب
                 </label>
                 <select
-                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-800"
                   value={staffForm.role}
                   onChange={(e) =>
                     setStaffForm({ ...staffForm, role: e.target.value })

@@ -80,10 +80,10 @@ export default function AdminDashboardPage() {
     <div className="max-w-[1600px] mx-auto space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">
+        <h1 className="text-3xl font-bold text-slate-800 mb-2">
           مرحباً بعودتك، أيها المدير 👋
         </h1>
-        <p className="text-gray-400">
+        <p className="text-slate-500">
           إليك نظرة عامة على أداء منصة SoufSim هذا الشهر.
         </p>
       </div>
@@ -93,10 +93,10 @@ export default function AdminDashboardPage() {
         {visibleKpis.map((kpi, idx) => (
           <div
             key={idx}
-            className="bg-card border border-white/5 rounded-3xl p-6 relative overflow-hidden shadow-lg"
+            className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-6 relative overflow-hidden shadow-lg"
           >
             <div className="flex justify-between items-start mb-4">
-              <div className="p-3 bg-white/5 rounded-xl border border-white/5">
+              <div className="p-3 bg-slate-100 rounded-xl border border-slate-200/50">
                 {kpi.icon}
               </div>
               <span
@@ -110,10 +110,10 @@ export default function AdminDashboardPage() {
                 {kpi.change}
               </span>
             </div>
-            <h3 className="text-gray-400 text-sm mb-1 font-medium">
+            <h3 className="text-slate-500 text-sm mb-1 font-medium">
               {kpi.label}
             </h3>
-            <div className="text-3xl font-black text-white tracking-tight">
+            <div className="text-3xl font-black text-slate-800 tracking-tight">
               {kpi.value}
             </div>
           </div>
@@ -123,8 +123,8 @@ export default function AdminDashboardPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Line Chart (2 cols) */}
-        <div className="lg:col-span-2 bg-card border border-white/5 rounded-3xl p-6 shadow-lg">
-          <h3 className="text-lg font-bold text-white mb-6">
+        <div className="lg:col-span-2 bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-6 shadow-lg">
+          <h3 className="text-lg font-bold text-slate-800 mb-6">
             نظرة عامة على الإيرادات (30 يوم)
           </h3>
           <div className="h-[350px] w-full" dir="ltr">
@@ -169,8 +169,8 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Donut Chart (1 col) */}
-        <div className="lg:col-span-1 bg-card border border-white/5 rounded-3xl p-6 shadow-lg flex flex-col">
-          <h3 className="text-lg font-bold text-white mb-6">
+        <div className="lg:col-span-1 bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-6 shadow-lg flex flex-col">
+          <h3 className="text-lg font-bold text-slate-800 mb-6">
             حالة باقات الموزع (Airalo)
           </h3>
           <div
@@ -217,9 +217,9 @@ export default function AdminDashboardPage() {
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: COLORS[index] }}
                     ></div>
-                    <span className="text-gray-400">{entry.name}</span>
+                    <span className="text-slate-500">{entry.name}</span>
                   </div>
-                  <span className="text-white font-bold">{entry.value}</span>
+                  <span className="text-slate-800 font-bold">{entry.value}</span>
                 </div>
               ))}
             </div>

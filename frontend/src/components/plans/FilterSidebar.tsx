@@ -20,9 +20,9 @@ export default function FilterSidebar() {
   const maxPrice = Number(searchParams.get('maxPrice')) || 100;
 
   return (
-    <aside className="w-full bg-card border border-white/5 rounded-3xl p-6 lg:sticky lg:top-24 h-max">
+    <aside className="w-full bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-6 lg:sticky lg:top-24 h-max">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="text-xl font-bold text-white">تصفية النتائج</h3>
+        <h3 className="text-xl font-bold text-slate-800">تصفية النتائج</h3>
         {searchParams.toString().length > 0 && (
           <button
             onClick={() => setSearchParams(new URLSearchParams())}
@@ -36,7 +36,7 @@ export default function FilterSidebar() {
       <div className="space-y-8">
         {/* Region */}
         <div>
-          <h4 className="text-gray-300 font-medium mb-3">المنطقة</h4>
+          <h4 className="text-slate-600 font-medium mb-3">المنطقة</h4>
           <div className="flex flex-col gap-2">
             {[
               'ANY',
@@ -56,10 +56,10 @@ export default function FilterSidebar() {
                   name="region"
                   checked={currentRegion === reg}
                   onChange={() => updateFilter('region', reg)}
-                  className="w-4 h-4 accent-cyan-500 bg-white/5 border-white/10"
+                  className="w-4 h-4 accent-cyan-500 bg-slate-100 border-slate-200"
                 />
                 <span
-                  className={`text-sm transition-colors ${currentRegion === reg ? 'text-cyan-400 font-bold' : 'text-gray-400 group-hover:text-gray-200'}`}
+                  className={`text-sm transition-colors ${currentRegion === reg ? 'text-cyan-400 font-bold' : 'text-slate-500 group-hover:text-gray-200'}`}
                 >
                   {reg === 'ANY'
                     ? 'الكل'
@@ -74,7 +74,7 @@ export default function FilterSidebar() {
 
         {/* Data Amount */}
         <div>
-          <h4 className="text-gray-300 font-medium mb-3">حجم البيانات</h4>
+          <h4 className="text-slate-600 font-medium mb-3">حجم البيانات</h4>
           <select
             value={
               searchParams.get('unlimited') === 'true'
@@ -91,27 +91,27 @@ export default function FilterSidebar() {
               } else params.set('minData', e.target.value);
               setSearchParams(params);
             }}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-500 appearance-none"
+            className="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 outline-none focus:border-cyan-500 appearance-none"
           >
-            <option value="ANY" className="bg-card">
+            <option value="ANY" className="bg-white/90 backdrop-blur-md">
               أي حجم
             </option>
-            <option value="1" className="bg-card">
+            <option value="1" className="bg-white/90 backdrop-blur-md">
               1 GB
             </option>
-            <option value="3" className="bg-card">
+            <option value="3" className="bg-white/90 backdrop-blur-md">
               3 GB
             </option>
-            <option value="5" className="bg-card">
+            <option value="5" className="bg-white/90 backdrop-blur-md">
               5 GB
             </option>
-            <option value="10" className="bg-card">
+            <option value="10" className="bg-white/90 backdrop-blur-md">
               10 GB
             </option>
-            <option value="20" className="bg-card">
+            <option value="20" className="bg-white/90 backdrop-blur-md">
               20 GB
             </option>
-            <option value="unlimited" className="bg-card">
+            <option value="unlimited" className="bg-white/90 backdrop-blur-md">
               غير محدود
             </option>
           </select>
@@ -119,7 +119,7 @@ export default function FilterSidebar() {
 
         {/* Price Slider */}
         <div>
-          <h4 className="text-gray-300 font-medium mb-3">
+          <h4 className="text-slate-600 font-medium mb-3">
             السعر الأقصى: ${maxPrice === 100 ? '+100' : maxPrice}
           </h4>
           <input
@@ -128,13 +128,13 @@ export default function FilterSidebar() {
             max="100"
             value={maxPrice}
             onChange={(e) => updateFilter('maxPrice', e.target.value)}
-            className="w-full accent-cyan-500 h-2 bg-white/10 rounded-lg appearance-none cursor-pointer"
+            className="w-full accent-cyan-500 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
           />
         </div>
 
         {/* Validity */}
         <div>
-          <h4 className="text-gray-300 font-medium mb-3">الصلاحية</h4>
+          <h4 className="text-slate-600 font-medium mb-3">الصلاحية</h4>
           <div className="flex flex-wrap gap-2">
             {[
               { v: 'ANY', l: 'الكل' },
@@ -145,7 +145,7 @@ export default function FilterSidebar() {
               <button
                 key={val.v}
                 onClick={() => updateFilter('validity', val.v)}
-                className={`px-3 py-1.5 rounded-lg text-sm transition-colors border ${currentValidity === val.v ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400' : 'bg-transparent border-white/10 text-gray-400 hover:bg-white/5'}`}
+                className={`px-3 py-1.5 rounded-lg text-sm transition-colors border ${currentValidity === val.v ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400' : 'bg-transparent border-slate-200 text-slate-500 hover:bg-slate-100'}`}
               >
                 {val.l}
               </button>

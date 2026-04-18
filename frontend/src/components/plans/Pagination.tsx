@@ -26,7 +26,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="w-10 h-10 rounded-xl bg-card border border-white/10 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
+        className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 flex items-center justify-center text-slate-800 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 transition-colors"
       >
         <ChevronRight className="w-5 h-5" />{' '}
         {/* Right arrow means previous in RTL */}
@@ -39,8 +39,8 @@ export default function Pagination({ totalPages }: PaginationProps) {
             onClick={() => handlePageChange(page)}
             className={`w-10 h-10 rounded-xl font-bold transition-colors ${
               currentPage === page
-                ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white shadow-lg'
-                : 'bg-transparent text-gray-400 hover:bg-white/5 hover:text-white'
+                ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 shadow-lg'
+                : 'bg-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
             {page}
@@ -51,7 +51,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="w-10 h-10 rounded-xl bg-card border border-white/10 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
+        className="w-10 h-10 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 flex items-center justify-center text-slate-800 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 transition-colors"
       >
         <ChevronLeft className="w-5 h-5" /> {/* Left arrow means next in RTL */}
       </button>

@@ -28,7 +28,7 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'bg-background/80 backdrop-blur-md border-b border-white/10 shadow-lg py-3'
+          ? 'bg-slate-50/80 backdrop-blur-md border-b border-slate-200 shadow-lg py-3'
           : 'bg-transparent py-5'
       )}
     >
@@ -49,7 +49,7 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 to={link.href}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors relative group"
+                className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors relative group"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full rounded-full"></span>
@@ -59,19 +59,19 @@ export default function Navbar() {
 
           {/* Actions */}
           <div className="hidden md:flex items-center gap-4 text-sm font-medium">
-            <div className="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer px-2">
+            <div className="flex items-center gap-2 text-slate-600 hover:text-slate-900 cursor-pointer px-2">
               <Globe className="w-4 h-4" />
               <span>AR / DZD</span>
             </div>
 
             <Link
               to="/login"
-              className="text-gray-300 hover:text-white transition-colors hidden lg:flex items-center gap-2"
+              className="text-slate-600 hover:text-slate-900 transition-colors hidden lg:flex items-center gap-2"
             >
               <User className="w-4 h-4" /> تسجيل الدخول
             </Link>
 
-            <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full transition-colors relative">
+            <button className="flex items-center gap-2 bg-slate-200 hover:bg-white/20 text-slate-800 px-4 py-2 rounded-full transition-colors relative">
               <ShoppingCart className="w-4 h-4" />
               <span>سلة المشتريات</span>
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-cyan-500 text-[10px] font-bold text-background">
@@ -82,7 +82,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-white p-2"
+            className="md:hidden text-slate-800 p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
@@ -97,7 +97,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-card border-b border-border overflow-hidden"
+            className="md:hidden bg-white/90 backdrop-blur-md border-b border-border overflow-hidden"
           >
             <div className="px-4 py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -111,13 +111,13 @@ export default function Navbar() {
                 </a>
               ))}
               <hr className="border-border my-2" />
-              <div className="flex items-center justify-between text-gray-300">
+              <div className="flex items-center justify-between text-slate-600">
                 <span className="flex items-center gap-2">
                   <Globe className="w-5 h-5" /> اللغة والعملة
                 </span>
                 <span>AR / DZD</span>
               </div>
-              <button className="bg-gradient-to-r from-violet-600 to-cyan-500 text-white py-3 rounded-xl font-bold mt-4 shadow-lg shadow-violet-500/20">
+              <button className="bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 py-3 rounded-xl font-bold mt-4 shadow-lg shadow-violet-500/20">
                 تسجيل الدخول
               </button>
             </div>

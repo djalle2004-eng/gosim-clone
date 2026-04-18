@@ -33,13 +33,13 @@ export default function FAQ() {
   ];
 
   return (
-    <section className="py-24 bg-card" id="faq">
+    <section className="py-24 bg-white/90 backdrop-blur-md" id="faq">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
             الأسئلة <span className="text-cyan-400">الشائعة</span>
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-slate-500 text-lg">
             إليك إجابات لأبرز الاستفسارات التي تهم المسافرين.
           </p>
         </div>
@@ -48,13 +48,13 @@ export default function FAQ() {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className={`bg-background border rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === idx ? 'border-cyan-500/50 shadow-lg shadow-cyan-500/10' : 'border-white/5 hover:border-white/10'}`}
+              className={`bg-slate-50 border rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === idx ? 'border-cyan-500/50 shadow-lg shadow-cyan-500/10' : 'border-slate-200/50 hover:border-slate-200'}`}
             >
               <button
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
                 className="w-full px-6 py-5 flex items-center justify-between text-right"
               >
-                <span className="font-bold text-white text-lg">{faq.q}</span>
+                <span className="font-bold text-slate-800 text-lg">{faq.q}</span>
                 <ChevronDown
                   className={`w-5 h-5 text-cyan-400 transition-transform ${openIndex === idx ? 'rotate-180' : ''}`}
                 />
@@ -69,7 +69,7 @@ export default function FAQ() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                    <div className="px-6 pb-6 text-slate-500 leading-relaxed border-t border-slate-200/50 pt-4">
                       {faq.a}
                     </div>
                   </motion.div>

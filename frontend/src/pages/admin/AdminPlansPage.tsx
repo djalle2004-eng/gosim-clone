@@ -91,7 +91,7 @@ export default function AdminPlansPage() {
         cell: (info: any) => (
           <div className="flex items-center gap-2">
             <span className="text-xl">{info.row.original.flag}</span>{' '}
-            <span className="font-bold text-white">{info.getValue()}</span>
+            <span className="font-bold text-slate-800">{info.getValue()}</span>
           </div>
         ),
       },
@@ -99,7 +99,7 @@ export default function AdminPlansPage() {
         header: 'السعة',
         accessorKey: 'dataAmount',
         cell: (info: any) => (
-          <span className="text-gray-300 font-mono text-sm">
+          <span className="text-slate-600 font-mono text-sm">
             {info.getValue() === 'UNLIMITED'
               ? 'غير محدود'
               : `${info.getValue()} GB`}
@@ -117,7 +117,7 @@ export default function AdminPlansPage() {
         header: 'Airalo ID',
         accessorKey: 'providerPlanId',
         cell: (info: any) => (
-          <span className="text-gray-500 font-mono text-xs max-w-[150px] truncate block">
+          <span className="text-slate-400 font-mono text-xs max-w-[150px] truncate block">
             {info.getValue()}
           </span>
         ),
@@ -141,7 +141,7 @@ export default function AdminPlansPage() {
         header: '',
         cell: () => (
           <div className="flex items-center gap-2">
-            <button className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 transition-colors">
+            <button className="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-500 transition-colors">
               <Edit2 className="w-4 h-4" />
             </button>
             <button className="p-2 bg-red-500/5 hover:bg-red-500/10 rounded-lg text-red-500 transition-colors">
@@ -169,17 +169,17 @@ export default function AdminPlansPage() {
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto">
       {/* Header & Actions */}
-      <div className="flex flex-col md:flex-row justify-between items-end gap-4 p-6 bg-card border border-white/5 rounded-3xl shadow-lg">
+      <div className="flex flex-col md:flex-row justify-between items-end gap-4 p-6 bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl shadow-lg">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">
             إدارة الباقات والمخزون
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             تحكم كامل في الأسعار، التفعيل، ومزامنة المنتجات مع مزود الخدمة.
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 bg-background border border-white/10 hover:border-white/20 text-white px-5 py-2.5 rounded-xl transition-all shadow-sm">
+          <button className="flex items-center gap-2 bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-800 px-5 py-2.5 rounded-xl transition-all shadow-sm">
             <ServerCog className="w-4 h-4" /> مزامنة Airalo
           </button>
           <button className="flex items-center gap-2 bg-cyan-500 text-background font-bold px-5 py-2.5 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:scale-105 transition-transform">
@@ -189,20 +189,20 @@ export default function AdminPlansPage() {
       </div>
 
       {/* Table Container */}
-      <div className="bg-card border border-white/5 rounded-3xl overflow-hidden shadow-lg">
+      <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl overflow-hidden shadow-lg">
         {/* Table Toolbar */}
-        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-[#181822]">
+        <div className="p-4 border-b border-slate-200/50 flex justify-between items-center bg-slate-50">
           <div className="relative w-72">
-            <Search className="w-4 h-4 text-gray-500 absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none" />
+            <Search className="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none" />
             <input
               value={globalFilter ?? ''}
               onChange={(e) => setGlobalFilter(e.target.value)}
               type="text"
               placeholder="ابحث عن دولة، باقة أو كود..."
-              className="w-full bg-background border border-white/10 rounded-xl py-2 pr-10 pl-4 outline-none text-white focus:border-cyan-500/50 text-sm"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pr-10 pl-4 outline-none text-slate-800 focus:border-cyan-500/50 text-sm"
             />
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-slate-400">
             {table.getPrePaginationRowModel().rows.length} باقة مسجلة
           </div>
         </div>
@@ -210,13 +210,13 @@ export default function AdminPlansPage() {
         {/* Tanstack React Table Engine rendering Tailwind UI */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-[#12121a]">
+            <thead className="bg-white">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="py-4 px-6 text-right text-gray-400 font-medium text-sm whitespace-nowrap cursor-pointer hover:text-white select-none group"
+                      className="py-4 px-6 text-right text-slate-500 font-medium text-sm whitespace-nowrap cursor-pointer hover:text-slate-900 select-none group"
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       <div className="flex items-center justify-end gap-1 flex-row-reverse">
@@ -245,7 +245,7 @@ export default function AdminPlansPage() {
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="hover:bg-white/[0.02] transition-colors"
+                  className="hover:bg-slate-50/50 transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td
@@ -265,24 +265,24 @@ export default function AdminPlansPage() {
         </div>
 
         {/* Pagination Toolbar */}
-        <div className="p-4 border-t border-white/5 flex items-center justify-between bg-[#12121a]">
+        <div className="p-4 border-t border-slate-200/50 flex items-center justify-between bg-white">
           <div className="flex gap-2">
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-4 py-2 bg-white/5 hover:bg-white/10 disabled:opacity-30 rounded-lg text-white text-sm transition-colors"
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 rounded-lg text-slate-800 text-sm transition-colors"
             >
               السابق
             </button>
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="px-4 py-2 bg-white/5 hover:bg-white/10 disabled:opacity-30 rounded-lg text-white text-sm transition-colors"
+              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 rounded-lg text-slate-800 text-sm transition-colors"
             >
               التالي
             </button>
           </div>
-          <span className="text-gray-500 text-sm">
+          <span className="text-slate-400 text-sm">
             صفحة {table.getState().pagination.pageIndex + 1} من{' '}
             {table.getPageCount() || 1}
           </span>

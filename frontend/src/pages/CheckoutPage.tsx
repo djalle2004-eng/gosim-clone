@@ -60,7 +60,7 @@ export default function CheckoutPage() {
 
   if (!planId)
     return (
-      <div className="text-white min-h-screen text-center pt-32">
+      <div className="text-slate-800 min-h-screen text-center pt-32">
         يرجى اختيار باقة أولاً
       </div>
     );
@@ -109,7 +109,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
 
       <main className="flex-grow pt-32 pb-20 container mx-auto px-4 md:px-6">
@@ -117,8 +117,8 @@ export default function CheckoutPage() {
           {/* Left Column: Checkout Forms */}
           <div className="lg:w-3/5 w-full space-y-8">
             {/* Customer Info Form */}
-            <div className="bg-card border border-white/5 rounded-3xl p-8">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+            <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-8">
+              <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
                   1
                 </span>
@@ -127,7 +127,7 @@ export default function CheckoutPage() {
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-sm mb-2">
+                  <label className="block text-slate-500 text-sm mb-2">
                     البريد الإلكتروني للإيصال والـ QR
                   </label>
                   <input
@@ -135,19 +135,19 @@ export default function CheckoutPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full bg-background border border-white/10 focus:border-cyan-500 rounded-xl px-4 py-3 text-white outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 focus:border-cyan-500 rounded-xl px-4 py-3 text-slate-800 outline-none"
                     placeholder="example@mail.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-sm mb-2">
+                  <label className="block text-slate-500 text-sm mb-2">
                     رقم الهاتف (اختياري)
                   </label>
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-background border border-white/10 focus:border-cyan-500 rounded-xl px-4 py-3 text-white outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 focus:border-cyan-500 rounded-xl px-4 py-3 text-slate-800 outline-none"
                     placeholder="+213 550..."
                   />
                 </div>
@@ -155,8 +155,8 @@ export default function CheckoutPage() {
             </div>
 
             {/* Payment Methods */}
-            <div className="bg-card border border-white/5 rounded-3xl p-8">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+            <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-3xl p-8">
+              <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-violet-600/20 text-violet-400 flex items-center justify-center">
                   2
                 </span>
@@ -188,12 +188,12 @@ export default function CheckoutPage() {
                   <button
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id as any)}
-                    className={`flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all ${paymentMethod === method.id ? 'border-cyan-500 bg-cyan-500/10 scale-105' : 'border-white/5 bg-background hover:bg-white/5'}`}
+                    className={`flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all ${paymentMethod === method.id ? 'border-cyan-500 bg-cyan-500/10 scale-105' : 'border-slate-200/50 bg-slate-50 hover:bg-slate-100'}`}
                   >
                     <div className={method.color + ' p-2 rounded-full'}>
                       {method.icon}
                     </div>
-                    <span className="text-white font-medium text-sm md:text-base">
+                    <span className="text-slate-800 font-medium text-sm md:text-base">
                       {method.label}
                     </span>
                     {paymentMethod === method.id && (
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Dynamic Payment Engine Switcher */}
-              <div className="bg-background border border-white/5 p-6 md:p-8 rounded-2xl relative overflow-hidden text-center text-white">
+              <div className="bg-slate-50 border border-slate-200/50 p-6 md:p-8 rounded-2xl relative overflow-hidden text-center text-slate-800">
                 <AnimatePresence mode="wait">
                   {paymentMethod === 'stripe' && clientSecret && (
                     <motion.div
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                     >
-                      <p className="text-gray-400 mb-6 text-sm">
+                      <p className="text-slate-500 mb-6 text-sm">
                         يقوم Stripe بمعالجة المدفوعات الدولية بأسلوب آمن ومعتمد
                         مشفّر.
                       </p>
@@ -238,19 +238,19 @@ export default function CheckoutPage() {
                       exit={{ opacity: 0 }}
                       className="py-8"
                     >
-                      <Landmark className="w-16 h-16 mx-auto mb-4 text-gray-500 opacity-50" />
+                      <Landmark className="w-16 h-16 mx-auto mb-4 text-slate-400 opacity-50" />
                       <h3 className="text-xl font-bold mb-2">
                         الدفع المباشر عبر{' '}
                         {paymentMethod === 'cib' ? 'CIB' : 'البطاقة الذهبية'}
                       </h3>
-                      <p className="text-gray-400 text-sm mb-8 mx-auto max-w-sm">
+                      <p className="text-slate-500 text-sm mb-8 mx-auto max-w-sm">
                         سيتم تحويلك إلى نافذة الدفع الرسمية الآمنة لـ Satim
                         (البنك الوطني) لإكمال المعاملة.
                       </p>
                       <button
                         onClick={mockCibCheckout}
                         disabled={isProcessing}
-                        className="w-full bg-gradient-to-r from-green-500 to-emerald-400 text-white py-4 rounded-xl font-bold shadow-lg shadow-green-500/20 hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-r from-green-500 to-emerald-400 text-slate-800 py-4 rounded-xl font-bold shadow-lg shadow-green-500/20 hover:scale-[1.02] transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isProcessing
                           ? 'جاري المعالجة...'
@@ -261,7 +261,7 @@ export default function CheckoutPage() {
                 </AnimatePresence>
               </div>
 
-              <div className="mt-6 flex items-center justify-center gap-2 text-gray-500 text-xs text-center border-t border-white/5 pt-6">
+              <div className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-xs text-center border-t border-slate-200/50 pt-6">
                 <ShieldCheck className="w-4 h-4" /> ضمان حماية البيانات 100%،
                 نحن لا نخزن تفاصيل بطاقتك أبداً.
               </div>
@@ -270,8 +270,8 @@ export default function CheckoutPage() {
 
           {/* Right Column: Order Summary */}
           <div className="lg:w-2/5 w-full">
-            <div className="bg-card border border-white/10 rounded-3xl p-8 sticky top-24 shadow-2xl">
-              <h3 className="text-white font-bold text-lg border-b border-white/10 pb-4 mb-6">
+            <div className="bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-8 sticky top-24 shadow-2xl">
+              <h3 className="text-slate-800 font-bold text-lg border-b border-slate-200 pb-4 mb-6">
                 ملخص الطلب
               </h3>
 
@@ -282,42 +282,42 @@ export default function CheckoutPage() {
                   className="shadow-lg ring-2 ring-white/10"
                 />
                 <div className="flex-1">
-                  <h4 className="text-white font-bold">{plan.name}</h4>
-                  <p className="text-gray-400 text-sm tracking-wide">
+                  <h4 className="text-slate-800 font-bold">{plan.name}</h4>
+                  <p className="text-slate-500 text-sm tracking-wide">
                     بيانات:{' '}
                     {plan.isUnlimited ? 'غير محدود' : `${plan.dataAmount} GB`}
                   </p>
                 </div>
-                <div className="text-white font-bold text-xl">
+                <div className="text-slate-800 font-bold text-xl">
                   {plan.price} د.ج
                 </div>
               </div>
 
-              <div className="bg-white/5 rounded-xl p-4 flex justify-between items-center mb-6">
-                <span className="text-gray-400 text-sm">الكمية</span>
-                <span className="text-white font-bold bg-background px-4 py-1.5 rounded-lg border border-white/5">
+              <div className="bg-slate-100 rounded-xl p-4 flex justify-between items-center mb-6">
+                <span className="text-slate-500 text-sm">الكمية</span>
+                <span className="text-slate-800 font-bold bg-slate-50 px-4 py-1.5 rounded-lg border border-slate-200/50">
                   {quantity}
                 </span>
               </div>
 
-              <div className="space-y-3 border-b border-white/10 pb-6 mb-6">
-                <div className="flex justify-between items-center text-gray-400">
+              <div className="space-y-3 border-b border-slate-200 pb-6 mb-6">
+                <div className="flex justify-between items-center text-slate-500">
                   <span>المجموع الفرعي</span>
                   <span>{(plan.price * quantity).toLocaleString()} د.ج</span>
                 </div>
-                <div className="flex justify-between items-center text-gray-400">
+                <div className="flex justify-between items-center text-slate-500">
                   <span>رسوم التفعيل</span>
                   <span className="text-emerald-400">مجانًا</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-end mb-2">
-                <span className="text-white font-bold text-lg">الإجمالي</span>
+                <span className="text-slate-800 font-bold text-lg">الإجمالي</span>
                 <div className="text-right">
                   <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 leading-none">
                     {totalDzd.toLocaleString()} د.ج
                   </div>
-                  <div className="text-gray-500 font-medium text-sm mt-1">
+                  <div className="text-slate-400 font-medium text-sm mt-1">
                     ما يعادل ${totalUsd.toFixed(2)} USD
                   </div>
                 </div>

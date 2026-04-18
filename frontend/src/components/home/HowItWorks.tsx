@@ -4,21 +4,21 @@ import { motion } from 'framer-motion';
 export default function HowItWorks() {
   const steps = [
     {
-      icon: <Search className="w-8 h-8 text-white" />,
+      icon: <Search className="w-8 h-8 text-slate-800" />,
       title: 'اختر باقتك',
       description:
         'ابحث عن وجهتك واختر بيانات الإنترنت التي تناسب رحلتك من بين أكثر من 170 دولة متوفرة.',
       color: 'from-blue-500 to-cyan-400',
     },
     {
-      icon: <CreditCard className="w-8 h-8 text-white" />,
+      icon: <CreditCard className="w-8 h-8 text-slate-800" />,
       title: 'ادفع بأمان',
       description:
         'ادفع بطريقتك المريحة عبر البطاقات العالمية أو المحلية (CIB / ذهبية) بسرعة وأمان تام.',
       color: 'from-violet-500 to-fuchsia-500',
     },
     {
-      icon: <ScanLine className="w-8 h-8 text-white" />,
+      icon: <ScanLine className="w-8 h-8 text-slate-800" />,
       title: 'فعّل الـ eSIM',
       description:
         'امسح رمز الاستجابة السريعة (QR) الذي يصلك فوراً وابدأ في تصفح الإنترنت حال وصولك.',
@@ -29,14 +29,14 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="py-24 relative bg-card border-y border-border"
+      className="py-24 relative bg-white/90 backdrop-blur-md border-y border-border"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
             كيف يعمل SoufSim؟
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-slate-500 text-lg">
             ثلاث خطوات بسيطة فقط تفصلك عن إنترنت سريع ومستقر حول العالم.
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function HowItWorks() {
               <div
                 className={`w-24 h-24 rounded-full bg-gradient-to-br ${step.color} p-1 mb-6 shadow-xl`}
               >
-                <div className="w-full h-full bg-card rounded-full flex items-center justify-center relative overflow-hidden group">
+                <div className="w-full h-full bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center relative overflow-hidden group">
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-20 group-hover:opacity-40 transition-opacity`}
                   ></div>
@@ -68,10 +68,10 @@ export default function HowItWorks() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3">
+              <h3 className="text-2xl font-bold text-slate-800 mb-3">
                 {step.title}
               </h3>
-              <p className="text-gray-400 leading-relaxed max-w-xs">
+              <p className="text-slate-500 leading-relaxed max-w-xs">
                 {step.description}
               </p>
             </motion.div>

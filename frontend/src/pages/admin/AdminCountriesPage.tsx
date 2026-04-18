@@ -124,8 +124,8 @@ export default function AdminCountriesPage() {
               {info.row.original.flag}
             </span>
             <div>
-              <div className="font-bold text-white">{info.getValue()}</div>
-              <div className="text-xs text-gray-400 font-mono">
+              <div className="font-bold text-slate-800">{info.getValue()}</div>
+              <div className="text-xs text-slate-500 font-mono">
                 {info.row.original.code}
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function AdminCountriesPage() {
         header: 'الاسم بالعربية',
         accessorKey: 'nameAr',
         cell: (info: any) => (
-          <span className="text-gray-300 font-medium">
+          <span className="text-slate-600 font-medium">
             {info.getValue() || '-'}
           </span>
         ),
@@ -145,7 +145,7 @@ export default function AdminCountriesPage() {
         header: 'المنطقة',
         accessorKey: 'region',
         cell: (info: any) => (
-          <span className="px-3 py-1 bg-white/5 border border-white/5 text-gray-300 rounded-lg text-xs font-medium">
+          <span className="px-3 py-1 bg-slate-100 border border-slate-200/50 text-slate-600 rounded-lg text-xs font-medium">
             {info.getValue()}
           </span>
         ),
@@ -181,7 +181,7 @@ export default function AdminCountriesPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleEdit(info.row.original)}
-              className="p-2 bg-white/5 hover:bg-violet-500/20 hover:text-violet-400 rounded-lg text-gray-400 transition-all border border-transparent hover:border-violet-500/20"
+              className="p-2 bg-slate-100 hover:bg-violet-500/20 hover:text-violet-400 rounded-lg text-slate-500 transition-all border border-transparent hover:border-violet-500/20"
             >
               <Edit2 className="w-4 h-4" />
             </button>
@@ -217,14 +217,14 @@ export default function AdminCountriesPage() {
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-end gap-4 p-8 bg-card border border-white/5 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+      <div className="flex flex-col md:flex-row justify-between items-end gap-4 p-8 bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-[2rem] shadow-2xl relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-cyan-500/20 transition-colors" />
         <div className="relative z-10">
-          <h1 className="text-3xl font-black text-white mb-2 flex items-center gap-3">
+          <h1 className="text-3xl font-black text-slate-800 mb-2 flex items-center gap-3">
             <Globe className="w-8 h-8 text-cyan-400" />
             إدارة الدول والوجهات
           </h1>
-          <p className="text-gray-400">
+          <p className="text-slate-500">
             تخصيص الدول، الأعلام، الأقاليم، والتحكم في ظهورها للعملاء.
           </p>
         </div>
@@ -240,32 +240,32 @@ export default function AdminCountriesPage() {
       </div>
 
       {/* Table Container */}
-      <div className="bg-card border border-white/5 rounded-[2rem] overflow-hidden shadow-2xl">
-        <div className="p-6 border-b border-white/5 flex justify-between items-center bg-[#181822]/50 backdrop-blur-md">
+      <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-[2rem] overflow-hidden shadow-2xl">
+        <div className="p-6 border-b border-slate-200/50 flex justify-between items-center bg-slate-50/50 backdrop-blur-md">
           <div className="relative w-80">
-            <Search className="w-4 h-4 text-gray-500 absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none" />
+            <Search className="w-4 h-4 text-slate-400 absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none" />
             <input
               value={globalFilter ?? ''}
               onChange={(e) => setGlobalFilter(e.target.value)}
               type="text"
               placeholder="ابحث عن اسم الدولة أو الكود (ISO)..."
-              className="w-full bg-background border border-white/5 focus:border-cyan-500/40 rounded-xl py-3 pr-11 pl-4 outline-none text-white text-sm transition-all"
+              className="w-full bg-slate-50 border border-slate-200/50 focus:border-cyan-500/40 rounded-xl py-3 pr-11 pl-4 outline-none text-slate-800 text-sm transition-all"
             />
           </div>
-          <div className="text-sm font-bold text-gray-500 bg-white/5 px-4 py-2 rounded-xl">
+          <div className="text-sm font-bold text-slate-400 bg-slate-100 px-4 py-2 rounded-xl">
             {table.getPrePaginationRowModel().rows.length} دولة مسجلة
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-right border-collapse">
-            <thead className="bg-[#12121a]">
+            <thead className="bg-white">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="py-5 px-8 text-right text-gray-400 font-bold text-xs uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-white select-none group border-b border-white/5"
+                      className="py-5 px-8 text-right text-slate-500 font-bold text-xs uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-slate-900 select-none group border-b border-slate-200/50"
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       <div className="flex items-center justify-end gap-2 flex-row-reverse">
@@ -295,7 +295,7 @@ export default function AdminCountriesPage() {
                 <tr>
                   <td colSpan={100} className="py-20 text-center">
                     <Loader2 className="w-10 h-10 text-cyan-500 animate-spin mx-auto mb-4" />
-                    <p className="text-gray-500 font-bold">
+                    <p className="text-slate-400 font-bold">
                       جاري تحميل البيانات...
                     </p>
                   </td>
@@ -304,7 +304,7 @@ export default function AdminCountriesPage() {
                 table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
-                    className="hover:bg-white/[0.02] transition-colors group/row"
+                    className="hover:bg-slate-50/50 transition-colors group/row"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <td
@@ -325,24 +325,24 @@ export default function AdminCountriesPage() {
         </div>
 
         {/* Pagination logic inherited from Admin Pattern */}
-        <div className="p-6 border-t border-white/5 flex items-center justify-between bg-[#12121a]/50">
+        <div className="p-6 border-t border-slate-200/50 flex items-center justify-between bg-slate-1000">
           <div className="flex gap-3">
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="px-5 py-2.5 bg-white/5 hover:bg-white/10 disabled:opacity-30 rounded-xl text-white text-sm font-bold transition-all border border-white/5"
+              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 rounded-xl text-slate-800 text-sm font-bold transition-all border border-slate-200/50"
             >
               السابق
             </button>
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="px-5 py-2.5 bg-white/5 hover:bg-white/10 disabled:opacity-30 rounded-xl text-white text-sm font-bold transition-all border border-white/5"
+              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-30 rounded-xl text-slate-800 text-sm font-bold transition-all border border-slate-200/50"
             >
               التالي
             </button>
           </div>
-          <span className="text-gray-500 text-sm font-bold">
+          <span className="text-slate-400 text-sm font-bold">
             صفحة {table.getState().pagination.pageIndex + 1} من{' '}
             {table.getPageCount() || 1}
           </span>
@@ -364,12 +364,12 @@ export default function AdminCountriesPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl bg-[#12121a] border border-white/10 rounded-[2.5rem] shadow-2xl p-8 md:p-10 overflow-hidden"
+              className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl p-8 md:p-10 overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-600 to-cyan-500" />
 
-              <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+              <h2 className="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
                   {editingCountry ? (
                     <Edit2 className="w-5 h-5 text-cyan-400" />
                   ) : (
@@ -382,7 +382,7 @@ export default function AdminCountriesPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 mr-1">
+                    <label className="text-sm font-bold text-slate-500 mr-1">
                       الاسم (EN)
                     </label>
                     <input
@@ -391,12 +391,12 @@ export default function AdminCountriesPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, nameEn: e.target.value })
                       }
-                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all"
+                      className="w-full bg-slate-50 border border-slate-200/50 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-slate-800 outline-none transition-all"
                       placeholder="e.g. France"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 mr-1">
+                    <label className="text-sm font-bold text-slate-500 mr-1">
                       الاسم (AR)
                     </label>
                     <input
@@ -405,13 +405,13 @@ export default function AdminCountriesPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, nameAr: e.target.value })
                       }
-                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all text-right"
+                      className="w-full bg-slate-50 border border-slate-200/50 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-slate-800 outline-none transition-all text-right"
                       placeholder="مثال: فرنسا"
                       dir="rtl"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 mr-1">
+                    <label className="text-sm font-bold text-slate-500 mr-1">
                       الكود (ISO 2)
                     </label>
                     <input
@@ -424,12 +424,12 @@ export default function AdminCountriesPage() {
                           code: e.target.value.toUpperCase(),
                         })
                       }
-                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all font-mono"
+                      className="w-full bg-slate-50 border border-slate-200/50 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-slate-800 outline-none transition-all font-mono"
                       placeholder="e.g. FR"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 mr-1">
+                    <label className="text-sm font-bold text-slate-500 mr-1">
                       العلم (Emoji)
                     </label>
                     <input
@@ -438,12 +438,12 @@ export default function AdminCountriesPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, flag: e.target.value })
                       }
-                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all text-center text-2xl"
+                      className="w-full bg-slate-50 border border-slate-200/50 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-slate-800 outline-none transition-all text-center text-2xl"
                       placeholder="🇫🇷"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-400 mr-1">
+                    <label className="text-sm font-bold text-slate-500 mr-1">
                       الإقليم / القارة
                     </label>
                     <select
@@ -451,7 +451,7 @@ export default function AdminCountriesPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, region: e.target.value })
                       }
-                      className="w-full bg-background border border-white/5 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-white outline-none transition-all appearance-none"
+                      className="w-full bg-slate-50 border border-slate-200/50 focus:border-cyan-500/50 rounded-2xl px-5 py-3.5 text-slate-800 outline-none transition-all appearance-none"
                     >
                       {[
                         'EUROPE',
@@ -478,9 +478,9 @@ export default function AdminCountriesPage() {
                             isPopular: e.target.checked,
                           })
                         }
-                        className="w-5 h-5 rounded border-white/10 bg-background checked:bg-yellow-500"
+                        className="w-5 h-5 rounded border-slate-200 bg-slate-50 checked:bg-yellow-500"
                       />
-                      <span className="text-sm font-bold text-gray-300 group-hover:text-white transition-colors">
+                      <span className="text-sm font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
                         دولة رائجة
                       </span>
                     </label>
@@ -494,9 +494,9 @@ export default function AdminCountriesPage() {
                             isActive: e.target.checked,
                           })
                         }
-                        className="w-5 h-5 rounded border-white/10 bg-background checked:bg-emerald-500"
+                        className="w-5 h-5 rounded border-slate-200 bg-slate-50 checked:bg-emerald-500"
                       />
-                      <span className="text-sm font-bold text-gray-300 group-hover:text-white transition-colors">
+                      <span className="text-sm font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
                         تفعيل
                       </span>
                     </label>
@@ -509,7 +509,7 @@ export default function AdminCountriesPage() {
                     disabled={
                       createMutation.isPending || updateMutation.isPending
                     }
-                    className="flex-1 bg-gradient-to-r from-violet-600 to-cyan-500 text-white font-black py-4 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                    className="flex-1 bg-gradient-to-r from-violet-600 to-cyan-500 text-slate-800 font-black py-4 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
                   >
                     {createMutation.isPending || updateMutation.isPending
                       ? 'جاري الحفظ...'
@@ -520,7 +520,7 @@ export default function AdminCountriesPage() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="px-8 bg-white/5 text-gray-400 font-bold py-4 rounded-2xl hover:bg-white/10 transition-all"
+                    className="px-8 bg-slate-100 text-slate-500 font-bold py-4 rounded-2xl hover:bg-slate-200 transition-all"
                   >
                     إلغاء
                   </button>

@@ -27,16 +27,16 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-background relative overflow-hidden">
+    <section className="py-24 bg-slate-50 relative overflow-hidden">
       {/* Decorative Blur */}
       <div className="absolute top-[20%] left-[-10%] w-[30%] h-[50%] bg-violet-600/10 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
             ماذا يقول <span className="text-cyan-400">عملاؤنا</span>
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-slate-500 text-lg">
             آلاف المسافرين يثقون في SoufSim ليبقوا متصلين في رحلاتهم.
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function Testimonials() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.2 }}
               key={idx}
-              className="bg-card border border-white/10 p-8 rounded-3xl relative"
+              className="bg-white/90 backdrop-blur-md border border-slate-200 p-8 rounded-3xl relative"
             >
               <div className="flex text-amber-400 mb-6">
                 {[...Array(5)].map((_, i) => (
@@ -60,7 +60,7 @@ export default function Testimonials() {
                 ))}
               </div>
 
-              <p className="text-gray-300 font-medium leading-relaxed mb-8">
+              <p className="text-slate-600 font-medium leading-relaxed mb-8">
                 "{review.text}"
               </p>
 
@@ -71,8 +71,8 @@ export default function Testimonials() {
                   className="w-12 h-12 rounded-full border-2 border-cyan-400/30"
                 />
                 <div>
-                  <h4 className="text-white font-bold">{review.name}</h4>
-                  <span className="text-gray-400 text-sm">
+                  <h4 className="text-slate-800 font-bold">{review.name}</h4>
+                  <span className="text-slate-500 text-sm">
                     {review.country}
                   </span>
                 </div>

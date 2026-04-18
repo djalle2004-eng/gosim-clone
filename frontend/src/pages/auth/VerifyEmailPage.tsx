@@ -72,7 +72,7 @@ export default function VerifyEmailPage() {
 
   return (
     <div
-      className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative"
+      className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 relative"
       dir="rtl"
     >
       <div className="absolute top-1/4 left-1/4 w-[50%] h-[50%] bg-emerald-600/20 blur-[120px] rounded-full pointer-events-none"></div>
@@ -80,18 +80,18 @@ export default function VerifyEmailPage() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md bg-card border border-white/10 rounded-3xl p-8 relative z-10 shadow-2xl text-center"
+        className="w-full max-w-md bg-white/90 backdrop-blur-md border border-slate-200 rounded-3xl p-8 relative z-10 shadow-2xl text-center"
       >
         <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
           <ShieldCheck className="w-8 h-8 text-emerald-400" />
         </div>
 
-        <h1 className="text-2xl font-bold text-white mb-2">
+        <h1 className="text-2xl font-bold text-slate-800 mb-2">
           التحقق من البريد الإلكتروني
         </h1>
-        <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+        <p className="text-slate-500 text-sm mb-8 leading-relaxed">
           أرسلنا رمزاً مكوناً من 6 أرقام إلى بريدك{' '}
-          <strong className="text-white bg-white/5 px-2 py-0.5 rounded">
+          <strong className="text-slate-800 bg-slate-100 px-2 py-0.5 rounded">
             {user?.email || '...'}
           </strong>
           .<br /> يرجى إدخاله أدناه.
@@ -116,7 +116,7 @@ export default function VerifyEmailPage() {
                 value={digit}
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
-                className="w-12 h-14 text-center text-xl font-bold bg-background border border-white/10 rounded-xl text-white outline-none focus:border-emerald-500 focus:bg-emerald-500/5 transition-all"
+                className="w-12 h-14 text-center text-xl font-bold bg-slate-50 border border-slate-200 rounded-xl text-slate-800 outline-none focus:border-emerald-500 focus:bg-emerald-500/5 transition-all"
               />
             ))}
           </div>
