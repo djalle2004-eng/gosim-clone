@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Globe, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
+import CountryFlag from '../ui/CountryFlag';
 
 const REGION_COLORS: Record<string, string> = {
   EUROPE: 'from-blue-600/30 to-indigo-600/20',
@@ -114,19 +115,10 @@ export default function PopularDestinations() {
                     }}
                   />
 
-                  {/* Shine effect on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/[0.03] to-transparent rotate-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                  </div>
-
                   <div className="relative z-10 flex items-center gap-4">
                     <div className="relative">
-                      <span className="text-4xl group-hover:scale-125 transition-transform duration-500 origin-center block filter group-hover:drop-shadow-lg">
-                        {country.flag}
-                      </span>
-                      {/* Flag glow */}
-                      <div className="absolute inset-0 text-4xl blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none">
-                        {country.flag}
+                      <div className="group-hover:scale-110 transition-transform duration-500 origin-center">
+                        <CountryFlag code={country.code} size="lg" className="shadow-lg" />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">

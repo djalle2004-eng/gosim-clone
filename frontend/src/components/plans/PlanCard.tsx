@@ -1,6 +1,7 @@
 import { Wifi, Zap, Bookmark, ShoppingCart, Check, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import CountryFlag from '../ui/CountryFlag';
 
 interface PlanCardProps {
   plan: any;
@@ -51,13 +52,8 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
 
         {/* Country info */}
         <div className="flex items-center gap-4 mb-6 relative z-10">
-          <div className="relative">
-            <span className="text-5xl drop-shadow-lg block group-hover:scale-110 transition-transform duration-500">
-              {plan.country?.flag}
-            </span>
-            <div className="absolute inset-0 text-5xl blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
-              {plan.country?.flag}
-            </div>
+          <div className="group-hover:scale-110 transition-transform duration-500">
+            <CountryFlag code={plan.country?.code} size="xl" className="shadow-xl ring-2 ring-white/10" />
           </div>
           <div>
             <h3 className="text-xl font-bold text-white mb-0.5">

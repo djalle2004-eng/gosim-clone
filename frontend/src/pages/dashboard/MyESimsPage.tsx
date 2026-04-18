@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../lib/api';
+import CountryFlag from '../../components/ui/CountryFlag';
 
 export default function MyESimsPage() {
   const [qrModalOpen, setQrModalOpen] = useState(false);
@@ -47,6 +48,7 @@ export default function MyESimsPage() {
           id: esim.id,
           planName: item.plan.name,
           flag: item.plan.country?.flag || '🌐',
+          countryCode: item.plan.country?.code || '',
           status: esim.status,
           usedData: (esim.dataUsed / 1024).toFixed(1),
           totalData: (esim.dataTotal / 1024).toFixed(1),
@@ -104,7 +106,7 @@ export default function MyESimsPage() {
               {/* Status Head */}
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl">{esim.flag}</span>
+                  <CountryFlag code={esim.countryCode} size="lg" className="shadow-lg" />
                   <div>
                     <h3 className="text-xl font-bold text-white">
                       {esim.planName}

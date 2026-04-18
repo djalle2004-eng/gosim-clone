@@ -16,6 +16,7 @@ import {
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { api } from '../lib/api';
+import CountryFlag from '../components/ui/CountryFlag';
 
 export default function PlanDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -78,9 +79,9 @@ export default function PlanDetailPage() {
               <div className="absolute top-0 right-0 w-64 h-64 bg-violet-600/10 blur-[80px] rounded-full pointer-events-none" />
 
               <div className="flex flex-col md:flex-row items-center gap-8 relative z-10 text-center md:text-right">
-                <span className="text-8xl drop-shadow-2xl">
-                  {plan.country?.flag}
-                </span>
+                <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden shadow-2xl ring-2 ring-white/10">
+                  <CountryFlag code={plan.country?.code} size="xl" className="w-full h-full !rounded-2xl" />
+                </div>
                 <div>
                   <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
                     <span className="bg-white/10 text-white text-xs px-3 py-1 rounded-full">

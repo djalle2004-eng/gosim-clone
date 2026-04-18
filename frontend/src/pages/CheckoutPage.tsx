@@ -15,6 +15,7 @@ import StripePaymentForm from '../components/checkout/StripePaymentForm';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { api } from '../lib/api';
+import CountryFlag from '../components/ui/CountryFlag';
 
 // Initialize Stripe (requires Vite environment variable mapped in real app)
 // For mocking UI quickly without hitting real API, I will implement a safe fallback
@@ -275,7 +276,7 @@ export default function CheckoutPage() {
               </h3>
 
               <div className="flex items-center gap-4 mb-6">
-                <span className="text-5xl">{plan.country?.flag}</span>
+                <CountryFlag code={plan.country?.code} size="xl" className="shadow-lg ring-2 ring-white/10" />
                 <div className="flex-1">
                   <h4 className="text-white font-bold">{plan.name}</h4>
                   <p className="text-gray-400 text-sm tracking-wide">

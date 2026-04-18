@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, Wifi, ShoppingCart, Star, TrendingUp, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
+import CountryFlag from '../ui/CountryFlag';
 
 export default function BestSellers() {
   const navigate = useNavigate();
@@ -90,13 +91,8 @@ export default function BestSellers() {
 
                   {/* Country Header */}
                   <div className="flex items-center gap-4 mb-6 mt-4 relative z-10">
-                    <div className="relative">
-                      <span className="text-5xl block group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg">
-                        {plan.country?.flag}
-                      </span>
-                      <div className="absolute inset-0 text-5xl blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none">
-                        {plan.country?.flag}
-                      </div>
+                    <div className="group-hover:scale-110 transition-transform duration-500">
+                      <CountryFlag code={plan.country?.code} size="xl" className="shadow-xl ring-2 ring-white/10" />
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-white">
