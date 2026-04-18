@@ -101,6 +101,16 @@ export default function DashboardLayout() {
 
         {/* Navigation */}
         <nav className="flex-1 space-y-2">
+          {(user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') && (
+            <Link
+              to="/admin/dashboard"
+              className="flex items-center justify-center gap-2 w-full bg-violet-600/20 text-violet-400 hover:bg-violet-600/30 hover:text-white px-4 py-3 rounded-xl border border-violet-600/30 transition-colors font-bold mb-4"
+            >
+              <ShieldCheck className="w-5 h-5" />
+              لوحة تحكم الإدارة
+            </Link>
+          )}
+
           {navItems.map((item) => (
             <NavLink
               key={item.path}

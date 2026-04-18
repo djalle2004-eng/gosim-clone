@@ -14,7 +14,7 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/dashboard';
+  const fromState = location.state?.from?.pathname;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,8 +22,13 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      await login({ emailOrPhone, password, rememberMe });
-      navigate(from, { replace: true });
+      const loggedInUser = await login({ emailOrPhone, password, rememberMe });
+      
+      const isAdmin = loggedInUser.role === 'ADMIN' || loggedInUser.role === 'SUPER_ADMIN';
+      const defaultPath = isAdmin ? '/admin' : '/dashboard';
+      const targetRoute = fromState || defaultPath;
+
+      navigate(targetRoute, { replace: true });
     } catch (err: any) {
       setError(
         err.response?.data?.message ||
