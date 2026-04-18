@@ -164,7 +164,9 @@ export default function PlansPage() {
               className="fixed bottom-0 left-0 right-0 max-h-[85vh] overflow-y-auto bg-slate-50 z-50 rounded-t-3xl border-t border-slate-200 p-4 lg:hidden"
             >
               <div className="flex justify-between items-center mb-6 pt-2">
-                <h3 className="text-xl font-bold text-slate-800">تصفية النتائج</h3>
+                <h3 className="text-xl font-bold text-slate-800">
+                  تصفية النتائج
+                </h3>
                 <button
                   onClick={() => setIsMobileFilterOpen(false)}
                   className="p-2 bg-slate-100 rounded-full text-slate-800"

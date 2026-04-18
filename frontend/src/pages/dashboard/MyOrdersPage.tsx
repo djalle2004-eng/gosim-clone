@@ -46,7 +46,9 @@ export default function MyOrdersPage() {
     <>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">تاريخ الطلبات</h1>
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">
+            تاريخ الطلبات
+          </h1>
           <p className="text-slate-500">
             تتبع جميع فواتيرك وطلباتك الجارية والسابقة من هنا.
           </p>
@@ -104,7 +106,9 @@ export default function MyOrdersPage() {
                 <td className="py-5 px-6 font-mono text-cyan-400 text-sm">
                   {order.id}
                 </td>
-                <td className="py-5 px-6 text-slate-800 text-sm">{order.date}</td>
+                <td className="py-5 px-6 text-slate-800 text-sm">
+                  {order.date}
+                </td>
                 <td className="py-5 px-6">
                   <div className="flex items-center gap-2">
                     <span className="text-xl">{order.items[0].flag}</span>

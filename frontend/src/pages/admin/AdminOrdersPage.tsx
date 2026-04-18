@@ -89,7 +89,9 @@ export default function AdminOrdersPage() {
         header: 'المبلغ',
         accessorKey: 'amount',
         cell: (info: any) => (
-          <span className="text-slate-800 font-bold">{info.getValue()} د.ج</span>
+          <span className="text-slate-800 font-bold">
+            {info.getValue()} د.ج
+          </span>
         ),
       },
       {

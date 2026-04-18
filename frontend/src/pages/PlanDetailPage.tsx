@@ -62,7 +62,9 @@ export default function PlanDetailPage() {
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-8">
           <span className="hover:text-slate-900 cursor-pointer">الرئيسية</span>{' '}
           <ChevronRight className="w-4 h-4" />
-          <span className="hover:text-slate-900 cursor-pointer">الباقات</span>{' '}
+          <span className="hover:text-slate-900 cursor-pointer">
+            الباقات
+          </span>{' '}
           <ChevronRight className="w-4 h-4" />
           <span className="hover:text-slate-900 cursor-pointer">
             {plan.country?.nameEn}
@@ -154,11 +156,15 @@ export default function PlanDetailPage() {
                   <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 p-4 rounded-2xl flex flex-col items-center justify-center text-center">
                     <Zap className="w-6 h-6 text-cyan-400 mb-2" />
                     <span className="text-slate-500 text-sm">سرعة الشبكة</span>
-                    <span className="text-slate-800 font-bold">{plan.speed}</span>
+                    <span className="text-slate-800 font-bold">
+                      {plan.speed}
+                    </span>
                   </div>
                   <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 p-4 rounded-2xl flex flex-col items-center justify-center text-center">
                     <Smartphone className="w-6 h-6 text-cyan-400 mb-2" />
-                    <span className="text-slate-500 text-sm">إمكانية الشحن</span>
+                    <span className="text-slate-500 text-sm">
+                      إمكانية الشحن
+                    </span>
                     <span className="text-slate-800 font-bold">مدعوم</span>
                   </div>
                   <div className="bg-white/90 backdrop-blur-md border border-slate-200/50 p-4 rounded-2xl flex flex-col items-center justify-center text-center">

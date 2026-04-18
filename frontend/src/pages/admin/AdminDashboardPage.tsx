@@ -219,7 +219,9 @@ export default function AdminDashboardPage() {
                     ></div>
                     <span className="text-slate-500">{entry.name}</span>
                   </div>
-                  <span className="text-slate-800 font-bold">{entry.value}</span>
+                  <span className="text-slate-800 font-bold">
+                    {entry.value}
+                  </span>
                 </div>
               ))}
             </div>

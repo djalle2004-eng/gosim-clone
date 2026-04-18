@@ -71,7 +71,9 @@ export default function MyESimsPage() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-800 mb-2">eSIM الخاصة بي</h1>
+        <h1 className="text-3xl font-bold text-slate-800 mb-2">
+          eSIM الخاصة بي
+        </h1>
         <p className="text-slate-500">
           قم بإدارة وتتبع استهلاك باقات الإنترنت الحالية والسابقة.
         </p>

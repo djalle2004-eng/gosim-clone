@@ -28,10 +28,10 @@ export default function HeroSection() {
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-slate-50">
       {/* Travel Background Image */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="/hero-travel-bg.png" 
-          alt="Travel Background" 
-          className="w-full h-full object-cover opacity-60 mix-blend-multiply" 
+        <img
+          src="/hero-travel-bg.png"
+          alt="Travel Background"
+          className="w-full h-full object-cover opacity-60 mix-blend-multiply"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/80 to-slate-50"></div>
       </div>

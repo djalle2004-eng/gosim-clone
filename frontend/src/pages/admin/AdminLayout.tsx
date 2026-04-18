@@ -151,7 +151,9 @@ export default function AdminLayout() {
                 className="flex items-center gap-3 hover:bg-slate-100 p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-slate-200/50"
               >
                 <div className="text-left hidden md:block">
-                  <p className="text-sm font-bold text-slate-800">المدير العام</p>
+                  <p className="text-sm font-bold text-slate-800">
+                    المدير العام
+                  </p>
                   <p className="text-xs text-slate-400">admin@soufsim.dz</p>
                 </div>
                 <img

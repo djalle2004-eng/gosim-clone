@@ -54,7 +54,9 @@ export default function FAQ() {
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
                 className="w-full px-6 py-5 flex items-center justify-between text-right"
               >
-                <span className="font-bold text-slate-800 text-lg">{faq.q}</span>
+                <span className="font-bold text-slate-800 text-lg">
+                  {faq.q}
+                </span>
                 <ChevronDown
                   className={`w-5 h-5 text-cyan-400 transition-transform ${openIndex === idx ? 'rotate-180' : ''}`}
                 />

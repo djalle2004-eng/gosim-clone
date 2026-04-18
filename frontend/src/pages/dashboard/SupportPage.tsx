@@ -133,7 +133,9 @@ export default function SupportPage() {
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 border border-slate-200/50">
                 <MessageSquare className="w-8 h-8 text-cyan-400" />
               </div>
-              <h4 className="text-slate-800 font-bold mb-1">المحادثة المباشرة</h4>
+              <h4 className="text-slate-800 font-bold mb-1">
+                المحادثة المباشرة
+              </h4>
               <p className="text-slate-500 text-xs mb-4">
                 فريقنا متاح للرد فوراً على أسئلتك المباشرة.
               </p>

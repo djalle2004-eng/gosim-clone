@@ -312,7 +312,9 @@ export default function CheckoutPage() {
               </div>
 
               <div className="flex justify-between items-end mb-2">
-                <span className="text-slate-800 font-bold text-lg">الإجمالي</span>
+                <span className="text-slate-800 font-bold text-lg">
+                  الإجمالي
+                </span>
                 <div className="text-right">
                   <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 leading-none">
                     {totalDzd.toLocaleString()} د.ج

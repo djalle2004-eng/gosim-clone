@@ -172,7 +172,9 @@ export default function DashboardLayout() {
             className={({ isActive }) =>
               cn(
                 'flex-1 flex flex-col items-center justify-center py-3 gap-1 relative',
-                isActive ? 'text-cyan-400' : 'text-slate-400 hover:text-slate-600'
+                isActive
+                  ? 'text-cyan-400'
+                  : 'text-slate-400 hover:text-slate-600'
               )
             }
           >
