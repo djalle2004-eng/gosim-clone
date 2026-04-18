@@ -53,7 +53,11 @@ export default function LoginPage() {
         to="/"
         className="absolute top-8 right-8 z-10 transition-transform hover:scale-105"
       >
-        <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-10 object-contain" />
+        <img
+          src="/soufsim-logo.png"
+          alt="SoufSim Logo"
+          className="h-10 object-contain"
+        />
       </Link>
 
       <motion.div

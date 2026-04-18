@@ -60,7 +60,12 @@ router.delete(
 
 // Users (Super Admin required for role mutations)
 router.get('/users', controller.getUsers);
-router.post('/staff', requireSuperAdmin, audit('CREATE_STAFF', 'User'), controller.createStaff);
+router.post(
+  '/staff',
+  requireSuperAdmin,
+  audit('CREATE_STAFF', 'User'),
+  controller.createStaff
+);
 router.get('/users/:id', controller.getUserInfo);
 router.patch(
   '/users/:id/ban',

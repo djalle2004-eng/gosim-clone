@@ -20,7 +20,7 @@ export default function AdminUsersPage() {
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
-  
+
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [staffForm, setStaffForm] = useState({
@@ -28,7 +28,7 @@ export default function AdminUsersPage() {
     lastName: '',
     email: '',
     password: '',
-    role: 'EMPLOYEE'
+    role: 'EMPLOYEE',
   });
 
   const { data: users = [], isLoading } = useQuery({
@@ -36,7 +36,7 @@ export default function AdminUsersPage() {
     queryFn: async () => {
       const res = await api.get('/admin/users');
       return res.data;
-    }
+    },
   });
 
   const createStaff = useMutation({
@@ -47,8 +47,14 @@ export default function AdminUsersPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-users'] });
       setIsModalOpen(false);
-      setStaffForm({ firstName: '', lastName: '', email: '', password: '', role: 'EMPLOYEE' });
-    }
+      setStaffForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        role: 'EMPLOYEE',
+      });
+    },
   });
 
   const columns = [
@@ -57,11 +63,26 @@ export default function AdminUsersPage() {
       accessorKey: 'firstName',
       cell: (info: any) => {
         const u = info.row.original;
-        
+
         let RoleBadge = null;
-        if(u.role === 'SUPER_ADMIN') RoleBadge = <span className="bg-purple-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">مدير عام</span>;
-        else if(u.role === 'ADMIN' || u.role === 'EMPLOYEE') RoleBadge = <span className="bg-blue-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">موظف</span>;
-        else if(u.role === 'RESELLER') RoleBadge = <span className="bg-orange-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">موزع</span>;
+        if (u.role === 'SUPER_ADMIN')
+          RoleBadge = (
+            <span className="bg-purple-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">
+              مدير عام
+            </span>
+          );
+        else if (u.role === 'ADMIN' || u.role === 'EMPLOYEE')
+          RoleBadge = (
+            <span className="bg-blue-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">
+              موظف
+            </span>
+          );
+        else if (u.role === 'RESELLER')
+          RoleBadge = (
+            <span className="bg-orange-600 px-2 py-0.5 rounded text-[9px] uppercase tracking-wider text-white">
+              موزع
+            </span>
+          );
 
         return (
           <div className="flex items-center gap-3">
@@ -75,9 +96,7 @@ export default function AdminUsersPage() {
                 {u.firstName} {u.lastName}
                 {RoleBadge}
               </div>
-              <div className="text-gray-500 text-xs">
-                {u.email}
-              </div>
+              <div className="text-gray-500 text-xs">{u.email}</div>
             </div>
           </div>
         );
@@ -146,7 +165,7 @@ export default function AdminUsersPage() {
           </p>
         </div>
         {isSuperAdmin && (
-          <button 
+          <button
             onClick={() => setIsModalOpen(true)}
             className="bg-cyan-500 hover:bg-cyan-400 text-background font-bold py-2 px-5 rounded-full flex items-center gap-2 transition-colors"
           >
@@ -171,7 +190,9 @@ export default function AdminUsersPage() {
 
         <div className="overflow-x-auto">
           {isLoading ? (
-            <div className="p-10 text-center text-gray-500">جاري التحميل...</div>
+            <div className="p-10 text-center text-gray-500">
+              جاري التحميل...
+            </div>
           ) : (
             <table className="w-full text-left border-collapse">
               <thead className="bg-[#12121a]">
@@ -217,62 +238,112 @@ export default function AdminUsersPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-[#181822] border border-white/10 rounded-3xl w-full max-w-md p-6 shadow-2xl relative">
-             <button 
-                onClick={() => setIsModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-white"
-             >
-                <X className="w-5 h-5" />
-             </button>
-             
-             <h2 className="text-xl font-bold text-white mb-6">إضافة حساب إداري جديد</h2>
-             
-             <form onSubmit={(e) => {
-               e.preventDefault();
-               createStaff.mutate(staffForm);
-             }} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gray-400 text-xs mb-1">الاسم</label>
-                    <input required type="text" className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white" 
-                      value={staffForm.firstName} onChange={(e) => setStaffForm({...staffForm, firstName: e.target.value})} />
-                  </div>
-                  <div>
-                    <label className="block text-gray-400 text-xs mb-1">اللقب</label>
-                    <input required type="text" className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white" 
-                       value={staffForm.lastName} onChange={(e) => setStaffForm({...staffForm, lastName: e.target.value})}/>
-                  </div>
-                </div>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
 
-                <div>
-                  <label className="block text-gray-400 text-xs mb-1">البريد الإلكتروني (تسجيل الدخول)</label>
-                  <input required type="email" className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white" 
-                     value={staffForm.email} onChange={(e) => setStaffForm({...staffForm, email: e.target.value})}/>
-                </div>
+            <h2 className="text-xl font-bold text-white mb-6">
+              إضافة حساب إداري جديد
+            </h2>
 
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                createStaff.mutate(staffForm);
+              }}
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-xs mb-1">كلمة المرور المؤقتة</label>
-                  <input required type="text" minLength={6} className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white" 
-                     value={staffForm.password} onChange={(e) => setStaffForm({...staffForm, password: e.target.value})}/>
-                </div>
-
-                <div>
-                  <label className="block text-gray-400 text-xs mb-1">صلاحيات الحساب</label>
-                  <select 
+                  <label className="block text-gray-400 text-xs mb-1">
+                    الاسم
+                  </label>
+                  <input
+                    required
+                    type="text"
                     className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
-                    value={staffForm.role} 
-                    onChange={(e) => setStaffForm({...staffForm, role: e.target.value})}
-                  >
-                    <option value="EMPLOYEE">موظف في الشركة (دعم فني)</option>
-                    <option value="RESELLER">موزع (B2B)</option>
-                  </select>
+                    value={staffForm.firstName}
+                    onChange={(e) =>
+                      setStaffForm({ ...staffForm, firstName: e.target.value })
+                    }
+                  />
                 </div>
+                <div>
+                  <label className="block text-gray-400 text-xs mb-1">
+                    اللقب
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                    value={staffForm.lastName}
+                    onChange={(e) =>
+                      setStaffForm({ ...staffForm, lastName: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
 
-                <div className="pt-4 flex gap-3">
-                  <button type="submit" disabled={createStaff.isPending} className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-background font-bold py-2.5 rounded-xl transition-colors">
-                    {createStaff.isPending ? 'جاري الإضافة...' : 'إنشاء الحساب'}
-                  </button>
-                </div>
-             </form>
+              <div>
+                <label className="block text-gray-400 text-xs mb-1">
+                  البريد الإلكتروني (تسجيل الدخول)
+                </label>
+                <input
+                  required
+                  type="email"
+                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                  value={staffForm.email}
+                  onChange={(e) =>
+                    setStaffForm({ ...staffForm, email: e.target.value })
+                  }
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-400 text-xs mb-1">
+                  كلمة المرور المؤقتة
+                </label>
+                <input
+                  required
+                  type="text"
+                  minLength={6}
+                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                  value={staffForm.password}
+                  onChange={(e) =>
+                    setStaffForm({ ...staffForm, password: e.target.value })
+                  }
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-400 text-xs mb-1">
+                  صلاحيات الحساب
+                </label>
+                <select
+                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-2 text-white"
+                  value={staffForm.role}
+                  onChange={(e) =>
+                    setStaffForm({ ...staffForm, role: e.target.value })
+                  }
+                >
+                  <option value="EMPLOYEE">موظف في الشركة (دعم فني)</option>
+                  <option value="RESELLER">موزع (B2B)</option>
+                </select>
+              </div>
+
+              <div className="pt-4 flex gap-3">
+                <button
+                  type="submit"
+                  disabled={createStaff.isPending}
+                  className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-background font-bold py-2.5 rounded-xl transition-colors"
+                >
+                  {createStaff.isPending ? 'جاري الإضافة...' : 'إنشاء الحساب'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

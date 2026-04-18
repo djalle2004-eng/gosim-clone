@@ -68,7 +68,11 @@ export default function AdminLayout() {
       <aside className="w-72 border-l border-white/5 bg-[#12121a] flex flex-col h-screen sticky top-0 z-50">
         <div className="h-20 px-6 flex items-center border-b border-white/5">
           <Link to="/" className="flex items-center gap-3">
-            <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-10 object-contain" />
+            <img
+              src="/soufsim-logo.png"
+              alt="SoufSim Logo"
+              className="h-10 object-contain"
+            />
             <div className="flex flex-col">
               <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-[0.2em] mt-1 text-right">
                 Admin Portal

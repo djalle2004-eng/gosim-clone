@@ -19,7 +19,6 @@ import {
   Cell,
 } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
-import { useAuth } from '../../context/AuthContext';
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
@@ -73,7 +72,9 @@ export default function AdminDashboardPage() {
     },
   ];
 
-  const visibleKpis = isSuperAdmin ? kpis : kpis.filter(k => k.label !== 'إجمالي الإيراد');
+  const visibleKpis = isSuperAdmin
+    ? kpis
+    : kpis.filter((k) => k.label !== 'إجمالي الإيراد');
 
   return (
     <div className="max-w-[1600px] mx-auto space-y-8">
@@ -225,10 +226,11 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
-      
+
       {!isSuperAdmin && (
         <div className="bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 p-4 rounded-xl flex items-center justify-center font-medium">
-          أنت تتصفح حالياً لوحة التحكم بصلاحيات محدودة لموزع/موظف. لا تُعرض البيانات المالية هنا.
+          أنت تتصفح حالياً لوحة التحكم بصلاحيات محدودة لموزع/موظف. لا تُعرض
+          البيانات المالية هنا.
         </div>
       )}
     </div>

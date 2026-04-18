@@ -9,20 +9,36 @@ import { Prisma } from '@prisma/client';
 export const getStats = async (adminUser?: any) => {
   const isReseller = adminUser?.role === 'RESELLER';
   const userIds = isReseller
-    ? (await prisma.user.findMany({ where: { resellerId: adminUser.id }, select: { id: true } })).map((u) => u.id)
+    ? (
+        await prisma.user.findMany({
+          where: { resellerId: adminUser.id },
+          select: { id: true },
+        })
+      ).map((u) => u.id)
     : undefined;
 
-  const [totalUsers, totalOrders, activeESims, revenueAggr] = await Promise.all([
-    prisma.user.count({ where: isReseller ? { resellerId: adminUser.id } : undefined }),
-    prisma.order.count({ where: isReseller ? { userId: { in: userIds } } : undefined }),
-    prisma.eSim.count({ where: { status: 'ACTIVE', ...(isReseller ? { userId: { in: userIds } } : {}) } }),
-    !isReseller && adminUser?.role === 'SUPER_ADMIN'
-      ? prisma.payment.aggregate({
-          _sum: { amount: true },
-          where: { status: 'COMPLETED', currency: 'USD' },
-        })
-      : Promise.resolve({ _sum: { amount: 0 } }),
-  ]);
+  const [totalUsers, totalOrders, activeESims, revenueAggr] = await Promise.all(
+    [
+      prisma.user.count({
+        where: isReseller ? { resellerId: adminUser.id } : undefined,
+      }),
+      prisma.order.count({
+        where: isReseller ? { userId: { in: userIds } } : undefined,
+      }),
+      prisma.eSim.count({
+        where: {
+          status: 'ACTIVE',
+          ...(isReseller ? { userId: { in: userIds } } : {}),
+        },
+      }),
+      !isReseller && adminUser?.role === 'SUPER_ADMIN'
+        ? prisma.payment.aggregate({
+            _sum: { amount: true },
+            where: { status: 'COMPLETED', currency: 'USD' },
+          })
+        : Promise.resolve({ _sum: { amount: 0 } }),
+    ]
+  );
 
   return {
     revenue: revenueAggr._sum.amount || 0,
@@ -56,9 +72,7 @@ export const getAnalytics = async (adminUser?: any) => {
 
 export const getRecentOrders = async (adminUser?: any) => {
   const isReseller = adminUser?.role === 'RESELLER';
-  const where = isReseller 
-    ? { user: { resellerId: adminUser.id } } 
-    : undefined;
+  const where = isReseller ? { user: { resellerId: adminUser.id } } : undefined;
 
   return await prisma.order.findMany({
     where,
@@ -125,7 +139,7 @@ export const deleteCountry = async (id: string) =>
 // =======================
 export const getUsers = async (search?: string, adminUser?: any) => {
   const where: any = {};
-  
+
   // If the admin is a RESELLER, they can only see their own clients
   if (adminUser && adminUser.role === 'RESELLER') {
     where.resellerId = adminUser.id;
@@ -143,7 +157,7 @@ export const getUsers = async (search?: string, adminUser?: any) => {
 export const createStaff = async (staffData: any) => {
   const { email, password, firstName, lastName, role } = staffData;
   const hashedPassword = await bcrypt.hash(password, 10);
-  
+
   return await prisma.user.create({
     data: {
       email,
@@ -151,8 +165,8 @@ export const createStaff = async (staffData: any) => {
       firstName,
       lastName,
       role,
-      isVerified: true
-    }
+      isVerified: true,
+    },
   });
 };
 
@@ -181,7 +195,7 @@ export const changeUserRole = async (id: string, role: any) => {
 export const getOrders = async (adminUser?: any) => {
   const isReseller = adminUser?.role === 'RESELLER';
   const where = isReseller ? { user: { resellerId: adminUser.id } } : undefined;
-  
+
   return await prisma.order.findMany({
     where,
     include: { user: true },

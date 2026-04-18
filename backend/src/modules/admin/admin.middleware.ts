@@ -11,7 +11,9 @@ export const requireAdmin = (
   if (!user || !adminRoles.includes(user.role)) {
     return res
       .status(403)
-      .json({ message: 'Accès restreint aux membres du personnel et partenaires' });
+      .json({
+        message: 'Accès restreint aux membres du personnel et partenaires',
+      });
   }
   next();
 };

@@ -56,7 +56,9 @@ export const deleteCountry = async (req: Request, res: Response) =>
 
 // Users
 export const getUsers = async (req: Request, res: Response) =>
-  res.json(await adminService.getUsers(req.query.q as string, (req as any).user));
+  res.json(
+    await adminService.getUsers(req.query.q as string, (req as any).user)
+  );
 
 export const createStaff = async (req: Request, res: Response) => {
   try {
@@ -64,7 +66,9 @@ export const createStaff = async (req: Request, res: Response) => {
     return res.status(201).json(staff);
   } catch (err: any) {
     if (err.code === 'P2002') {
-      return res.status(409).json({ message: 'البريد الإلكتروني موجود بالفعل.' });
+      return res
+        .status(409)
+        .json({ message: 'البريد الإلكتروني موجود بالفعل.' });
     }
     return res.status(500).json({ message: err.message || 'خطأ داخلي' });
   }

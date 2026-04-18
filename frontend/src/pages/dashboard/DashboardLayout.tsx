@@ -51,7 +51,11 @@ export default function DashboardLayout() {
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
       <header className="md:hidden bg-card border-b border-white/5 py-4 px-4 sticky top-0 z-50 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
-          <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-8 object-contain" />
+          <img
+            src="/soufsim-logo.png"
+            alt="SoufSim Logo"
+            className="h-8 object-contain"
+          />
         </Link>
         <img
           src={(user as any).avatar || `https://i.pravatar.cc/150?u=${user.id}`}
@@ -63,7 +67,11 @@ export default function DashboardLayout() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-72 flex-col bg-card border-l border-white/5 h-screen sticky top-0 p-6 z-40">
         <Link to="/" className="flex items-center gap-2 group mb-10">
-          <img src="/soufsim-logo.png" alt="SoufSim Logo" className="h-10 object-contain" />
+          <img
+            src="/soufsim-logo.png"
+            alt="SoufSim Logo"
+            className="h-10 object-contain"
+          />
         </Link>
 
         {/* User Card */}
