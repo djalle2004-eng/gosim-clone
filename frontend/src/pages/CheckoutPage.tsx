@@ -276,7 +276,11 @@ export default function CheckoutPage() {
               </h3>
 
               <div className="flex items-center gap-4 mb-6">
-                <CountryFlag code={plan.country?.code} size="xl" className="shadow-lg ring-2 ring-white/10" />
+                <CountryFlag
+                  code={plan.country?.code}
+                  size="xl"
+                  className="shadow-lg ring-2 ring-white/10"
+                />
                 <div className="flex-1">
                   <h4 className="text-white font-bold">{plan.name}</h4>
                   <p className="text-gray-400 text-sm tracking-wide">

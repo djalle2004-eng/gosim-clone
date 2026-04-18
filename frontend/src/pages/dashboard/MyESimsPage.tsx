@@ -106,7 +106,11 @@ export default function MyESimsPage() {
               {/* Status Head */}
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
-                  <CountryFlag code={esim.countryCode} size="lg" className="shadow-lg" />
+                  <CountryFlag
+                    code={esim.countryCode}
+                    size="lg"
+                    className="shadow-lg"
+                  />
                   <div>
                     <h3 className="text-xl font-bold text-white">
                       {esim.planName}

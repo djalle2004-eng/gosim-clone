@@ -80,7 +80,11 @@ export default function PlanDetailPage() {
 
               <div className="flex flex-col md:flex-row items-center gap-8 relative z-10 text-center md:text-right">
                 <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden shadow-2xl ring-2 ring-white/10">
-                  <CountryFlag code={plan.country?.code} size="xl" className="w-full h-full !rounded-2xl" />
+                  <CountryFlag
+                    code={plan.country?.code}
+                    size="xl"
+                    className="w-full h-full !rounded-2xl"
+                  />
                 </div>
                 <div>
                   <div className="flex items-center justify-center md:justify-start gap-3 mb-3">

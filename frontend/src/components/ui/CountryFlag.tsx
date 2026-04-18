@@ -16,7 +16,11 @@ const SIZE_MAP = {
   xl: 'w-14 h-14',
 };
 
-export default function CountryFlag({ code, size = 'md', className = '' }: CountryFlagProps) {
+export default function CountryFlag({
+  code,
+  size = 'md',
+  className = '',
+}: CountryFlagProps) {
   if (!code) return <span className={SIZE_MAP[size]}>🌐</span>;
 
   const lowerCode = code.toLowerCase();

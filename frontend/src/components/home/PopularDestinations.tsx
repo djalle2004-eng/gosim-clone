@@ -4,33 +4,7 @@ import { ArrowLeft, Globe, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
 import CountryFlag from '../ui/CountryFlag';
-
-const REGION_COLORS: Record<string, string> = {
-  EUROPE: 'from-blue-600/30 to-indigo-600/20',
-  ASIA: 'from-amber-600/30 to-orange-600/20',
-  AMERICAS: 'from-emerald-600/30 to-teal-600/20',
-  MIDDLEEAST: 'from-rose-600/30 to-pink-600/20',
-  AFRICA: 'from-yellow-600/30 to-amber-600/20',
-  GLOBAL: 'from-violet-600/30 to-cyan-500/20',
-};
-
-const REGION_GLOW: Record<string, string> = {
-  EUROPE: 'group-hover:shadow-blue-500/20',
-  ASIA: 'group-hover:shadow-amber-500/20',
-  AMERICAS: 'group-hover:shadow-emerald-500/20',
-  MIDDLEEAST: 'group-hover:shadow-rose-500/20',
-  AFRICA: 'group-hover:shadow-yellow-500/20',
-  GLOBAL: 'group-hover:shadow-violet-500/20',
-};
-
-const REGION_BORDER: Record<string, string> = {
-  EUROPE: 'group-hover:border-blue-500/40',
-  ASIA: 'group-hover:border-amber-500/40',
-  AMERICAS: 'group-hover:border-emerald-500/40',
-  MIDDLEEAST: 'group-hover:border-rose-500/40',
-  AFRICA: 'group-hover:border-yellow-500/40',
-  GLOBAL: 'group-hover:border-violet-500/40',
-};
+import { getCountryImage } from '../../lib/country-images';
 
 export default function PopularDestinations() {
   const navigate = useNavigate();
@@ -43,7 +17,10 @@ export default function PopularDestinations() {
   });
 
   return (
-    <section className="py-24 bg-background relative overflow-hidden" id="destinations">
+    <section
+      className="py-24 bg-background relative overflow-hidden"
+      id="destinations"
+    >
       {/* Background decorations */}
       <div className="absolute top-[10%] right-[-5%] w-[400px] h-[400px] bg-cyan-600/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[10%] left-[-5%] w-[400px] h-[400px] bg-violet-600/5 blur-[120px] rounded-full pointer-events-none" />
@@ -64,7 +41,10 @@ export default function PopularDestinations() {
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              وجهات <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">رائجة</span>
+              وجهات{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                رائجة
+              </span>
             </h2>
             <p className="text-gray-400 max-w-lg">
               اكتشف أفضل باقات الإنترنت للبلدان الأكثر زيارة.
@@ -83,16 +63,14 @@ export default function PopularDestinations() {
             {[...Array(12)].map((_, i) => (
               <div
                 key={i}
-                className="h-36 bg-white/5 rounded-2xl animate-pulse border border-white/5"
+                className="h-44 bg-white/5 rounded-3xl animate-pulse border border-white/5"
               />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {countries?.slice(0, 12).map((country: any, idx: number) => {
-              const regionColor = REGION_COLORS[country.region] || REGION_COLORS.GLOBAL;
-              const regionGlow = REGION_GLOW[country.region] || REGION_GLOW.GLOBAL;
-              const regionBorder = REGION_BORDER[country.region] || REGION_BORDER.GLOBAL;
+              const bgImage = getCountryImage(country.code, country.region);
 
               return (
                 <motion.div
@@ -102,46 +80,42 @@ export default function PopularDestinations() {
                   transition={{ delay: idx * 0.05, duration: 0.4 }}
                   key={country.id}
                   onClick={() => navigate(`/plans?search=${country.nameEn}`)}
-                  className={`group relative overflow-hidden rounded-2xl bg-card border border-white/[0.06] p-5 cursor-pointer transition-all duration-500 hover:shadow-2xl ${regionGlow} ${regionBorder}`}
+                  className="group relative overflow-hidden rounded-3xl p-5 cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-1 min-h-[180px] flex flex-col justify-end border border-white/10"
                 >
-                  {/* Animated background gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${regionColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-                  {/* Subtle pattern overlay */}
-                  <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity"
-                    style={{
-                      backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-                      backgroundSize: '20px 20px',
-                    }}
+                  {/* Background Image */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    style={{ backgroundImage: `url(${bgImage})` }}
                   />
 
-                  <div className="relative z-10 flex items-center gap-4">
-                    <div className="relative">
-                      <div className="group-hover:scale-110 transition-transform duration-500 origin-center">
-                        <CountryFlag code={country.code} size="lg" className="shadow-lg" />
-                      </div>
+                  {/* Dark gradient overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/95 via-[#0a0a0f]/40 to-transparent group-hover:from-[#0a0a0f]/80 transition-colors duration-500" />
+                  <div className="absolute inset-0 bg-cyan-900/10 group-hover:bg-transparent transition-colors duration-500 mix-blend-overlay" />
+
+                  <div className="relative z-10 flex items-center justify-between mb-4 mt-auto pt-6">
+                    <div className="group-hover:scale-110 transition-transform duration-500 origin-bottom-left">
+                      <CountryFlag
+                        code={country.code}
+                        size="xl"
+                        className="shadow-2xl ring-2 ring-white/20"
+                      />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-bold text-base md:text-lg truncate group-hover:text-white transition-colors">
-                        {country.nameEn}
-                      </h3>
-                      <p className="text-gray-500 text-xs group-hover:text-gray-400 transition-colors truncate">
-                        {country.nameAr}
-                      </p>
+                    
+                    <div className="bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl shrink-0">
+                      <span className="text-white text-xs drop-shadow-md block text-center">
+                        من <span className="text-cyan-400 font-bold text-sm">{Math.round(country.lowestPrice || 0)}</span> {country.displayCurrency || 'DZD'}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Price badge */}
-                  <div className="relative z-10 mt-3 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-gray-500 group-hover:text-gray-400 transition-colors">
-                      <MapPin className="w-3 h-3" />
-                      <span className="text-[11px]">{country.region}</span>
-                    </div>
-                    <div className="bg-white/[0.06] group-hover:bg-white/10 px-3 py-1 rounded-full transition-colors">
-                      <span className="text-cyan-400 text-xs font-bold">
-                        من {Math.round(country.lowestPrice || 0)}{' '}
-                        <span className="text-gray-500 font-normal">{country.displayCurrency || 'DZD'}</span>
-                      </span>
+                  <div className="relative z-10 flex items-end justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-black text-xl lg:text-2xl truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        {country.nameEn}
+                      </h3>
+                      <p className="text-white/80 font-medium text-xs truncate drop-shadow-md flex items-center gap-1 mt-0.5">
+                        <MapPin className="w-3 h-3 text-cyan-400" /> {country.nameAr}
+                      </p>
                     </div>
                   </div>
                 </motion.div>
