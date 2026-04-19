@@ -70,27 +70,107 @@ export default function AdminSettingsPage() {
   const [showSecrets, setShowSecrets] = useState<Set<string>>(new Set());
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
 
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
   useEffect(() => {
     fetchSettings();
   }, []);
 
+  // Local fallback registry in case both API calls fail (e.g. migration not yet applied)
+  const FALLBACK_REGISTRY: Category[] = [
+    {
+      category: 'ESIM_PROVIDER', label: 'Fournisseurs eSIM', icon: '🌐',
+      providers: [
+        { provider: 'AIRALO', label: 'Airalo', description: 'Le plus grand fournisseur mondial d\'eSIM.', icon: '✈️',
+          keys: [
+            { key: 'API_URL', label: 'URL de l\'API', placeholder: 'https://partners.airalo.com/v2', isSecret: false },
+            { key: 'CLIENT_ID', label: 'Client ID', placeholder: 'Votre Client ID', isSecret: true, required: true },
+            { key: 'CLIENT_SECRET', label: 'Client Secret', placeholder: 'Votre Client Secret', isSecret: true, required: true },
+            { key: 'MODE', label: 'Mode', placeholder: 'sandbox | production', isSecret: false },
+          ] },
+        { provider: 'ESIMGO', label: 'eSIM.Go', description: 'Plateforme B2B d\'eSIM.', icon: '📡',
+          keys: [
+            { key: 'API_URL', label: 'URL de l\'API', placeholder: 'https://api.esim-go.com/v2', isSecret: false },
+            { key: 'API_KEY', label: 'Clé API', placeholder: 'Votre clé API', isSecret: true, required: true },
+          ] },
+        { provider: 'SIMFONY', label: 'Simfony', description: 'Fournisseur eSIM alternatif.', icon: '📶',
+          keys: [
+            { key: 'API_URL', label: 'URL de l\'API', placeholder: 'https://api.simfony.com/v1', isSecret: false },
+            { key: 'API_KEY', label: 'Clé API', placeholder: 'Votre clé API', isSecret: true, required: true },
+            { key: 'API_SECRET', label: 'Secret API', placeholder: 'Votre secret', isSecret: true },
+          ] },
+      ],
+    },
+    {
+      category: 'PAYMENT', label: 'Passerelles de Paiement', icon: '💳',
+      providers: [
+        { provider: 'STRIPE', label: 'Stripe', description: 'Paiement par carte internationale.', icon: '💎',
+          keys: [
+            { key: 'SECRET_KEY', label: 'Clé Secrète', placeholder: 'sk_live_...', isSecret: true, required: true },
+            { key: 'PUBLISHABLE_KEY', label: 'Clé Publique', placeholder: 'pk_live_...', isSecret: false, required: true },
+            { key: 'WEBHOOK_SECRET', label: 'Webhook Secret', placeholder: 'whsec_...', isSecret: true },
+          ] },
+        { provider: 'CIB', label: 'CIB (Carte Interbancaire)', description: 'Paiement par carte CIB algérienne.', icon: '🏦',
+          keys: [
+            { key: 'MERCHANT_ID', label: 'Merchant ID', placeholder: 'Votre Merchant ID', isSecret: false, required: true },
+            { key: 'TERMINAL_ID', label: 'Terminal ID', placeholder: 'Votre Terminal ID', isSecret: false },
+            { key: 'SECRET_KEY', label: 'Clé Secrète', placeholder: 'Votre clé secrète', isSecret: true, required: true },
+            { key: 'API_URL', label: 'URL de l\'API', placeholder: 'https://payment.cib.dz/api', isSecret: false },
+          ] },
+        { provider: 'EDAHABIA', label: 'Edahabia (Algérie Poste)', description: 'Paiement via carte Edahabia.', icon: '📮',
+          keys: [
+            { key: 'MERCHANT_ID', label: 'Merchant ID', placeholder: 'Votre Merchant ID', isSecret: false, required: true },
+            { key: 'API_KEY', label: 'Clé API', placeholder: 'Votre clé API', isSecret: true, required: true },
+            { key: 'SECRET_KEY', label: 'Clé Secrète', placeholder: 'Votre clé secrète', isSecret: true, required: true },
+            { key: 'API_URL', label: 'URL de l\'API', placeholder: 'https://epay.poste.dz/api', isSecret: false },
+          ] },
+      ],
+    },
+    {
+      category: 'EMAIL', label: 'Email & Notifications', icon: '📧',
+      providers: [
+        { provider: 'SMTP', label: 'Serveur SMTP', description: 'Configuration du serveur d\'envoi d\'emails.', icon: '✉️',
+          keys: [
+            { key: 'HOST', label: 'Hôte SMTP', placeholder: 'smtp.gmail.com', isSecret: false, required: true },
+            { key: 'PORT', label: 'Port', placeholder: '587', isSecret: false, required: true },
+            { key: 'USER', label: 'Utilisateur', placeholder: 'votre@email.com', isSecret: false, required: true },
+            { key: 'PASS', label: 'Mot de passe', placeholder: 'Mot de passe SMTP', isSecret: true, required: true },
+            { key: 'FROM', label: 'Email expéditeur', placeholder: 'noreply@soufsim.com', isSecret: false },
+            { key: 'SECURE', label: 'SSL/TLS (true/false)', placeholder: 'false', isSecret: false },
+          ] },
+      ],
+    },
+  ];
+
   const fetchSettings = async () => {
     try {
       setLoading(true);
+      setFetchError(null);
       const res = await api.get('/admin/settings');
       const data: Category[] = res.data.data;
-      setCategories(data);
+
+      if (data && data.length > 0) {
+        setCategories(data);
+      } else {
+        // API returned empty — use fallback
+        setCategories(FALLBACK_REGISTRY);
+      }
 
       // Initialize active states
       const actives: Record<string, boolean> = {};
-      data.forEach((cat) =>
+      (data && data.length > 0 ? data : FALLBACK_REGISTRY).forEach((cat) =>
         cat.providers.forEach((prov) => {
           actives[`${cat.category}::${prov.provider}`] = prov.isActive || false;
         })
       );
       setActiveStates(actives);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to fetch settings:', err);
+      // Use fallback registry so the UI is always usable
+      setCategories(FALLBACK_REGISTRY);
+      setFetchError(
+        'La base de données n\'est pas encore prête. Vous pouvez configurer vos clés — elles seront sauvegardées dès que la migration sera appliquée.'
+      );
     } finally {
       setLoading(false);
     }
@@ -248,6 +328,17 @@ export default function AdminSettingsPage() {
           </p>
         </div>
       </div>
+
+      {/* DB Error Banner */}
+      {fetchError && (
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50 border border-blue-200">
+          <Loader2 className="w-5 h-5 text-blue-500 mt-0.5 shrink-0 animate-spin" />
+          <div>
+            <p className="text-sm font-semibold text-blue-800">Migration en cours</p>
+            <p className="text-xs text-blue-700 mt-1">{fetchError}</p>
+          </div>
+        </div>
+      )}
 
       {/* Categories */}
       {categories.map((cat) => (

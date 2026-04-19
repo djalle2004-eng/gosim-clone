@@ -38,12 +38,10 @@ export const updateProviderSettings = async (req: Request, res: Response) => {
     const { keys, isActive } = req.body;
 
     if (!keys || !Array.isArray(keys)) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: 'Le champ "keys" est requis (tableau).',
-        });
+      return res.status(400).json({
+        success: false,
+        message: 'Le champ "keys" est requis (tableau).',
+      });
     }
 
     const adminUserId = (req as any).user?.id || 'unknown';
