@@ -38,11 +38,22 @@ export const updateProviderSettings = async (req: Request, res: Response) => {
     const { keys, isActive } = req.body;
 
     if (!keys || !Array.isArray(keys)) {
-      return res.status(400).json({ success: false, message: 'Le champ "keys" est requis (tableau).' });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: 'Le champ "keys" est requis (tableau).',
+        });
     }
 
     const adminUserId = (req as any).user?.id || 'unknown';
-    const result = await upsertSettings(category, provider, keys, isActive ?? true, adminUserId);
+    const result = await upsertSettings(
+      category,
+      provider,
+      keys,
+      isActive ?? true,
+      adminUserId
+    );
 
     res.json({ success: true, data: result });
   } catch (error: any) {
