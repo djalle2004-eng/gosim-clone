@@ -413,3 +413,24 @@ model IdentityVerification {
 
   @@map("identity_verifications")
 }
+
+// =======================
+// SYSTEM SETTINGS (API Keys Vault)
+// =======================
+
+model SystemSetting {
+  id        String   @id @default(uuid())
+  category  String   // ESIM_PROVIDER, PAYMENT, EMAIL
+  provider  String   // AIRALO, ESIMGO, SIMFONY, STRIPE, CIB, EDAHABIA, SMTP
+  key       String   // CLIENT_ID, CLIENT_SECRET, API_KEY, etc.
+  value     String   @db.Text // AES-256-GCM encrypted
+  isActive  Boolean  @default(true)
+  updatedBy String?  // admin user ID who last modified
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([category, provider, key])
+  @@index([category])
+  @@index([provider])
+  @@map("system_settings")
+}

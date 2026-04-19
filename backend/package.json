@@ -9,7 +9,7 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
-    "@gosim-clone/shared": "*",
+    "@soufsim-clone/shared": "*",
     "@prisma/client": "^5.22.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",

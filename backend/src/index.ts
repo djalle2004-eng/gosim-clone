@@ -12,6 +12,7 @@ import ordersRoutes from './modules/orders/orders.routes';
 import paymentsRoutes from './modules/payments/payments.routes';
 import adminRoutes from './modules/admin/admin.routes';
 import kycRoutes from './modules/kyc/kyc.routes';
+import settingsRoutes from './modules/settings/settings.routes';
 import { User } from '@soufsim-clone/shared';
 import path from 'path';
 
@@ -43,6 +44,7 @@ app.use('/api/plans', plansRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/admin/settings', settingsRoutes);
 app.use('/api/kyc', kycRoutes);
 
 // Expose static local uploads statically so clients can load the Passport Image via HTTP later

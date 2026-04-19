@@ -9,6 +9,7 @@ import {
   LogOut,
   ChevronDown,
   Globe,
+  Settings,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useState } from 'react';
@@ -57,6 +58,11 @@ export default function AdminLayout() {
       label: 'إدارة الدول',
       path: '/admin/countries',
       icon: <Globe className="w-5 h-5" />,
+    });
+    navItems.push({
+      label: 'الإعدادات والتكامل',
+      path: '/admin/settings',
+      icon: <Settings className="w-5 h-5" />,
     });
   }
 
