@@ -78,6 +78,12 @@ router.patch(
   audit('CHANGE_ROLE', 'User'),
   controller.changeUserRole
 );
+router.patch(
+  '/users/:id/discount',
+  requireSuperAdmin,
+  audit('UPDATE_DISCOUNT', 'User'),
+  controller.updateUserDiscount
+);
 
 // Orders
 router.get('/orders', controller.getOrders);

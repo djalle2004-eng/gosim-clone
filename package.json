@@ -20,11 +20,12 @@
     "prisma:migrate": "npx prisma migrate deploy --schema=backend/prisma/schema.prisma"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "prisma": "^5.22.0"
   },
   "devDependencies": {
+    "eslint": "^8.57.0",
     "husky": "^9.0.11",
-    "prettier": "^3.2.5",
-    "eslint": "^8.57.0"
+    "prettier": "^3.2.5"
   }
 }

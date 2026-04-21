@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import CountryFlag from '../ui/CountryFlag';
 import { getCountryImage } from '../../lib/country-images';
+import { useAuth } from '../../context/AuthContext';
 
 interface PlanCardProps {
   plan: any;
@@ -11,6 +12,14 @@ interface PlanCardProps {
 
 export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const isReseller = user?.role === 'RESELLER';
+  const discountRate = user?.discountRate || 0;
+  const originalPrice = plan.price;
+  const finalPrice = isReseller
+    ? originalPrice * (1 - discountRate / 100)
+    : originalPrice;
 
   const handleBuy = () => {
     navigate(`/checkout?planId=${plan.id}&qty=1`);
@@ -154,14 +163,21 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
             <div className="flex flex-col gap-4">
               <div className="flex items-end gap-2">
                 <span className="text-3xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-none">
-                  {plan.price}
+                  {Math.round(finalPrice)}
                 </span>
                 <span className="text-cyan-400 font-bold text-sm mb-0.5">
                   {plan.displayCurrency || 'DZD'}
                 </span>
-                <span className="text-slate-400 text-xs mb-0.5 mr-2 line-through">
-                  {Math.round(plan.price * 1.2)} {plan.displayCurrency || 'DZD'}
-                </span>
+                {isReseller && discountRate > 0 && (
+                  <span className="text-slate-400 text-xs mb-0.5 mr-2 line-through">
+                    {Math.round(originalPrice)} {plan.displayCurrency || 'DZD'}
+                  </span>
+                )}
+                {!isReseller && (
+                  <span className="text-slate-400 text-xs mb-0.5 mr-2 line-through">
+                    {Math.round(plan.price * 1.2)} {plan.displayCurrency || 'DZD'}
+                  </span>
+                )}
               </div>
 
               <button

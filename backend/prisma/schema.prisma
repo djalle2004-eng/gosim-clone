@@ -127,6 +127,7 @@ model User {
   role              Role     @default(USER)
   isVerified        Boolean  @default(false)
   isActive          Boolean  @default(true)
+  discountRate      Float    @default(0) // Percentage discount for RESELLER role (0 to 100)
   googleId          String?  @unique
   resetToken        String?
   resetTokenExpiry  DateTime?

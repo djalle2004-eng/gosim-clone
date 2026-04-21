@@ -17,6 +17,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import { api } from '../lib/api';
 import CountryFlag from '../components/ui/CountryFlag';
+import { useAuth } from '../context/AuthContext';
 
 export default function PlanDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -24,7 +25,11 @@ export default function PlanDetailPage() {
   const [activeTab, setActiveTab] = useState<
     'specs' | 'activation' | 'reviews'
   >('specs');
+  const { user } = useAuth();
   const [quantity, setQuantity] = useState(1);
+
+  const isReseller = user?.role === 'RESELLER';
+  const discountRate = user?.discountRate || 0;
 
   const { data: plan, isLoading } = useQuery({
     queryKey: ['plan', slug],
@@ -278,11 +283,19 @@ export default function PlanDetailPage() {
                 </span>
                 <div className="text-5xl font-black tracking-tight flex items-center justify-center gap-2 mb-2">
                   <span className="text-cyan-400 text-2xl">د.ج</span>
-                  {(plan.price * quantity).toLocaleString()}
+                  {Math.round(
+                    plan.price * (1 - discountRate / 100) * quantity
+                  ).toLocaleString()}
                 </div>
-                <div className="text-slate-500 font-medium">
-                  ${(plan.priceUsd * quantity).toFixed(2)} USD
-                </div>
+                {isReseller && discountRate > 0 ? (
+                  <div className="text-slate-500 font-medium line-through decoration-red-500/50">
+                    د.ج {(plan.price * quantity).toLocaleString()}
+                  </div>
+                ) : (
+                  <div className="text-slate-500 font-medium">
+                    ${(plan.priceUsd * quantity).toFixed(2)} USD
+                  </div>
+                )}
               </div>
 
               <div className="mb-6 bg-slate-50 rounded-2xl border border-slate-200/50 p-4">

@@ -12,20 +12,33 @@ export const createOrder = async (
   const plan = await prisma.eSimPlan.findUnique({ where: { id: planId } });
   if (!plan) throw new Error('Plan not found');
 
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error('User not found');
+
+  // Apply reseller discount if applicable
+  let finalPrice = price;
+  if (user.role === 'RESELLER' && user.discountRate > 0) {
+    const discountAmount = (price * user.discountRate) / 100;
+    finalPrice = price - discountAmount;
+  }
+
+  const totalAmount = finalPrice * quantity;
+
   // Set up Order + OrderItem atomic transaction
   const order = await prisma.order.create({
     data: {
       userId,
       status: 'PENDING',
-      totalAmount: price * quantity,
+      totalAmount: totalAmount,
       currency: currency,
       paymentMethod: 'CARD', // default
+      notes: user.role === 'RESELLER' ? `Reseller Discount Applied: ${user.discountRate}%` : null,
       orderItems: {
         create: {
           planId: plan.id,
           quantity,
-          unitPrice: price,
-          totalPrice: price * quantity,
+          unitPrice: finalPrice,
+          totalPrice: totalAmount,
         },
       },
     },

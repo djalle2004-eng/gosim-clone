@@ -103,41 +103,64 @@ export default function AdminUsersPage() {
       },
     },
     {
-      header: 'تاريخ الانضمام',
-      accessorKey: 'createdAt',
-      cell: (info: any) => (
-        <span className="text-slate-500 text-sm">
-          {new Date(info.getValue()).toLocaleDateString('ar-DZ')}
-        </span>
-      ),
-    },
-    {
-      header: 'حالة الحساب',
-      accessorKey: 'isActive',
-      cell: (info: any) =>
-        info.getValue() ? (
-          <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-bold">
-            نشط
-          </span>
-        ) : (
-          <span className="px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-xs font-bold flex w-max gap-1 items-center">
-            <ShieldAlert className="w-3 h-3" /> محظور
-          </span>
-        ),
+      header: 'العمولة / الخصم (%)',
+      accessorKey: 'discountRate',
+      cell: (info: any) => {
+        const u = info.row.original;
+        if (u.role !== 'RESELLER') return <span className="text-slate-300">-</span>;
+
+        return (
+          <div className="flex items-center gap-2 justify-end">
+            <input
+              type="number"
+              min="0"
+              max="100"
+              defaultValue={u.discountRate}
+              onBlur={async (e) => {
+                const val = parseFloat(e.target.value);
+                if (val !== u.discountRate) {
+                  try {
+                    await api.patch(`/admin/users/${u.id}/discount`, {
+                      discountRate: val,
+                    });
+                    queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+                  } catch (err) {
+                    alert('خطأ في تحديث الخصم');
+                  }
+                }
+              }}
+              className="w-16 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-center text-xs font-bold text-cyan-600 outline-none focus:border-cyan-500"
+            />
+            <span className="text-slate-400 text-[10px]">%</span>
+          </div>
+        );
+      },
     },
     {
       id: 'actions',
       header: '',
-      cell: () => (
-        <div className="flex justify-end gap-2">
-          <button className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
-            <Mail className="w-4 h-4" />
-          </button>
-          <button className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
-            <MoreVertical className="w-4 h-4" />
-          </button>
-        </div>
-      ),
+      cell: (info: any) => {
+        const u = info.row.original;
+        return (
+          <div className="flex justify-end gap-2">
+            <button
+              onClick={async () => {
+                if (confirm('هل أنت متأكد من تغيير حالة الحساب؟')) {
+                  await api.patch(`/admin/users/${u.id}/ban`);
+                  queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+                }
+              }}
+              className="p-2 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+              title="حظر / إلغاء حظر"
+            >
+              <ShieldAlert className="w-4 h-4" />
+            </button>
+            <button className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors">
+              <MoreVertical className="w-4 h-4" />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

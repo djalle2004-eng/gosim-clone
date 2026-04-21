@@ -80,6 +80,10 @@ export const toggleBanUser = async (req: Request, res: Response) =>
   res.json(await adminService.banUser(req.params.id));
 export const changeUserRole = async (req: Request, res: Response) =>
   res.json(await adminService.changeUserRole(req.params.id, req.body.role));
+export const updateUserDiscount = async (req: Request, res: Response) =>
+  res.json(
+    await adminService.updateUserDiscount(req.params.id, req.body.discountRate)
+  );
 
 // Orders
 export const getOrders = async (req: Request, res: Response) =>

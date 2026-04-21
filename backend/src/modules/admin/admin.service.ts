@@ -188,6 +188,13 @@ export const changeUserRole = async (id: string, role: any) => {
   return await prisma.user.update({ where: { id }, data: { role } });
 };
 
+export const updateUserDiscount = async (id: string, discountRate: number) => {
+  return await prisma.user.update({
+    where: { id },
+    data: { discountRate: Math.max(0, Math.min(100, discountRate)) },
+  });
+};
+
 // =======================
 // ORDERS & ESIMS MANAGEMENT
 // =======================
