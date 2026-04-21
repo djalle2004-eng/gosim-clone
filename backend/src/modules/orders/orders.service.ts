@@ -32,7 +32,10 @@ export const createOrder = async (
       totalAmount: totalAmount,
       currency: currency,
       paymentMethod: 'CARD', // default
-      notes: user.role === 'RESELLER' ? `Reseller Discount Applied: ${user.discountRate}%` : null,
+      notes:
+        user.role === 'RESELLER'
+          ? `Reseller Discount Applied: ${user.discountRate}%`
+          : null,
       orderItems: {
         create: {
           planId: plan.id,

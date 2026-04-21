@@ -175,7 +175,8 @@ export default function PlanCard({ plan, idx = 0 }: PlanCardProps) {
                 )}
                 {!isReseller && (
                   <span className="text-slate-400 text-xs mb-0.5 mr-2 line-through">
-                    {Math.round(plan.price * 1.2)} {plan.displayCurrency || 'DZD'}
+                    {Math.round(plan.price * 1.2)}{' '}
+                    {plan.displayCurrency || 'DZD'}
                   </span>
                 )}
               </div>

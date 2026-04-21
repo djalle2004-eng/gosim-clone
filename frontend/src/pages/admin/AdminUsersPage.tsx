@@ -8,7 +8,7 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table';
 import type { SortingState } from '@tanstack/react-table';
-import { Search, Mail, ShieldAlert, MoreVertical, Plus, X } from 'lucide-react';
+import { Search, ShieldAlert, MoreVertical, Plus, X } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
@@ -107,7 +107,8 @@ export default function AdminUsersPage() {
       accessorKey: 'discountRate',
       cell: (info: any) => {
         const u = info.row.original;
-        if (u.role !== 'RESELLER') return <span className="text-slate-300">-</span>;
+        if (u.role !== 'RESELLER')
+          return <span className="text-slate-300">-</span>;
 
         return (
           <div className="flex items-center gap-2 justify-end">
@@ -123,7 +124,9 @@ export default function AdminUsersPage() {
                     await api.patch(`/admin/users/${u.id}/discount`, {
                       discountRate: val,
                     });
-                    queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+                    queryClient.invalidateQueries({
+                      queryKey: ['admin-users'],
+                    });
                   } catch (err) {
                     alert('خطأ في تحديث الخصم');
                   }
