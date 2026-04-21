@@ -1,4 +1,4 @@
-import stripe from '../../services/stripe.service';
+import { getStripeClient } from '../../services/stripe.service';
 import { createCibCheckout } from '../../services/cib-payment.service';
 import { provisionESim } from '../../services/esim-provider.service';
 import prisma from '../../lib/db';
@@ -14,6 +14,7 @@ export const createPaymentIntent = async (orderId: string, userId: string) => {
 
   const amountInCents = Math.round(order.totalAmount * 100);
 
+  const stripe = await getStripeClient();
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amountInCents,
     currency: order.currency.toLowerCase(),
@@ -42,6 +43,7 @@ export const createCheckoutSession = async (
   const amountInCents = Math.round(order.totalAmount * 100);
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
+  const stripe = await getStripeClient();
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: order.orderItems.map((item) => ({

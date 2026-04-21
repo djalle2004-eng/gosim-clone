@@ -1,5 +1,5 @@
 import prisma from '../../lib/db';
-import stripe from '../../services/stripe.service';
+import { getStripeClient } from '../../services/stripe.service';
 import { deactivateESim } from '../../services/esim-provider.service';
 
 export const createOrder = async (
@@ -102,6 +102,7 @@ export const refundOrder = async (orderId: string) => {
   }
 
   // 1. Stripe Refund
+  const stripe = await getStripeClient();
   const refund = await stripe.refunds.create({
     payment_intent: payment.providerTransactionId,
   });

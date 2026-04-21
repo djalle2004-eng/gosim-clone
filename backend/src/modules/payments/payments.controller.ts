@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
-import stripe from '../../services/stripe.service';
+import { getStripeClient, getStripeConfig } from '../../services/stripe.service';
 import * as paymentsService from './payments.service';
-
-const STRIPE_WEBHOOK_SECRET =
-  process.env.STRIPE_WEBHOOK_SECRET || 'fallback_whsec';
 
 export const createIntent = async (req: Request, res: Response) => {
   try {
@@ -32,14 +29,18 @@ export const createSession = async (req: Request, res: Response) => {
 
 export const webhook = async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
-  let event;
+  const stripe = await getStripeClient();
+  const config = await getStripeConfig();
+  const webhookSecret = config.webhookSecret || process.env.STRIPE_WEBHOOK_SECRET || 'fallback_whsec';
+
+  let event: any;
 
   try {
     // req.body is a raw Buffer because of express.raw injected in index.ts specifically for this route!
     event = stripe.webhooks.constructEvent(
       req.body,
       sig as string,
-      STRIPE_WEBHOOK_SECRET
+      webhookSecret
     );
   } catch (err: any) {
     console.error('Webhook signature mismatch:', err.message);

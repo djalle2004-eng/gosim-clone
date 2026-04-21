@@ -1,28 +1,37 @@
 import axios, { AxiosInstance } from 'axios';
-import { providersConfig } from '../../config/providers.config';
+import { getAiraloConfig } from '../../modules/settings/config.service';
 import redisClient from '../../utils/redis';
 
 class AiraloClient {
-  private client: AxiosInstance;
+  private client: AxiosInstance | null = null;
   private readonly CACHE_KEY = 'AIRALO_BEARER_TOKEN';
 
   constructor() {
+    // We don't initialize axios here anymore because baseUrl might change
+  }
+
+  private async getClient(): Promise<AxiosInstance> {
+    if (this.client) return this.client;
+
+    const config = await getAiraloConfig();
     this.client = axios.create({
-      baseURL: providersConfig.airalo.baseUrl,
+      baseURL: config.baseUrl,
       headers: {
         Accept: 'application/json',
       },
     });
 
     // Request interceptor to inject Bearer token automatically
-    this.client.interceptors.request.use(async (config) => {
+    this.client.interceptors.request.use(async (axiosConfig) => {
       // Avoid infinite loop during auth
-      if (config.url === '/token') return config;
+      if (axiosConfig.url === '/token') return axiosConfig;
 
       const token = await this.authenticate();
-      config.headers.Authorization = `Bearer ${token}`;
-      return config;
+      axiosConfig.headers.Authorization = `Bearer ${token}`;
+      return axiosConfig;
     });
+
+    return this.client;
   }
 
   /**
@@ -32,21 +41,24 @@ class AiraloClient {
     const cachedToken = await redisClient.get(this.CACHE_KEY);
     if (cachedToken) return cachedToken;
 
-    if (!providersConfig.airalo.clientId) {
+    const config = await getAiraloConfig();
+
+    if (!config.clientId) {
       console.warn(
         'AIRALO_CLIENT_ID missing, falling back to mock token (or failing).'
       );
-      if (providersConfig.airalo.useMock) return 'MOCK_TOKEN_123';
+      if (config.useMock) return 'MOCK_TOKEN_123';
       throw new Error('Airalo credentials missing in production');
     }
 
     try {
       const form = new URLSearchParams();
-      form.append('client_id', providersConfig.airalo.clientId);
-      form.append('client_secret', providersConfig.airalo.clientSecret);
+      form.append('client_id', config.clientId);
+      form.append('client_secret', config.clientSecret);
       form.append('grant_type', 'client_credentials');
 
-      const response = await this.client.post('/token', form.toString(), {
+      const client = await this.getClient();
+      const response = await client.post('/token', form.toString(), {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
 
@@ -68,29 +80,35 @@ class AiraloClient {
   // --- CATALOG ENDPOINTS ---
 
   async getPackages(countryCode: string = '') {
-    if (providersConfig.airalo.useMock) return this.mockPackages(countryCode);
+    const config = await getAiraloConfig();
+    if (config.useMock) return this.mockPackages(countryCode);
 
     // E.g. GET /packages?filter[country]=US
     const params = countryCode ? { 'filter[country]': countryCode } : {};
-    const response = await this.client.get('/packages', { params });
+    const client = await this.getClient();
+    const response = await client.get('/packages', { params });
     return response.data.data;
   }
 
   async getPackage(packageId: string) {
-    if (providersConfig.airalo.useMock)
+    const config = await getAiraloConfig();
+    if (config.useMock)
       return this.mockSinglePackage(packageId);
 
-    const response = await this.client.get(`/packages/${packageId}`);
+    const client = await this.getClient();
+    const response = await client.get(`/packages/${packageId}`);
     return response.data.data;
   }
 
   // --- ORDER ENDPOINTS ---
 
   async createOrder(packageId: string, quantity: number = 1) {
-    if (providersConfig.airalo.useMock)
+    const config = await getAiraloConfig();
+    if (config.useMock)
       return this.mockCreateOrder(packageId, quantity);
 
-    const response = await this.client.post('/orders', {
+    const client = await this.getClient();
+    const response = await client.post('/orders', {
       package_id: packageId,
       quantity,
     });
@@ -98,17 +116,21 @@ class AiraloClient {
   }
 
   async getOrder(orderId: string | number) {
-    if (providersConfig.airalo.useMock) return this.mockGetOrder(orderId);
+    const config = await getAiraloConfig();
+    if (config.useMock) return this.mockGetOrder(orderId);
 
     // GET /orders/:id includes eSIM details (iccid, lpa) once completed
-    const response = await this.client.get(`/orders/${orderId}?include=sims`);
+    const client = await this.getClient();
+    const response = await client.get(`/orders/${orderId}?include=sims`);
     return response.data.data;
   }
 
   async getEsim(iccid: string) {
-    if (providersConfig.airalo.useMock) return this.mockGetEsim(iccid);
+    const config = await getAiraloConfig();
+    if (config.useMock) return this.mockGetEsim(iccid);
 
-    const response = await this.client.get(`/sims/${iccid}`);
+    const client = await this.getClient();
+    const response = await client.get(`/sims/${iccid}`);
     return response.data.data;
   }
 

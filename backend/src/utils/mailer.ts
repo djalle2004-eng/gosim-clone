@@ -1,23 +1,30 @@
 import nodemailer from 'nodemailer';
+import { getSmtpConfig } from '../modules/settings/config.service';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.ethereal.email',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
+/**
+ * Sends an email using dynamic SMTP settings from the database (with .env fallback).
+ */
 export const sendEmail = async (to: string, subject: string, html: string) => {
   try {
+    const config = await getSmtpConfig();
+
+    const transporter = nodemailer.createTransport({
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      auth: {
+        user: config.user,
+        pass: config.pass,
+      },
+    });
+
     const info = await transporter.sendMail({
-      from: `"SoufSim" <${process.env.SMTP_FROM || 'noreply@getsoufsim.com'}>`,
+      from: `"SoufSim" <${config.from}>`,
       to,
       subject,
       html,
     });
+    
     console.log(`Email sent successfully: ${info.messageId}`);
     return true;
   } catch (error) {
