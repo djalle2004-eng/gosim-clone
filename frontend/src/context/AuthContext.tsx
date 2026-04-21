@@ -7,7 +7,12 @@ import {
 } from 'react';
 import { api } from '../lib/api';
 
-export type UserRole = 'USER' | 'ADMIN' | 'SUPER_ADMIN' | 'RESELLER' | 'EMPLOYEE';
+export type UserRole =
+  | 'USER'
+  | 'ADMIN'
+  | 'SUPER_ADMIN'
+  | 'RESELLER'
+  | 'EMPLOYEE';
 
 export interface User {
   id: string;

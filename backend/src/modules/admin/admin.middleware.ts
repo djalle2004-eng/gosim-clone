@@ -32,28 +32,34 @@ export const requireSuperAdmin = (
 
 // Generates an Express middleware that logs the requested action intelligently into PostgreSQL Postgres
 export const audit = (action: string, resource: string) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    // We capture the send method to perform auditing AFTER the request completes successfully
-    const originalSend = res.json;
+  return (req: Request, res: Response, next: NextFunction) => {
+    const originalJson = res.json;
+
     res.json = function (body) {
-      if (res.statusCode >= 200 && res.statusCode < 300) {
-        const user = (req as any).user;
-        if (user) {
-          // Fire async natively without awaiting to prevent latency
-          prisma.auditLog
-            .create({
-              data: {
-                adminId: user.id,
-                action,
-                resource,
-                details: { params: req.params, body: req.body },
+      const user = (req as any).user;
+
+      // Log only successful operations in the background
+      if (res.statusCode >= 200 && res.statusCode < 300 && user) {
+        prisma.auditLog
+          .create({
+            data: {
+              adminId: user.id,
+              action,
+              resource,
+              details: { 
+                params: req.params, 
+                query: req.query,
+                // Avoid logging sensitive info like passwords
+                body: { ...req.body, password: req.body.password ? '***' : undefined } 
               },
-            })
-            .catch(console.error);
-        }
+            },
+          })
+          .catch((err) => console.error('Audit Log Error:', err));
       }
-      return originalSend.call(this, body);
+
+      return originalJson.call(this, body);
     };
+
     next();
   };
 };

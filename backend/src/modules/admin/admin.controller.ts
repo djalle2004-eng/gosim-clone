@@ -63,8 +63,11 @@ export const getUsers = async (req: Request, res: Response) =>
 export const createStaff = async (req: Request, res: Response) => {
   try {
     const staff = await adminService.createStaff(req.body);
-    return res.status(201).json(staff);
+    // Return sanitized object
+    const { password, ...sanitizedStaff } = staff;
+    return res.status(201).json(sanitizedStaff);
   } catch (err: any) {
+    console.error('[AdminController] createStaff error:', err);
     if (err.code === 'P2002') {
       return res
         .status(409)
