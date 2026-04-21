@@ -5,7 +5,7 @@ services:
     runtime: node
     plan: free
     buildCommand: npm install && npm run build:shared && npm run prisma:generate && npm run build:backend
-    startCommand: npm run prisma:migrate && npm run start --workspace=backend
+    startCommand: npm run prisma:migrate && npx prisma db seed -- --schema=backend/prisma/schema.prisma && npm run start --workspace=backend
     envVars:
       - key: NPM_CONFIG_PRODUCTION
         value: 'false'
