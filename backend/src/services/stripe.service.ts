@@ -15,10 +15,13 @@ export const getStripeClient = async (): Promise<Stripe> => {
   });
 };
 
-// For backward compatibility during transition, we can still export a default, 
+// For backward compatibility during transition, we can still export a default,
 // but it's better to use getStripeClient() everywhere.
-const defaultStripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
-  apiVersion: '2023-10-16',
-});
+const defaultStripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY || 'sk_test_mock',
+  {
+    apiVersion: '2023-10-16',
+  }
+);
 
 export default defaultStripe;

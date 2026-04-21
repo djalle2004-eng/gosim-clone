@@ -92,8 +92,7 @@ class AiraloClient {
 
   async getPackage(packageId: string) {
     const config = await getAiraloConfig();
-    if (config.useMock)
-      return this.mockSinglePackage(packageId);
+    if (config.useMock) return this.mockSinglePackage(packageId);
 
     const client = await this.getClient();
     const response = await client.get(`/packages/${packageId}`);
@@ -104,8 +103,7 @@ class AiraloClient {
 
   async createOrder(packageId: string, quantity: number = 1) {
     const config = await getAiraloConfig();
-    if (config.useMock)
-      return this.mockCreateOrder(packageId, quantity);
+    if (config.useMock) return this.mockCreateOrder(packageId, quantity);
 
     const client = await this.getClient();
     const response = await client.post('/orders', {

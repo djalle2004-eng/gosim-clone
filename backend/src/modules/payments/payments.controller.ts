@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
-import { getStripeClient, getStripeConfig } from '../../services/stripe.service';
+import {
+  getStripeClient,
+  getStripeConfig,
+} from '../../services/stripe.service';
 import * as paymentsService from './payments.service';
 
 export const createIntent = async (req: Request, res: Response) => {
@@ -31,7 +34,10 @@ export const webhook = async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
   const stripe = await getStripeClient();
   const config = await getStripeConfig();
-  const webhookSecret = config.webhookSecret || process.env.STRIPE_WEBHOOK_SECRET || 'fallback_whsec';
+  const webhookSecret =
+    config.webhookSecret ||
+    process.env.STRIPE_WEBHOOK_SECRET ||
+    'fallback_whsec';
 
   let event: any;
 
