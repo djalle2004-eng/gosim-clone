@@ -110,6 +110,33 @@ enum TicketPriority {
   URGENT
 }
 
+enum TenantPlan {
+  FREE
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+enum WalletTxType {
+  TOPUP
+  PURCHASE
+  REFUND
+  COMMISSION
+  WITHDRAWAL
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
 // =======================
 // MODELS
 // =======================
@@ -135,23 +162,38 @@ model User {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  orders         Order[]
-  esims          ESim[]
-  payments       Payment[]
-  reviews        Review[]
-  supportTickets SupportTicket[]
-  notifications  Notification[]
-  loginHistories LoginHistory[]
-  auditLogs      AuditLog[]
+  // Tenant (multi-tenancy)
+  tenantId          String?
+  tenant            Tenant?  @relation(fields: [tenantId], references: [id])
+
+  orders            Order[]
+  esims             ESim[]
+  payments          Payment[]
+  reviews           Review[]
+  supportTickets    SupportTicket[]
+  ticketReplies     TicketReply[]
+  notifications     Notification[]
+  loginHistories    LoginHistory[]
+  auditLogs         AuditLog[]
+
   // RBAC Reseller link
   resellerId        String?
   reseller          User?    @relation("ResellerClients", fields: [resellerId], references: [id])
   clients           User[]   @relation("ResellerClients")
 
-  kyc            IdentityVerification?
+  // Extended features
+  kyc               IdentityVerification?
+  wallet            Wallet?
+  subscription      Subscription?
+  referralCodes     ReferralCode[]
+  referralsGiven    Referral[]   @relation("ReferrerUser")
+  referralsReceived Referral[]   @relation("ReferredUser")
+  apiKeys           ApiKey[]
+  webhookEndpoints  WebhookEndpoint[]
 
   @@index([email])
   @@index([role])
+  @@index([tenantId])
   @@map("users")
 }
 
@@ -181,6 +223,10 @@ model ESimPlan {
   isGlobal   Boolean      @default(false)
   isRegional Boolean      @default(false)
 
+  // Tenant (multi-tenancy)
+  tenantId   String?
+  tenant     Tenant?      @relation(fields: [tenantId], references: [id])
+
   // Data specs
   dataAmount Int // MB — use -1 for unlimited
   validity   Int // Days
@@ -208,6 +254,7 @@ model ESimPlan {
   reviews    Review[]
 
   @@index([countryId])
+  @@index([tenantId])
   @@index([isActive, isBestSeller])
   @@index([provider])
   @@index([isGlobal, isRegional])
@@ -230,14 +277,20 @@ model Order {
   paymentMethod PaymentMethod @default(CARD)
   notes         String?
 
+  // Promo code applied
+  promoCodeId   String?
+  promoCode     PromoCode?    @relation(fields: [promoCodeId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   orderItems OrderItem[]
   payments   Payment[]
+  referrals  Referral[]
 
   @@index([userId])
   @@index([status])
+  @@index([promoCodeId])
   @@map("orders")
 }
 
@@ -339,6 +392,8 @@ model SupportTicket {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  replies TicketReply[]
+
   @@index([userId])
   @@index([status])
   @@map("support_tickets")
@@ -434,4 +489,211 @@ model SystemSetting {
   @@index([category])
   @@index([provider])
   @@map("system_settings")
+}
+
+// =======================
+// MULTI-TENANCY
+// =======================
+
+model Tenant {
+  id             String     @id @default(uuid())
+  slug           String     @unique
+  name           String
+  domain         String?    @unique
+  logoUrl        String?
+  primaryColor   String?    @default("#0ea5e9")
+  secondaryColor String?    @default("#8b5cf6")
+  plan           TenantPlan @default(FREE)
+  isActive       Boolean    @default(true)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  users     User[]
+  esimPlans ESimPlan[]
+
+  @@index([slug])
+  @@index([plan])
+  @@map("tenants")
+}
+
+// =======================
+// REFERRAL PROGRAM
+// =======================
+
+model ReferralCode {
+  id            String       @id @default(uuid())
+  code          String       @unique
+  ownerId       String
+  owner         User         @relation(fields: [ownerId], references: [id])
+  usageCount    Int          @default(0)
+  maxUsage      Int? // null = unlimited
+  discountType  DiscountType
+  discountValue Float        // percentage or fixed amount
+  commissionRate Float       @default(0) // % of order given to referrer
+  expiresAt     DateTime?
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+
+  referrals     Referral[]
+
+  @@index([ownerId])
+  @@index([code])
+  @@map("referral_codes")
+}
+
+model Referral {
+  id             String       @id @default(uuid())
+  referralCodeId String
+  referralCode   ReferralCode @relation(fields: [referralCodeId], references: [id])
+  referrerId     String
+  referrer       User         @relation("ReferrerUser", fields: [referrerId], references: [id])
+  referredUserId String
+  referredUser   User         @relation("ReferredUser", fields: [referredUserId], references: [id])
+  orderId        String?
+  order          Order?       @relation(fields: [orderId], references: [id])
+  commissionAmount Float      @default(0)
+  isPaid         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@index([referralCodeId])
+  @@index([referrerId])
+  @@index([referredUserId])
+  @@index([orderId])
+  @@map("referrals")
+}
+
+// =======================
+// DIGITAL WALLET
+// =======================
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Float    @default(0)
+  currency  Currency @default(DZD)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions WalletTransaction[]
+
+  @@map("wallets")
+}
+
+model WalletTransaction {
+  id          String        @id @default(uuid())
+  walletId    String
+  wallet      Wallet        @relation(fields: [walletId], references: [id])
+  type        WalletTxType
+  amount      Float
+  description String?
+  referenceId String? // orderId, referralId, etc.
+  createdAt   DateTime      @default(now())
+
+  @@index([walletId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("wallet_transactions")
+}
+
+// =======================
+// SUBSCRIPTIONS
+// =======================
+
+model Subscription {
+  id                   String             @id @default(uuid())
+  userId               String             @unique
+  user                 User               @relation(fields: [userId], references: [id])
+  planTier             TenantPlan
+  status               SubscriptionStatus @default(TRIALING)
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  stripeSubscriptionId String?            @unique
+  cancelAtPeriodEnd    Boolean            @default(false)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  @@index([status])
+  @@index([planTier])
+  @@map("subscriptions")
+}
+
+// =======================
+// API PARTNER PROGRAM
+// =======================
+
+model ApiKey {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  name       String
+  keyHash    String    @unique // SHA-256 hash of the actual key
+  prefix     String    @db.VarChar(8) // First 8 chars shown to user
+  scopes     Json      // ["orders:read", "plans:read", "esims:write", ...]
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@index([keyHash])
+  @@map("api_keys")
+}
+
+model WebhookEndpoint {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  url       String
+  events    Json     // ["order.completed", "esim.activated", ...]
+  secret    String   // HMAC signing secret
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("webhook_endpoints")
+}
+
+// =======================
+// SUPPORT TICKET REPLIES
+// =======================
+
+model TicketReply {
+  id          String        @id @default(uuid())
+  ticketId    String
+  ticket      SupportTicket @relation(fields: [ticketId], references: [id])
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  message     String        @db.Text
+  isStaffReply Boolean      @default(false)
+  createdAt   DateTime      @default(now())
+
+  @@index([ticketId])
+  @@index([userId])
+  @@map("ticket_replies")
+}
+
+// =======================
+// PROMO CODES
+// =======================
+
+model PromoCode {
+  id                String       @id @default(uuid())
+  code              String       @unique
+  discountType      DiscountType
+  discountValue     Float
+  minOrderAmount    Float?       // minimum cart value to apply
+  maxUses           Int?         // null = unlimited
+  currentUses       Int          @default(0)
+  applicablePlanIds Json?        // null = applies to all plans
+  expiresAt         DateTime?
+  isActive          Boolean      @default(true)
+  createdAt         DateTime     @default(now())
+
+  orders Order[]
+
+  @@index([code])
+  @@index([isActive])
+  @@map("promo_codes")
 }

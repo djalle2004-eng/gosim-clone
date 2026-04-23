@@ -46,11 +46,14 @@ export const audit = (action: string, resource: string) => {
               adminId: user.id,
               action,
               resource,
-              details: { 
-                params: req.params, 
+              details: {
+                params: req.params,
                 query: req.query,
                 // Avoid logging sensitive info like passwords
-                body: { ...req.body, password: req.body.password ? '***' : undefined } 
+                body: {
+                  ...req.body,
+                  password: req.body.password ? '***' : undefined,
+                },
               },
             },
           })
