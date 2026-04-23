@@ -15,6 +15,7 @@ import kycRoutes from './modules/kyc/kyc.routes';
 import settingsRoutes from './modules/settings/settings.routes';
 import { User } from '@soufsim-clone/shared';
 import path from 'path';
+import { apiLimiter, publicLimiter } from './middleware/rateLimiter';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,14 +39,16 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/countries', countriesRoutes);
-app.use('/api/plans', plansRoutes);
-app.use('/api/orders', ordersRoutes);
-app.use('/api/payments', paymentsRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/admin/settings', settingsRoutes);
-app.use('/api/kyc', kycRoutes);
+app.use('/api/auth', publicLimiter, authRoutes);
+app.use('/api/countries', publicLimiter, countriesRoutes);
+app.use('/api/plans', publicLimiter, plansRoutes);
+
+// Protected endpoints limit
+app.use('/api/orders', apiLimiter, ordersRoutes);
+app.use('/api/payments', apiLimiter, paymentsRoutes);
+app.use('/api/admin', apiLimiter, adminRoutes);
+app.use('/api/admin/settings', apiLimiter, settingsRoutes);
+app.use('/api/kyc', apiLimiter, kycRoutes);
 
 // Expose static local uploads statically so clients can load the Passport Image via HTTP later
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));

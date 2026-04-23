@@ -142,54 +142,60 @@ enum SubscriptionStatus {
 // =======================
 
 model User {
-  id                String   @id @default(uuid())
-  email             String   @unique
+  id                String    @id @default(uuid())
+  email             String    @unique
   password          String // hashed with bcrypt
   firstName         String?
   lastName          String?
   phone             String?
   avatar            String?
   country           String?
-  preferredCurrency Currency @default(USD)
-  role              Role     @default(USER)
-  isVerified        Boolean  @default(false)
-  isActive          Boolean  @default(true)
-  discountRate      Float    @default(0) // Percentage discount for RESELLER role (0 to 100)
-  googleId          String?  @unique
+  preferredCurrency Currency  @default(USD)
+  role              Role      @default(USER)
+  isVerified        Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  discountRate      Float     @default(0) // Percentage discount for RESELLER role (0 to 100)
+  googleId          String?   @unique
   resetToken        String?
   resetTokenExpiry  DateTime?
   verifyToken       String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   // Tenant (multi-tenancy)
-  tenantId          String?
-  tenant            Tenant?  @relation(fields: [tenantId], references: [id])
+  tenantId String?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
 
-  orders            Order[]
-  esims             ESim[]
-  payments          Payment[]
-  reviews           Review[]
-  supportTickets    SupportTicket[]
-  ticketReplies     TicketReply[]
-  notifications     Notification[]
-  loginHistories    LoginHistory[]
-  auditLogs         AuditLog[]
+  orders         Order[]
+  esims          ESim[]
+  payments       Payment[]
+  reviews        Review[]
+  supportTickets SupportTicket[]
+  ticketReplies  TicketReply[]
+  notifications  Notification[]
+  loginHistories LoginHistory[]
+  auditLogs      AuditLog[]
 
   // RBAC Reseller link
-  resellerId        String?
-  reseller          User?    @relation("ResellerClients", fields: [resellerId], references: [id])
-  clients           User[]   @relation("ResellerClients")
+  resellerId String?
+  reseller   User?   @relation("ResellerClients", fields: [resellerId], references: [id])
+  clients    User[]  @relation("ResellerClients")
 
   // Extended features
   kyc               IdentityVerification?
   wallet            Wallet?
   subscription      Subscription?
   referralCodes     ReferralCode[]
-  referralsGiven    Referral[]   @relation("ReferrerUser")
-  referralsReceived Referral[]   @relation("ReferredUser")
+  referralsGiven    Referral[]            @relation("ReferrerUser")
+  referralsReceived Referral[]            @relation("ReferredUser")
   apiKeys           ApiKey[]
   webhookEndpoints  WebhookEndpoint[]
+
+  // 2FA & Security
+  twoFactorSecret  String?
+  twoFactorEnabled Boolean        @default(false)
+  backupCodes      Json?
+  refreshTokens    RefreshToken[]
 
   @@index([email])
   @@index([role])
@@ -198,14 +204,14 @@ model User {
 }
 
 model Country {
-  id        String   @id @default(uuid())
+  id        String  @id @default(uuid())
   nameEn    String
   nameAr    String?
-  code      String   @unique // ISO 3166-1 alpha-2
+  code      String  @unique // ISO 3166-1 alpha-2
   flag      String? // emoji flag
   region    Region
-  isPopular Boolean  @default(false)
-  isActive  Boolean  @default(true)
+  isPopular Boolean @default(false)
+  isActive  Boolean @default(true)
 
   esimPlans ESimPlan[]
 
@@ -215,22 +221,22 @@ model Country {
 }
 
 model ESimPlan {
-  id         String       @id @default(uuid())
+  id         String   @id @default(uuid())
   name       String
-  slug       String       @unique
+  slug       String   @unique
   countryId  String?
-  country    Country?     @relation(fields: [countryId], references: [id])
-  isGlobal   Boolean      @default(false)
-  isRegional Boolean      @default(false)
+  country    Country? @relation(fields: [countryId], references: [id])
+  isGlobal   Boolean  @default(false)
+  isRegional Boolean  @default(false)
 
   // Tenant (multi-tenancy)
-  tenantId   String?
-  tenant     Tenant?      @relation(fields: [tenantId], references: [id])
+  tenantId String?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
 
   // Data specs
   dataAmount Int // MB — use -1 for unlimited
   validity   Int // Days
-  speed      Speed        @default(FOUR_G)
+  speed      Speed @default(FOUR_G)
 
   // Pricing (multi-currency)
   price    Float // USD
@@ -243,9 +249,9 @@ model ESimPlan {
 
   // Metadata
   features     Json? // e.g. ["Data Only", "No Phone Number", "Easy QR Setup"]
-  isBestSeller Boolean  @default(false)
-  isUnlimited  Boolean  @default(false)
-  isActive     Boolean  @default(true)
+  isBestSeller Boolean @default(false)
+  isUnlimited  Boolean @default(false)
+  isActive     Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -266,20 +272,20 @@ model Order {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  status      OrderStatus   @default(PENDING)
+  status      OrderStatus @default(PENDING)
   totalAmount Float
-  currency    Currency      @default(USD)
+  currency    Currency    @default(USD)
 
   // Stripe
-  stripePaymentIntentId String?       @unique
-  stripeSessionId       String?       @unique
+  stripePaymentIntentId String? @unique
+  stripeSessionId       String? @unique
 
   paymentMethod PaymentMethod @default(CARD)
   notes         String?
 
   // Promo code applied
-  promoCodeId   String?
-  promoCode     PromoCode?    @relation(fields: [promoCodeId], references: [id])
+  promoCodeId String?
+  promoCode   PromoCode? @relation(fields: [promoCodeId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -346,7 +352,7 @@ model Payment {
   user    User   @relation(fields: [userId], references: [id])
 
   amount   Float
-  currency Currency        @default(USD)
+  currency Currency @default(USD)
 
   provider              PaymentProvider @default(STRIPE)
   providerTransactionId String?
@@ -362,9 +368,9 @@ model Payment {
 }
 
 model Review {
-  id     String @id @default(uuid())
+  id     String   @id @default(uuid())
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User     @relation(fields: [userId], references: [id])
   planId String
   plan   ESimPlan @relation(fields: [planId], references: [id])
 
@@ -421,9 +427,9 @@ model Notification {
 // =======================
 
 model LoginHistory {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   ip        String?
   device    String?
@@ -434,6 +440,23 @@ model LoginHistory {
 
   @@index([userId])
   @@map("login_histories")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  tokenHash  String   @unique
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  deviceInfo String?
+  ip         String?
+  isRevoked  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@map("refresh_tokens")
 }
 
 model AuditLog {
@@ -461,8 +484,8 @@ model IdentityVerification {
   documentType DocumentType
   documentUrl  String
   selfieUrl    String?
-  status       KycStatus @default(PENDING)
-  adminNotes   String?   @db.Text
+  status       KycStatus    @default(PENDING)
+  adminNotes   String?      @db.Text
 
   submittedAt DateTime  @default(now())
   verifiedAt  DateTime?
@@ -476,12 +499,12 @@ model IdentityVerification {
 
 model SystemSetting {
   id        String   @id @default(uuid())
-  category  String   // ESIM_PROVIDER, PAYMENT, EMAIL
-  provider  String   // AIRALO, ESIMGO, SIMFONY, STRIPE, CIB, EDAHABIA, SMTP
-  key       String   // CLIENT_ID, CLIENT_SECRET, API_KEY, etc.
+  category  String // ESIM_PROVIDER, PAYMENT, EMAIL
+  provider  String // AIRALO, ESIMGO, SIMFONY, STRIPE, CIB, EDAHABIA, SMTP
+  key       String // CLIENT_ID, CLIENT_SECRET, API_KEY, etc.
   value     String   @db.Text // AES-256-GCM encrypted
   isActive  Boolean  @default(true)
-  updatedBy String?  // admin user ID who last modified
+  updatedBy String? // admin user ID who last modified
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -521,20 +544,20 @@ model Tenant {
 // =======================
 
 model ReferralCode {
-  id            String       @id @default(uuid())
-  code          String       @unique
-  ownerId       String
-  owner         User         @relation(fields: [ownerId], references: [id])
-  usageCount    Int          @default(0)
-  maxUsage      Int? // null = unlimited
-  discountType  DiscountType
-  discountValue Float        // percentage or fixed amount
-  commissionRate Float       @default(0) // % of order given to referrer
-  expiresAt     DateTime?
-  isActive      Boolean      @default(true)
-  createdAt     DateTime     @default(now())
+  id             String       @id @default(uuid())
+  code           String       @unique
+  ownerId        String
+  owner          User         @relation(fields: [ownerId], references: [id])
+  usageCount     Int          @default(0)
+  maxUsage       Int? // null = unlimited
+  discountType   DiscountType
+  discountValue  Float // percentage or fixed amount
+  commissionRate Float        @default(0) // % of order given to referrer
+  expiresAt      DateTime?
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
 
-  referrals     Referral[]
+  referrals Referral[]
 
   @@index([ownerId])
   @@index([code])
@@ -542,18 +565,18 @@ model ReferralCode {
 }
 
 model Referral {
-  id             String       @id @default(uuid())
-  referralCodeId String
-  referralCode   ReferralCode @relation(fields: [referralCodeId], references: [id])
-  referrerId     String
-  referrer       User         @relation("ReferrerUser", fields: [referrerId], references: [id])
-  referredUserId String
-  referredUser   User         @relation("ReferredUser", fields: [referredUserId], references: [id])
-  orderId        String?
-  order          Order?       @relation(fields: [orderId], references: [id])
-  commissionAmount Float      @default(0)
-  isPaid         Boolean      @default(false)
-  createdAt      DateTime     @default(now())
+  id               String       @id @default(uuid())
+  referralCodeId   String
+  referralCode     ReferralCode @relation(fields: [referralCodeId], references: [id])
+  referrerId       String
+  referrer         User         @relation("ReferrerUser", fields: [referrerId], references: [id])
+  referredUserId   String
+  referredUser     User         @relation("ReferredUser", fields: [referredUserId], references: [id])
+  orderId          String?
+  order            Order?       @relation(fields: [orderId], references: [id])
+  commissionAmount Float        @default(0)
+  isPaid           Boolean      @default(false)
+  createdAt        DateTime     @default(now())
 
   @@index([referralCodeId])
   @@index([referrerId])
@@ -581,14 +604,14 @@ model Wallet {
 }
 
 model WalletTransaction {
-  id          String        @id @default(uuid())
+  id          String       @id @default(uuid())
   walletId    String
-  wallet      Wallet        @relation(fields: [walletId], references: [id])
+  wallet      Wallet       @relation(fields: [walletId], references: [id])
   type        WalletTxType
   amount      Float
   description String?
   referenceId String? // orderId, referralId, etc.
-  createdAt   DateTime      @default(now())
+  createdAt   DateTime     @default(now())
 
   @@index([walletId])
   @@index([type])
@@ -629,7 +652,7 @@ model ApiKey {
   name       String
   keyHash    String    @unique // SHA-256 hash of the actual key
   prefix     String    @db.VarChar(8) // First 8 chars shown to user
-  scopes     Json      // ["orders:read", "plans:read", "esims:write", ...]
+  scopes     Json // ["orders:read", "plans:read", "esims:write", ...]
   lastUsedAt DateTime?
   expiresAt  DateTime?
   isActive   Boolean   @default(true)
@@ -645,8 +668,8 @@ model WebhookEndpoint {
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   url       String
-  events    Json     // ["order.completed", "esim.activated", ...]
-  secret    String   // HMAC signing secret
+  events    Json // ["order.completed", "esim.activated", ...]
+  secret    String // HMAC signing secret
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -660,14 +683,14 @@ model WebhookEndpoint {
 // =======================
 
 model TicketReply {
-  id          String        @id @default(uuid())
-  ticketId    String
-  ticket      SupportTicket @relation(fields: [ticketId], references: [id])
-  userId      String
-  user        User          @relation(fields: [userId], references: [id])
-  message     String        @db.Text
-  isStaffReply Boolean      @default(false)
-  createdAt   DateTime      @default(now())
+  id           String        @id @default(uuid())
+  ticketId     String
+  ticket       SupportTicket @relation(fields: [ticketId], references: [id])
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  message      String        @db.Text
+  isStaffReply Boolean       @default(false)
+  createdAt    DateTime      @default(now())
 
   @@index([ticketId])
   @@index([userId])
@@ -683,10 +706,10 @@ model PromoCode {
   code              String       @unique
   discountType      DiscountType
   discountValue     Float
-  minOrderAmount    Float?       // minimum cart value to apply
-  maxUses           Int?         // null = unlimited
+  minOrderAmount    Float? // minimum cart value to apply
+  maxUses           Int? // null = unlimited
   currentUses       Int          @default(0)
-  applicablePlanIds Json?        // null = applies to all plans
+  applicablePlanIds Json? // null = applies to all plans
   expiresAt         DateTime?
   isActive          Boolean      @default(true)
   createdAt         DateTime     @default(now())

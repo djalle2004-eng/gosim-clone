@@ -1,45 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { RateLimiterRedis } from 'rate-limiter-flexible';
-import redisClient from '../../utils/redis';
-import { JwtPayload } from './auth.types';
+import crypto from 'crypto';
 import prisma from '../../lib/db';
+import { JwtPayload } from './auth.types';
 import { generateTokens } from './auth.service';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
 
-// Rate limiter for login: max 5 failed attempts per IP per 15 minutes
-export const loginRateLimiter = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const limiter = new RateLimiterRedis({
-    storeClient: redisClient,
-    keyPrefix: 'login_fail',
-    points: 5, // 5 requests
-    duration: 60 * 15, // per 15 minutes
-    blockDuration: 60 * 15, // Block for 15 minutes
-  });
+// loginRateLimiter is now imported from src/middleware/rateLimiter.ts in routes
 
-  try {
-    const ip = req.ip || req.socket.remoteAddress || 'unknown';
-    const resLimiter = await limiter.get(ip);
-
-    if (resLimiter !== null && resLimiter.consumedPoints > 5) {
-      return res.status(429).json({
-        message: 'Trop de tentatives échouées. Réessayez dans 15 minutes.',
-      });
-    }
-
-    // Attach limiter to request to consume point strictly on failure
-    (req as any).rateLimiter = limiter;
-    (req as any).limiterKey = ip;
-    next();
-  } catch (error) {
-    next();
-  }
-};
 
 export const verifyToken = async (
   req: Request,
@@ -69,28 +38,32 @@ export const verifyToken = async (
 
   // Automatic Refresh logic if we only have a valid refresh token left
   try {
-    const decodedRefresh = jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
+    const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+    
+    const storedToken = await prisma.refreshToken.findUnique({
+      where: { tokenHash }
+    });
 
-    // Check if refresh token is revoked in Redis
-    const isRevoked = await redisClient.get(
-      `revoke_refresh:${decodedRefresh.id}:${refreshToken}`
-    );
-    if (isRevoked) {
-      return res
-        .status(401)
-        .json({ message: 'Session expirée, veuillez vous reconnecter' });
+    if (!storedToken || storedToken.isRevoked || storedToken.expiresAt < new Date()) {
+      return res.status(401).json({ message: 'Session expirée, veuillez vous reconnecter' });
     }
 
     // Ensure user still exists and isActive
     const user = await prisma.user.findUnique({
-      where: { id: decodedRefresh.id },
+      where: { id: storedToken.userId },
     });
     if (!user || !user.isActive) {
       return res.status(401).json({ message: 'Compte désactivé' });
     }
 
+    // Revoke old refresh token
+    await prisma.refreshToken.update({
+      where: { id: storedToken.id },
+      data: { isRevoked: true }
+    });
+
     // Proceed to generate new tokens
-    const tokens = generateTokens(user, false); // Keep same duration for simplicity, though we could extend 90d if rememberMe was logged in Redis.
+    const tokens = await generateTokens(user, req, false);
 
     // Update Cookies automatically via Response (middleware trick)
     res.cookie('accessToken', tokens.accessToken, {
@@ -98,6 +71,12 @@ export const verifyToken = async (
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 15 * 60 * 1000, // 15 mins
+    });
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
     (req as any).user = { id: user.id, role: user.role, email: user.email };

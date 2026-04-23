@@ -8,18 +8,29 @@ import {
   resetPassword,
   logout,
   getCurrentUser,
+  refresh,
+  enable2FA,
+  verify2FA,
+  disable2FA
 } from './auth.controller';
-import { verifyToken, loginRateLimiter } from './auth.middleware';
+import { verifyToken } from './auth.middleware';
 import { generateTokens, logLoginHistory } from './auth.service';
+import { loginLimiter, otpLimiter } from '../../middleware/rateLimiter';
 
 const router = Router();
 
 router.post('/register', register);
-router.post('/login', loginRateLimiter, login);
+router.post('/login', loginLimiter, login);
 router.post('/logout', verifyToken, logout);
+router.post('/refresh', refresh);
 router.post('/verify-email', verifyEmail);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
+
+// 2FA Routes
+router.post('/2fa/enable', verifyToken, enable2FA);
+router.post('/2fa/verify', otpLimiter, verify2FA);
+router.post('/2fa/disable', verifyToken, disable2FA);
 
 router.get('/me', verifyToken, getCurrentUser);
 
@@ -38,7 +49,7 @@ router.get(
   async (req, res) => {
     try {
       const user = req.user as any;
-      const { accessToken, refreshToken } = generateTokens(user, true); // OAuth usually gives a long session
+      const { accessToken, refreshToken } = await generateTokens(user, req, true); // OAuth usually gives a long session
 
       const isProd = process.env.NODE_ENV === 'production';
 
@@ -56,9 +67,7 @@ router.get(
       });
 
       // Log success
-      const ip = req.ip || req.socket.remoteAddress || 'unknown';
-      const device = req.headers['user-agent'] || 'unknown';
-      await logLoginHistory(user.id, ip, device, true);
+      await logLoginHistory(user.id, req, true);
 
       // Redirect to frontend
       const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
