@@ -38,7 +38,7 @@ export const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req: any) => {
-    return req.user?.userId || req.ip || 'unknown';
+    return req.user?.userId || req['ip'] || 'unknown';
   },
   message: { error: 'Too many requests, please try again later' },
 });
@@ -51,4 +51,3 @@ export const publicLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many requests from this IP, please try again later' },
 });
-

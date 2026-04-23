@@ -7,16 +7,25 @@ const redisClient = createClient({
 redisClient.on('error', (err) => console.error('Redis Client Error', err));
 
 let isRedisConnected = false;
+let isConnecting = false;
 
 export const connectRedis = async () => {
-  if (!isRedisConnected) {
-    await redisClient.connect();
-    isRedisConnected = true;
-    console.log('Connected to Redis ✅');
+  if (!isRedisConnected && !isConnecting && !redisClient.isOpen) {
+    isConnecting = true;
+    try {
+      await redisClient.connect();
+      isRedisConnected = true;
+      console.log('Connected to Redis ✅');
+    } catch (err) {
+      isConnecting = false;
+      throw err;
+    }
   }
 };
 
 export default redisClient;
 
 // Start connection immediately
-connectRedis().catch((err) => console.error('Failed to connect to Redis initially', err));
+connectRedis().catch((err) =>
+  console.error('Failed to connect to Redis initially', err)
+);
