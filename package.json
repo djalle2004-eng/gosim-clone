@@ -17,7 +17,9 @@
     "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
     "prepare": "husky || true",
     "prisma:generate": "npx prisma generate --schema=backend/prisma/schema.prisma",
-    "prisma:migrate": "npx prisma migrate deploy --schema=backend/prisma/schema.prisma"
+    "prisma:migrate": "npx prisma migrate deploy --schema=backend/prisma/schema.prisma",
+    "prisma:migrate:create": "npx prisma migrate dev --schema=backend/prisma/schema.prisma",
+    "prisma:seed": "cd backend && npx prisma db seed"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
