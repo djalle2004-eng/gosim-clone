@@ -13,7 +13,7 @@ export class AuthService {
   static async generateRefreshToken(userId: string, req: any): Promise<string> {
     const token = crypto.randomBytes(40).toString('hex');
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-    
+
     // Parse user agent
     const parser = new UAParser(req.headers['user-agent'] || '');
     const browser = parser.getBrowser();
@@ -29,8 +29,8 @@ export class AuthService {
         userId,
         expiresAt,
         deviceInfo,
-        ip: req.ip || 'unknown'
-      }
+        ip: req.ip || 'unknown',
+      },
     });
 
     return token;
@@ -38,9 +38,9 @@ export class AuthService {
 
   static async verifyRefreshToken(token: string): Promise<string | null> {
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
-    
+
     const storedToken = await prisma.refreshToken.findUnique({
-      where: { tokenHash }
+      where: { tokenHash },
     });
 
     if (!storedToken) return null;
@@ -50,7 +50,7 @@ export class AuthService {
     // Rotate token
     await prisma.refreshToken.update({
       where: { id: storedToken.id },
-      data: { isRevoked: true }
+      data: { isRevoked: true },
     });
 
     return storedToken.userId;
@@ -61,7 +61,7 @@ export class AuthService {
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
     await prisma.refreshToken.updateMany({
       where: { tokenHash },
-      data: { isRevoked: true }
+      data: { isRevoked: true },
     });
   }
 
@@ -78,8 +78,8 @@ export class AuthService {
         ip: req.ip || 'unknown',
         userAgent: req.headers['user-agent'] || 'unknown',
         device: deviceInfo,
-        success
-      }
+        success,
+      },
     });
 
     if (success) {
@@ -89,14 +89,16 @@ export class AuthService {
           userId,
           success: true,
           ip: req.ip || 'unknown',
-          device: deviceInfo
-        }
+          device: deviceInfo,
+        },
       });
-      
+
       // pastLogins is exactly 1 because we just inserted the current one
       if (pastLogins === 1) {
         // Trigger a new device alert email (mocked for now, or use mailer later)
-        console.log(`[ALERT] New device login detected for user ${userId} on ${deviceInfo}`);
+        console.log(
+          `[ALERT] New device login detected for user ${userId} on ${deviceInfo}`
+        );
         // import { sendMail } from '../utils/mailer';
         // await sendMail(user.email, 'New Login Alert', ...);
       }

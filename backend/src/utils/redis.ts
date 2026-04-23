@@ -17,3 +17,6 @@ export const connectRedis = async () => {
 };
 
 export default redisClient;
+
+// Start connection immediately
+connectRedis().catch((err) => console.error('Failed to connect to Redis initially', err));

@@ -59,7 +59,11 @@ export const register = async (req: Request, res: Response) => {
     // Send background email
     sendVerificationEmail(user.email, otp);
 
-    const { accessToken, refreshToken } = await generateTokens(user, req, false);
+    const { accessToken, refreshToken } = await generateTokens(
+      user,
+      req,
+      false
+    );
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -114,17 +118,25 @@ export const login = async (req: Request, res: Response) => {
     }
 
     if (user.twoFactorEnabled) {
-      const tempToken = jwt.sign({ tempId: user.id, rememberMe: data.rememberMe }, process.env.JWT_SECRET || 'fallback_secret', { expiresIn: '5m' });
+      const tempToken = jwt.sign(
+        { tempId: user.id, rememberMe: data.rememberMe },
+        process.env.JWT_SECRET || 'fallback_secret',
+        { expiresIn: '5m' }
+      );
       return res.json({
         requires2FA: true,
         tempToken,
-        message: '2FA required'
+        message: '2FA required',
       });
     }
 
     await logLoginHistory(user.id, req, true);
 
-    const { accessToken, refreshToken } = await generateTokens(user, req, data.rememberMe);
+    const { accessToken, refreshToken } = await generateTokens(
+      user,
+      req,
+      data.rememberMe
+    );
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -281,15 +293,26 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 export const refresh = async (req: Request, res: Response) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(401).json({ message: 'Refresh token manquant' });
+    if (!refreshToken)
+      return res.status(401).json({ message: 'Refresh token manquant' });
 
     const userId = await AuthService.verifyRefreshToken(refreshToken);
-    if (!userId) return res.status(401).json({ message: 'Refresh token invalide ou expiré' });
+    if (!userId)
+      return res
+        .status(401)
+        .json({ message: 'Refresh token invalide ou expiré' });
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || !user.isActive) return res.status(401).json({ message: 'Utilisateur introuvable ou inactif' });
+    if (!user || !user.isActive)
+      return res
+        .status(401)
+        .json({ message: 'Utilisateur introuvable ou inactif' });
 
-    const { accessToken, refreshToken: newRefreshToken } = await generateTokens(user, req, false);
+    const { accessToken, refreshToken: newRefreshToken } = await generateTokens(
+      user,
+      req,
+      false
+    );
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -314,24 +337,26 @@ export const enable2FA = async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user.id;
     const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) return res.status(404).json({ message: 'Utilisateur introuvable' });
+    if (!user)
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
 
     const secret = TwoFactorService.generateSecret(user.email);
     const qrCode = await TwoFactorService.generateQRCode(secret.otpauth_url!);
-    const { plain: backupCodesPlain, hashed: backupCodesHashed } = await TwoFactorService.generateBackupCodes();
+    const { plain: backupCodesPlain, hashed: backupCodesHashed } =
+      await TwoFactorService.generateBackupCodes();
 
     await prisma.user.update({
       where: { id: userId },
       data: {
         twoFactorSecret: secret.base32,
-        backupCodes: backupCodesHashed
-      }
+        backupCodes: backupCodesHashed,
+      },
     });
 
     return res.json({
       secret: secret.base32,
       qrCode,
-      backupCodes: backupCodesPlain
+      backupCodes: backupCodesPlain,
     });
   } catch (err) {
     return res.status(500).json({ message: 'Erreur interne' });
@@ -346,7 +371,10 @@ export const verify2FA = async (req: Request, res: Response) => {
 
     // Handling 2FA during Login flow
     if (tempToken) {
-      const decoded = jwt.verify(tempToken, process.env.JWT_SECRET || 'fallback_secret') as any;
+      const decoded = jwt.verify(
+        tempToken,
+        process.env.JWT_SECRET || 'fallback_secret'
+      ) as any;
       userId = decoded.tempId;
       rememberMe = decoded.rememberMe || false;
     } else {
@@ -354,44 +382,79 @@ export const verify2FA = async (req: Request, res: Response) => {
       userId = (req as any).user?.id;
     }
 
-    if (!userId || !code) return res.status(400).json({ message: 'Données manquantes' });
+    if (!userId || !code)
+      return res.status(400).json({ message: 'Données manquantes' });
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || !user.twoFactorSecret) return res.status(400).json({ message: '2FA non configuré' });
+    if (!user || !user.twoFactorSecret)
+      return res.status(400).json({ message: '2FA non configuré' });
 
     const isValid = TwoFactorService.verifyToken(user.twoFactorSecret, code);
     if (!isValid) {
       // Check backup codes
       if (user.backupCodes) {
-        const { isValid: isBackupValid, remainingCodes } = await TwoFactorService.verifyBackupCode(code, user.backupCodes as string[]);
+        const { isValid: isBackupValid, remainingCodes } =
+          await TwoFactorService.verifyBackupCode(
+            code,
+            user.backupCodes as string[]
+          );
         if (isBackupValid) {
           await prisma.user.update({
             where: { id: userId },
-            data: { backupCodes: remainingCodes, twoFactorEnabled: true }
+            data: { backupCodes: remainingCodes, twoFactorEnabled: true },
           });
           // Authenticated successfully via backup code
           await logLoginHistory(user.id, req, true);
           const tokens = await generateTokens(user, req, rememberMe);
-          
-          res.cookie('accessToken', tokens.accessToken, { httpOnly: true, secure: isProd, sameSite: 'strict', maxAge: 15 * 60 * 1000 });
-          res.cookie('refreshToken', tokens.refreshToken, { httpOnly: true, secure: isProd, sameSite: 'strict', maxAge: (rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000 });
-          return res.json({ message: '2FA activé/vérifié avec succès', user: { id: user.id, email: user.email, role: user.role } });
+
+          res.cookie('accessToken', tokens.accessToken, {
+            httpOnly: true,
+            secure: isProd,
+            sameSite: 'strict',
+            maxAge: 15 * 60 * 1000,
+          });
+          res.cookie('refreshToken', tokens.refreshToken, {
+            httpOnly: true,
+            secure: isProd,
+            sameSite: 'strict',
+            maxAge: (rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000,
+          });
+          return res.json({
+            message: '2FA activé/vérifié avec succès',
+            user: { id: user.id, email: user.email, role: user.role },
+          });
         }
       }
       return res.status(400).json({ message: 'Code invalide' });
     }
 
     if (!user.twoFactorEnabled) {
-      await prisma.user.update({ where: { id: userId }, data: { twoFactorEnabled: true } });
+      await prisma.user.update({
+        where: { id: userId },
+        data: { twoFactorEnabled: true },
+      });
     }
 
     if (tempToken) {
       await logLoginHistory(user.id, req, true);
       const tokens = await generateTokens(user, req, rememberMe);
-      
-      res.cookie('accessToken', tokens.accessToken, { httpOnly: true, secure: isProd, sameSite: 'strict', maxAge: 15 * 60 * 1000 });
-      res.cookie('refreshToken', tokens.refreshToken, { httpOnly: true, secure: isProd, sameSite: 'strict', maxAge: (rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000 });
-      return res.json({ message: 'Connecté avec succès', user: { id: user.id, email: user.email, role: user.role } });
+
+      res.cookie('accessToken', tokens.accessToken, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'strict',
+        maxAge: 15 * 60 * 1000,
+      });
+      res.cookie('refreshToken', tokens.refreshToken, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'strict',
+        maxAge: (rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000,
+      });
+      return res.json({
+        message: 'Connecté avec succès',
+        user: { id: user.id, email: user.email, role: user.role },
+      });
     }
 
     return res.json({ message: '2FA vérifié' });
@@ -406,14 +469,20 @@ export const disable2FA = async (req: Request, res: Response) => {
     const { password } = req.body;
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user) return res.status(404).json({ message: 'Utilisateur introuvable' });
+    if (!user)
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ message: 'Mot de passe incorrect' });
+    if (!isMatch)
+      return res.status(401).json({ message: 'Mot de passe incorrect' });
 
     await prisma.user.update({
       where: { id: userId },
-      data: { twoFactorEnabled: false, twoFactorSecret: null, backupCodes: Prisma.DbNull }
+      data: {
+        twoFactorEnabled: false,
+        twoFactorSecret: null,
+        backupCodes: Prisma.DbNull,
+      },
     });
 
     return res.json({ message: '2FA désactivé' });

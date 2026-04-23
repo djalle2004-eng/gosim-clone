@@ -16,14 +16,21 @@ export const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, 12);
 };
 
-export const generateTokens = async (user: User, req: any, rememberMe: boolean = false) => {
+export const generateTokens = async (
+  user: User,
+  req: any,
+  rememberMe: boolean = false
+) => {
   const payload = { id: user.id, role: user.role, email: user.email };
 
   const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
 
   // Generate a random string for refresh token
   const refreshToken = crypto.randomBytes(40).toString('hex');
-  const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+  const tokenHash = crypto
+    .createHash('sha256')
+    .update(refreshToken)
+    .digest('hex');
 
   // Parse user agent
   const parser = new UAParser(req.headers['user-agent'] || '');
@@ -40,8 +47,8 @@ export const generateTokens = async (user: User, req: any, rememberMe: boolean =
       userId: user.id,
       expiresAt,
       deviceInfo,
-      ip: req.ip || 'unknown'
-    }
+      ip: req.ip || 'unknown',
+    },
   });
 
   return { accessToken, refreshToken };
@@ -104,8 +111,8 @@ export const logLoginHistory = async (
         userId,
         success: true,
         ip,
-        device: deviceInfo
-      }
+        device: deviceInfo,
+      },
     });
 
     if (pastLogins === 1) {
@@ -113,10 +120,11 @@ export const logLoginHistory = async (
       const user = await prisma.user.findUnique({ where: { id: userId } });
       if (user) {
         // Mock email alert
-        console.log(`[SECURITY ALERT] New login from unrecognized device/IP for ${user.email}: ${deviceInfo} (${ip})`);
+        console.log(
+          `[SECURITY ALERT] New login from unrecognized device/IP for ${user.email}: ${deviceInfo} (${ip})`
+        );
         // await sendEmail(user.email, 'New Login Alert', `A new login was detected from ${deviceInfo} (IP: ${ip}).`);
       }
     }
   }
 };
-

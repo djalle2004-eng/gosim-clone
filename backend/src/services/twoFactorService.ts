@@ -29,10 +29,12 @@ export class TwoFactorService {
     });
   }
 
-  static async generateBackupCodes(count = 10): Promise<{ plain: string[], hashed: string[] }> {
+  static async generateBackupCodes(
+    count = 10
+  ): Promise<{ plain: string[]; hashed: string[] }> {
     const plainCodes: string[] = [];
     const hashedCodes: string[] = [];
-    
+
     for (let i = 0; i < count; i++) {
       const code = crypto.randomBytes(4).toString('hex'); // 8 chars
       plainCodes.push(code);
@@ -43,7 +45,10 @@ export class TwoFactorService {
     return { plain: plainCodes, hashed: hashedCodes };
   }
 
-  static async verifyBackupCode(code: string, hashedCodes: string[]): Promise<{ isValid: boolean, remainingCodes: string[] }> {
+  static async verifyBackupCode(
+    code: string,
+    hashedCodes: string[]
+  ): Promise<{ isValid: boolean; remainingCodes: string[] }> {
     for (let i = 0; i < hashedCodes.length; i++) {
       const isValid = await bcrypt.compare(code, hashedCodes[i]);
       if (isValid) {

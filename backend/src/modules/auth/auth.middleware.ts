@@ -9,7 +9,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
 
 // loginRateLimiter is now imported from src/middleware/rateLimiter.ts in routes
 
-
 export const verifyToken = async (
   req: Request,
   res: Response,
@@ -38,14 +37,23 @@ export const verifyToken = async (
 
   // Automatic Refresh logic if we only have a valid refresh token left
   try {
-    const tokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
-    
+    const tokenHash = crypto
+      .createHash('sha256')
+      .update(refreshToken)
+      .digest('hex');
+
     const storedToken = await prisma.refreshToken.findUnique({
-      where: { tokenHash }
+      where: { tokenHash },
     });
 
-    if (!storedToken || storedToken.isRevoked || storedToken.expiresAt < new Date()) {
-      return res.status(401).json({ message: 'Session expirée, veuillez vous reconnecter' });
+    if (
+      !storedToken ||
+      storedToken.isRevoked ||
+      storedToken.expiresAt < new Date()
+    ) {
+      return res
+        .status(401)
+        .json({ message: 'Session expirée, veuillez vous reconnecter' });
     }
 
     // Ensure user still exists and isActive
@@ -59,7 +67,7 @@ export const verifyToken = async (
     // Revoke old refresh token
     await prisma.refreshToken.update({
       where: { id: storedToken.id },
-      data: { isRevoked: true }
+      data: { isRevoked: true },
     });
 
     // Proceed to generate new tokens

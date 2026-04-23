@@ -11,7 +11,7 @@ import {
   refresh,
   enable2FA,
   verify2FA,
-  disable2FA
+  disable2FA,
 } from './auth.controller';
 import { verifyToken } from './auth.middleware';
 import { generateTokens, logLoginHistory } from './auth.service';
@@ -49,7 +49,11 @@ router.get(
   async (req, res) => {
     try {
       const user = req.user as any;
-      const { accessToken, refreshToken } = await generateTokens(user, req, true); // OAuth usually gives a long session
+      const { accessToken, refreshToken } = await generateTokens(
+        user,
+        req,
+        true
+      ); // OAuth usually gives a long session
 
       const isProd = process.env.NODE_ENV === 'production';
 
