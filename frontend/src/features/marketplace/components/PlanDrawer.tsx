@@ -56,7 +56,10 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
           >
             <div className="relative h-64 flex-shrink-0">
               <img
-                src={getCountryImage(countryCode, plan.country?.region || plan.region)}
+                src={getCountryImage(
+                  countryCode,
+                  plan.country?.region || plan.region
+                )}
                 alt={countryName}
                 className="w-full h-full object-cover"
               />

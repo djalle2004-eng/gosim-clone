@@ -48,7 +48,10 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
       >
         <div className="md:w-48 h-32 md:h-auto relative overflow-hidden flex-shrink-0">
           <img
-            src={getCountryImage(countryCode, plan.country?.region || plan.region)}
+            src={getCountryImage(
+              countryCode,
+              plan.country?.region || plan.region
+            )}
             alt={countryName}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
@@ -134,7 +137,10 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
         <motion.img
           animate={{ scale: isHovered ? 1.05 : 1 }}
           transition={{ duration: 0.4 }}
-          src={getCountryImage(countryCode, plan.country?.region || plan.region)}
+          src={getCountryImage(
+            countryCode,
+            plan.country?.region || plan.region
+          )}
           alt={countryName}
           className="w-full h-full object-cover"
         />
