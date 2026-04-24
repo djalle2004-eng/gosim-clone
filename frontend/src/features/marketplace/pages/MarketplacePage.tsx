@@ -159,250 +159,252 @@ export function MarketplacePage() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
-      
+
       <main className="flex-grow py-12 relative pt-24">
         {/* Subtle Decorative Gradient */}
         <div className="absolute top-0 inset-x-0 h-[300px] bg-gradient-to-b from-cyan-600/5 to-transparent pointer-events-none" />
-        
+
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           {/* Header & Mobile Filters Toggle */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
-              متجر الباقات
-            </h1>
-            <p className="text-slate-500">
-              اختر خطة eSIM المناسبة لوجهتك واستمتع باتصال فوري.
-            </p>
-          </div>
-
-          <button
-            onClick={() => setShowMobileFilters(true)}
-            className="md:hidden w-full flex items-center justify-center gap-2 bg-white border border-slate-200 p-3 rounded-xl font-bold text-slate-700 shadow-sm"
-          >
-            <SlidersHorizontal className="w-5 h-5" />
-            الفلاتر ({activeFiltersCount})
-          </button>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar */}
-          <div className="hidden md:block w-72 flex-shrink-0">
-            <FilterSidebar
-              filters={filters}
-              setFilters={setFilters}
-              onReset={handleResetFilters}
-            />
-          </div>
-
-          {/* Main Content */}
-          <div className="flex-1">
-            {/* Top Bar (Search & Sort) */}
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between sticky top-4 z-30">
-              <div className="relative w-full sm:max-w-md">
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="ابحث عن الدولة أو المنطقة..."
-                  className="w-full pl-4 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-sm"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-200 rounded-full text-slate-400 hover:text-slate-600 transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-
-              <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-                <select
-                  className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 outline-none focus:border-cyan-500 cursor-pointer"
-                  value={filters.sort || 'popular'}
-                  onChange={(e) =>
-                    setFilters({ ...filters, sort: e.target.value })
-                  }
-                >
-                  <option value="popular">الأكثر مبيعاً</option>
-                  <option value="price_asc">الأرخص أولاً</option>
-                  <option value="price_desc">الأغلى أولاً</option>
-                  <option value="newest">الأحدث</option>
-                  <option value="rating">أعلى تقييم</option>
-                </select>
-
-                <div className="flex items-center bg-slate-100 p-1 rounded-xl">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-sm text-cyan-600' : 'text-slate-400 hover:text-slate-600'}`}
-                  >
-                    <LayoutGrid className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-sm text-cyan-600' : 'text-slate-400 hover:text-slate-600'}`}
-                  >
-                    <List className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900 mb-2">
+                متجر الباقات
+              </h1>
+              <p className="text-slate-500">
+                اختر خطة eSIM المناسبة لوجهتك واستمتع باتصال فوري.
+              </p>
             </div>
 
-            {/* Active Filters Chips */}
-            {activeFiltersCount > 0 && (
-              <div className="flex flex-wrap gap-2 mb-6">
-                {searchQuery && (
-                  <span className="bg-slate-800 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-2">
-                    بحث: {searchQuery}
-                    <X
-                      className="w-3 h-3 cursor-pointer hover:text-red-400"
-                      onClick={() => setSearchQuery('')}
-                    />
-                  </span>
-                )}
-                {(filters.regions || []).map((r: string) => (
-                  <span
-                    key={r}
-                    className="bg-cyan-100 text-cyan-800 text-xs px-3 py-1.5 rounded-full flex items-center gap-2"
-                  >
-                    {r}
-                    <X
-                      className="w-3 h-3 cursor-pointer"
-                      onClick={() =>
-                        setFilters({
-                          ...filters,
-                          regions: filters.regions.filter(
-                            (id: string) => id !== r
-                          ),
-                        })
-                      }
-                    />
-                  </span>
-                ))}
-                {/* Can add more chips here for other active filters */}
-              </div>
-            )}
+            <button
+              onClick={() => setShowMobileFilters(true)}
+              className="md:hidden w-full flex items-center justify-center gap-2 bg-white border border-slate-200 p-3 rounded-xl font-bold text-slate-700 shadow-sm"
+            >
+              <SlidersHorizontal className="w-5 h-5" />
+              الفلاتر ({activeFiltersCount})
+            </button>
+          </div>
 
-            {/* Results Grid/List */}
-            {isLoading ? (
-              <div
-                className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
-              >
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm animate-pulse flex flex-col h-[400px]"
-                  >
-                    <div className="h-48 bg-slate-200" />
-                    <div className="p-5 flex-1 flex flex-col gap-4">
-                      <div className="h-6 bg-slate-200 rounded-full w-1/2" />
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="h-12 bg-slate-100 rounded-xl" />
-                        <div className="h-12 bg-slate-100 rounded-xl" />
-                      </div>
-                      <div className="h-4 bg-slate-200 rounded-full w-3/4 mt-auto" />
-                      <div className="flex justify-between items-end mt-2">
-                        <div className="h-8 bg-slate-200 rounded-md w-1/3" />
-                        <div className="h-10 bg-slate-200 rounded-xl w-1/4" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : isError ? (
-              <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
-                <div className="text-red-500 mb-4 text-5xl">⚠️</div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">
-                  عذراً، حدث خطأ
-                </h3>
-                <p className="text-slate-500">
-                  لم نتمكن من جلب العروض. يرجى المحاولة مرة أخرى لاحقاً.
-                </p>
-              </div>
-            ) : displayPlans.length === 0 ? (
-              <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
-                <div className="text-4xl mb-4">🔍</div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">
-                  لا توجد نتائج
-                </h3>
-                <p className="text-slate-500">
-                  حاول تغيير الفلاتر أو كلمات البحث.
-                </p>
-                <button
-                  onClick={handleResetFilters}
-                  className="mt-4 text-cyan-600 font-bold hover:underline"
-                >
-                  إعادة تعيين الفلاتر
-                </button>
-              </div>
-            ) : (
-              <>
-                <motion.div
-                  layout
-                  className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
-                >
-                  {displayPlans.map((plan: any) => (
-                    <PlanCard
-                      key={plan.id}
-                      plan={plan}
-                      viewMode={viewMode}
-                      onClick={setSelectedPlan}
-                    />
-                  ))}
-                </motion.div>
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Sidebar */}
+            <div className="hidden md:block w-72 flex-shrink-0">
+              <FilterSidebar
+                filters={filters}
+                setFilters={setFilters}
+                onReset={handleResetFilters}
+              />
+            </div>
 
-                {/* Infinite Scroll Trigger / Load More */}
-                {hasNextPage && (
-                  <div className="mt-12 text-center">
+            {/* Main Content */}
+            <div className="flex-1">
+              {/* Top Bar (Search & Sort) */}
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between sticky top-4 z-30">
+                <div className="relative w-full sm:max-w-md">
+                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="ابحث عن الدولة أو المنطقة..."
+                    className="w-full pl-4 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-sm"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
                     <button
-                      onClick={() => fetchNextPage()}
-                      disabled={isFetchingNextPage}
-                      className="bg-white border border-slate-200 text-slate-700 px-8 py-3 rounded-xl font-bold hover:bg-slate-50 hover:text-cyan-600 transition-all disabled:opacity-50"
+                      onClick={() => setSearchQuery('')}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-200 rounded-full text-slate-400 hover:text-slate-600 transition-colors"
                     >
-                      {isFetchingNextPage ? 'جاري التحميل...' : 'تحميل المزيد'}
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
+                  <select
+                    className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 outline-none focus:border-cyan-500 cursor-pointer"
+                    value={filters.sort || 'popular'}
+                    onChange={(e) =>
+                      setFilters({ ...filters, sort: e.target.value })
+                    }
+                  >
+                    <option value="popular">الأكثر مبيعاً</option>
+                    <option value="price_asc">الأرخص أولاً</option>
+                    <option value="price_desc">الأغلى أولاً</option>
+                    <option value="newest">الأحدث</option>
+                    <option value="rating">أعلى تقييم</option>
+                  </select>
+
+                  <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`p-2 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white shadow-sm text-cyan-600' : 'text-slate-400 hover:text-slate-600'}`}
+                    >
+                      <LayoutGrid className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`p-2 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white shadow-sm text-cyan-600' : 'text-slate-400 hover:text-slate-600'}`}
+                    >
+                      <List className="w-5 h-5" />
                     </button>
                   </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+                </div>
+              </div>
 
-      {/* Plan Details Drawer */}
-      <PlanDrawer
-        plan={selectedPlan}
-        isOpen={!!selectedPlan}
-        onClose={() => setSelectedPlan(null)}
-      />
+              {/* Active Filters Chips */}
+              {activeFiltersCount > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {searchQuery && (
+                    <span className="bg-slate-800 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-2">
+                      بحث: {searchQuery}
+                      <X
+                        className="w-3 h-3 cursor-pointer hover:text-red-400"
+                        onClick={() => setSearchQuery('')}
+                      />
+                    </span>
+                  )}
+                  {(filters.regions || []).map((r: string) => (
+                    <span
+                      key={r}
+                      className="bg-cyan-100 text-cyan-800 text-xs px-3 py-1.5 rounded-full flex items-center gap-2"
+                    >
+                      {r}
+                      <X
+                        className="w-3 h-3 cursor-pointer"
+                        onClick={() =>
+                          setFilters({
+                            ...filters,
+                            regions: filters.regions.filter(
+                              (id: string) => id !== r
+                            ),
+                          })
+                        }
+                      />
+                    </span>
+                  ))}
+                  {/* Can add more chips here for other active filters */}
+                </div>
+              )}
 
-      {/* Mobile Filters Overlay */}
-      {showMobileFilters && (
-        <div className="fixed inset-0 z-50 md:hidden flex">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setShowMobileFilters(false)}
-          />
-          <div className="relative w-4/5 max-w-sm bg-white h-full overflow-y-auto p-4 animate-in slide-in-from-right">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-bold text-lg text-slate-900">الفلاتر</h2>
-              <button
-                onClick={() => setShowMobileFilters(false)}
-                className="p-2 bg-slate-100 rounded-full text-slate-600"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              {/* Results Grid/List */}
+              {isLoading ? (
+                <div
+                  className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
+                >
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm animate-pulse flex flex-col h-[400px]"
+                    >
+                      <div className="h-48 bg-slate-200" />
+                      <div className="p-5 flex-1 flex flex-col gap-4">
+                        <div className="h-6 bg-slate-200 rounded-full w-1/2" />
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="h-12 bg-slate-100 rounded-xl" />
+                          <div className="h-12 bg-slate-100 rounded-xl" />
+                        </div>
+                        <div className="h-4 bg-slate-200 rounded-full w-3/4 mt-auto" />
+                        <div className="flex justify-between items-end mt-2">
+                          <div className="h-8 bg-slate-200 rounded-md w-1/3" />
+                          <div className="h-10 bg-slate-200 rounded-xl w-1/4" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : isError ? (
+                <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
+                  <div className="text-red-500 mb-4 text-5xl">⚠️</div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">
+                    عذراً، حدث خطأ
+                  </h3>
+                  <p className="text-slate-500">
+                    لم نتمكن من جلب العروض. يرجى المحاولة مرة أخرى لاحقاً.
+                  </p>
+                </div>
+              ) : displayPlans.length === 0 ? (
+                <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
+                  <div className="text-4xl mb-4">🔍</div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">
+                    لا توجد نتائج
+                  </h3>
+                  <p className="text-slate-500">
+                    حاول تغيير الفلاتر أو كلمات البحث.
+                  </p>
+                  <button
+                    onClick={handleResetFilters}
+                    className="mt-4 text-cyan-600 font-bold hover:underline"
+                  >
+                    إعادة تعيين الفلاتر
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <motion.div
+                    layout
+                    className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
+                  >
+                    {displayPlans.map((plan: any) => (
+                      <PlanCard
+                        key={plan.id}
+                        plan={plan}
+                        viewMode={viewMode}
+                        onClick={setSelectedPlan}
+                      />
+                    ))}
+                  </motion.div>
+
+                  {/* Infinite Scroll Trigger / Load More */}
+                  {hasNextPage && (
+                    <div className="mt-12 text-center">
+                      <button
+                        onClick={() => fetchNextPage()}
+                        disabled={isFetchingNextPage}
+                        className="bg-white border border-slate-200 text-slate-700 px-8 py-3 rounded-xl font-bold hover:bg-slate-50 hover:text-cyan-600 transition-all disabled:opacity-50"
+                      >
+                        {isFetchingNextPage
+                          ? 'جاري التحميل...'
+                          : 'تحميل المزيد'}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-            <FilterSidebar
-              filters={filters}
-              setFilters={setFilters}
-              onReset={handleResetFilters}
-            />
           </div>
         </div>
-      )}
+
+        {/* Plan Details Drawer */}
+        <PlanDrawer
+          plan={selectedPlan}
+          isOpen={!!selectedPlan}
+          onClose={() => setSelectedPlan(null)}
+        />
+
+        {/* Mobile Filters Overlay */}
+        {showMobileFilters && (
+          <div className="fixed inset-0 z-50 md:hidden flex">
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setShowMobileFilters(false)}
+            />
+            <div className="relative w-4/5 max-w-sm bg-white h-full overflow-y-auto p-4 animate-in slide-in-from-right">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="font-bold text-lg text-slate-900">الفلاتر</h2>
+                <button
+                  onClick={() => setShowMobileFilters(false)}
+                  className="p-2 bg-slate-100 rounded-full text-slate-600"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <FilterSidebar
+                filters={filters}
+                setFilters={setFilters}
+                onReset={handleResetFilters}
+              />
+            </div>
+          </div>
+        )}
       </main>
 
       <Footer />
