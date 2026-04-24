@@ -34,20 +34,25 @@ export function MarketplacePage() {
       const params = new URLSearchParams();
       if (debouncedSearch) params.append('q', debouncedSearch);
       if (filters.regions?.length) params.append('region', filters.regions[0]);
-      if (filters.dataAmount) params.append('minData', filters.dataAmount.toString());
-      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice.toString());
-      if (filters.validity) params.append('validity', filters.validity.toString());
+      if (filters.dataAmount)
+        params.append('minData', filters.dataAmount.toString());
+      if (filters.maxPrice)
+        params.append('maxPrice', filters.maxPrice.toString());
+      if (filters.validity)
+        params.append('validity', filters.validity.toString());
       if (filters.speed?.length) params.append('speed', filters.speed[0]);
-      if (filters.providers?.length) params.append('providers', filters.providers.join(','));
+      if (filters.providers?.length)
+        params.append('providers', filters.providers.join(','));
       params.append('sortBy', filters.sort);
       params.append('page', pageParam.toString());
       params.append('limit', '12');
 
-      const response = await axios.get(`/api/plans?${params.toString()}`);
+      const response = await axios.get(`/plans?${params.toString()}`);
       return response.data;
     },
     getNextPageParam: (lastPage) => {
-      if (lastPage.pagination.page < lastPage.pagination.pages) return lastPage.pagination.page + 1;
+      if (lastPage.pagination.page < lastPage.pagination.pages)
+        return lastPage.pagination.page + 1;
       return undefined;
     },
     initialPageParam: 1,
