@@ -38,28 +38,30 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Floating Background Text (Country Codes) */}
+      {/* Floating Background Flags */}
       {flags.map((flag, index) => (
         <motion.div
           key={index}
           initial={{ opacity: 0 }}
           animate={{
-            opacity: [0.03, 0.08, 0.03],
-            y: [-20, 20, -20],
+            opacity: [0.2, 0.5, 0.2],
+            y: [-20, 30, -20],
+            rotate: [-5, 5, -5],
           }}
           transition={{
-            duration: 15 + index,
+            duration: 12 + index,
             repeat: Infinity,
             delay: index * 0.5,
+            ease: "easeInOut"
           }}
-          className="absolute text-8xl md:text-[12rem] select-none font-black text-white pointer-events-none hidden lg:block"
+          className="absolute text-5xl md:text-7xl select-none pointer-events-none hidden lg:block filter blur-[1px]"
           style={{
             left: `${5 + index * 12}%`,
             top: `${10 + (index % 4) * 20}%`,
             zIndex: 0,
           }}
         >
-          {flag.code}
+          {flag.emoji}
         </motion.div>
       ))}
 
