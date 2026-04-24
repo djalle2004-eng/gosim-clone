@@ -8,6 +8,8 @@ import { useDebounce } from '../../../shared/hooks/useDebounce'; // Assuming thi
 import { FilterSidebar } from '../components/FilterSidebar';
 import { PlanCard } from '../components/PlanCard';
 import { PlanDrawer } from '../components/PlanDrawer';
+import Navbar from '../../../components/layout/Navbar';
+import Footer from '../../../components/layout/Footer';
 
 export function MarketplacePage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -155,9 +157,15 @@ export function MarketplacePage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12">
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Header & Mobile Filters Toggle */}
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      <Navbar />
+      
+      <main className="flex-grow py-12 relative pt-24">
+        {/* Subtle Decorative Gradient */}
+        <div className="absolute top-0 inset-x-0 h-[300px] bg-gradient-to-b from-cyan-600/5 to-transparent pointer-events-none" />
+        
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          {/* Header & Mobile Filters Toggle */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 mb-2">
@@ -395,6 +403,9 @@ export function MarketplacePage() {
           </div>
         </div>
       )}
+      </main>
+
+      <Footer />
     </div>
   );
 }

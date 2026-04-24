@@ -90,9 +90,7 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
             <div className="flex items-center gap-2 text-slate-700">
               <Wifi className="w-4 h-4 text-cyan-500" />
               <span className="font-bold">
-                {dataAmount === -1
-                  ? '∞ غير محدود'
-                  : `${dataAmount} GB`}
+                {dataAmount === -1 ? '∞ غير محدود' : `${dataAmount} GB`}
               </span>
             </div>
             <div className="flex items-center gap-2 text-slate-700">
@@ -189,9 +187,7 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
             <div>
               <div className="text-[10px] text-slate-500 mb-0.5">البيانات</div>
               <div className="font-bold text-slate-900 text-sm">
-                {dataAmount === -1
-                  ? '∞ غير محدود'
-                  : `${dataAmount} GB`}
+                {dataAmount === -1 ? '∞ غير محدود' : `${dataAmount} GB`}
               </div>
             </div>
           </div>

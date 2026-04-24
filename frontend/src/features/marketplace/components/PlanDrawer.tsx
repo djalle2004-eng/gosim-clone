@@ -112,9 +112,7 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
                   <div>
                     <div className="text-xs text-slate-500 mb-1">البيانات</div>
                     <div className="font-bold text-slate-900">
-                      {dataAmount === -1
-                        ? 'غير محدود'
-                        : `${dataAmount} GB`}
+                      {dataAmount === -1 ? 'غير محدود' : `${dataAmount} GB`}
                     </div>
                   </div>
                 </div>
