@@ -23,6 +23,15 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
   const EXCHANGE_RATE = 135;
   const priceDZD = (plan.price * EXCHANGE_RATE).toFixed(0);
 
+  // Handle both flat dummy data and nested backend data
+  const countryName = plan.country?.nameAr || plan.countryName || plan.name;
+  const countryNameEn = plan.country?.nameEn || plan.countryNameEn || '';
+  const countryCode = plan.country?.code || plan.countryCode || 'GLOBAL';
+  const flag = plan.country?.flag || plan.flag || '🌍';
+  const validityDays = plan.validity || plan.validityDays;
+  const dataAmount = plan.dataAmount;
+  const networkSpeed = plan.speed || plan.networkSpeed || '4G/5G';
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -47,8 +56,8 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
           >
             <div className="relative h-64 flex-shrink-0">
               <img
-                src={getCountryImage(plan.countryCode)}
-                alt={plan.countryName}
+                src={getCountryImage(countryCode)}
+                alt={countryName}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
@@ -61,14 +70,14 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
 
               <div className="absolute bottom-4 right-4 flex items-center gap-3">
                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-4xl shadow-lg border border-slate-100">
-                  {plan.flag}
+                  {flag}
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-white leading-tight">
-                    {plan.countryName}
+                    {countryName}
                   </h2>
                   <span className="text-white/80 font-medium">
-                    {plan.countryNameEn}
+                    {countryNameEn}
                   </span>
                 </div>
               </div>
@@ -103,9 +112,9 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
                   <div>
                     <div className="text-xs text-slate-500 mb-1">البيانات</div>
                     <div className="font-bold text-slate-900">
-                      {plan.dataAmount === -1
+                      {dataAmount === -1
                         ? 'غير محدود'
-                        : `${plan.dataAmount} GB`}
+                        : `${dataAmount} GB`}
                     </div>
                   </div>
                 </div>
@@ -116,7 +125,7 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
                   <div>
                     <div className="text-xs text-slate-500 mb-1">المدة</div>
                     <div className="font-bold text-slate-900">
-                      {plan.validityDays} يوم
+                      {validityDays} يوم
                     </div>
                   </div>
                 </div>
@@ -127,7 +136,7 @@ export function PlanDrawer({ plan, isOpen, onClose }: PlanDrawerProps) {
                   <div>
                     <div className="text-xs text-slate-500 mb-1">السرعة</div>
                     <div className="font-bold text-slate-900">
-                      {plan.networkSpeed}
+                      {networkSpeed}
                     </div>
                   </div>
                 </div>

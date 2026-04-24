@@ -13,9 +13,17 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Example DZD exchange rate (can be moved to context/config)
   const EXCHANGE_RATE = 135;
   const priceDZD = (plan.price * EXCHANGE_RATE).toFixed(0);
+
+  // Handle both flat dummy data and nested backend data
+  const countryName = plan.country?.nameAr || plan.countryName || plan.name;
+  const countryNameEn = plan.country?.nameEn || plan.countryNameEn || '';
+  const countryCode = plan.country?.code || plan.countryCode || 'GLOBAL';
+  const flag = plan.country?.flag || plan.flag || '🌍';
+  const validityDays = plan.validity || plan.validityDays;
+  const dataAmount = plan.dataAmount;
+  const networkSpeed = plan.speed || plan.networkSpeed || '4G/5G';
 
   const getBadge = () => {
     if (plan.isBestSeller)
@@ -40,13 +48,13 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
       >
         <div className="md:w-48 h-32 md:h-auto relative overflow-hidden flex-shrink-0">
           <img
-            src={getCountryImage(plan.countryCode)}
-            alt={plan.countryName}
+            src={getCountryImage(countryCode)}
+            alt={countryName}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-3 right-3 flex items-center gap-2">
-            <span className="text-3xl">{plan.flag}</span>
+            <span className="text-3xl">{flag}</span>
           </div>
           {badge && (
             <div
@@ -61,9 +69,9 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
           <div className="flex justify-between items-start mb-2">
             <div>
               <h3 className="text-xl font-bold text-slate-900">
-                {plan.countryName}
+                {countryName}
               </h3>
-              <p className="text-sm text-slate-500">{plan.countryNameEn}</p>
+              <p className="text-sm text-slate-500">{countryNameEn}</p>
             </div>
             <button
               onClick={(e) => {
@@ -82,18 +90,18 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
             <div className="flex items-center gap-2 text-slate-700">
               <Wifi className="w-4 h-4 text-cyan-500" />
               <span className="font-bold">
-                {plan.dataAmount === -1
+                {dataAmount === -1
                   ? '∞ غير محدود'
-                  : `${plan.dataAmount} GB`}
+                  : `${dataAmount} GB`}
               </span>
             </div>
             <div className="flex items-center gap-2 text-slate-700">
               <Clock className="w-4 h-4 text-blue-500" />
-              <span>{plan.validityDays} يوم</span>
+              <span>{validityDays} يوم</span>
             </div>
             <div className="flex items-center gap-2 text-slate-700">
               <Zap className="w-4 h-4 text-yellow-500" />
-              <span>{plan.networkSpeed}</span>
+              <span>{networkSpeed}</span>
             </div>
           </div>
 
@@ -128,8 +136,8 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
         <motion.img
           animate={{ scale: isHovered ? 1.05 : 1 }}
           transition={{ duration: 0.4 }}
-          src={getCountryImage(plan.countryCode)}
-          alt={plan.countryName}
+          src={getCountryImage(countryCode)}
+          alt={countryName}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -159,14 +167,14 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
 
         <div className="absolute bottom-4 px-4 w-full flex items-end gap-3">
           <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-3xl shadow-lg border border-slate-100">
-            {plan.flag}
+            {flag}
           </div>
           <div>
             <h3 className="text-white font-bold text-xl leading-tight">
-              {plan.countryName}
+              {countryName}
             </h3>
             <span className="text-white/70 text-sm font-medium">
-              {plan.countryNameEn}
+              {countryNameEn}
             </span>
           </div>
         </div>
@@ -181,9 +189,9 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
             <div>
               <div className="text-[10px] text-slate-500 mb-0.5">البيانات</div>
               <div className="font-bold text-slate-900 text-sm">
-                {plan.dataAmount === -1
+                {dataAmount === -1
                   ? '∞ غير محدود'
-                  : `${plan.dataAmount} GB`}
+                  : `${dataAmount} GB`}
               </div>
             </div>
           </div>
@@ -194,7 +202,7 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
             <div>
               <div className="text-[10px] text-slate-500 mb-0.5">المدة</div>
               <div className="font-bold text-slate-900 text-sm">
-                {plan.validityDays} يوم
+                {validityDays} يوم
               </div>
             </div>
           </div>
@@ -202,7 +210,7 @@ export function PlanCard({ plan, viewMode, onClick }: PlanCardProps) {
 
         <div className="flex items-center gap-4 text-xs text-slate-500 mb-5 px-1">
           <div className="flex items-center gap-1.5 bg-slate-100 px-2 py-1 rounded-md">
-            <Zap className="w-3 h-3 text-yellow-500" /> {plan.networkSpeed}
+            <Zap className="w-3 h-3 text-yellow-500" /> {networkSpeed}
           </div>
           <div className="flex items-center gap-1.5">
             <Globe2 className="w-3 h-3" /> يدعم{' '}

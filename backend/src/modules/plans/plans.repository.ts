@@ -69,7 +69,7 @@ export const getPlans = async (
       take,
       include: {
         country: {
-          select: { nameEn: true, code: true, flag: true, region: true },
+          select: { nameEn: true, nameAr: true, code: true, flag: true, region: true },
         },
         reviews: { select: { rating: true } },
       },
