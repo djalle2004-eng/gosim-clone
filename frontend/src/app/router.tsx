@@ -5,7 +5,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import LandingPage from '../features/landing/index';
-import PlansPage from '../pages/PlansPage';
+import { MarketplacePage } from '../features/marketplace/pages/MarketplacePage';
 import PlanDetailPage from '../pages/PlanDetailPage';
 import CheckoutPage from '../pages/CheckoutPage';
 import OrderSuccessPage from '../pages/OrderSuccessPage';
@@ -34,7 +34,7 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/plans" element={<PlansPage />} />
+      <Route path="/plans" element={<MarketplacePage />} />
       <Route path="/plans/:slug" element={<PlanDetailPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/checkout/success" element={<OrderSuccessPage />} />
