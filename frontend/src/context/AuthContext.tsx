@@ -1,4 +1,5 @@
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext } from 'react';
+import type { ReactNode } from 'react';
 import { useAuthStore } from '../features/auth/store/authStore';
 import { api } from '../shared/lib/axios';
 
@@ -32,7 +33,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { user, login: storeLogin, logout: storeLogout, refreshAuth } = useAuthStore();
+  const {
+    user,
+    login: storeLogin,
+    logout: storeLogout,
+    refreshAuth,
+  } = useAuthStore();
 
   const login = async (data: any) => {
     const res = await api.post('/auth/login', data);
@@ -63,13 +69,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ 
-        user: user as User | null, 
-        isLoading: false, 
-        login, 
-        register, 
-        logout, 
-        checkAuth 
+      value={{
+        user: user as User | null,
+        isLoading: false,
+        login,
+        register,
+        logout,
+        checkAuth,
       }}
     >
       {children}
