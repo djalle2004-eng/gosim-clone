@@ -53,18 +53,18 @@ export function getCountryImage(code: string, region?: string): string {
   if (normalizedCode && COUNTRY_IMAGES[normalizedCode]) {
     return COUNTRY_IMAGES[normalizedCode];
   }
-  
+
   if (region) {
     const r = region.toString().trim().toUpperCase();
     // Try original, then without underscores, then without spaces
     if (REGION_FALLBACKS[r]) return REGION_FALLBACKS[r];
-    
+
     const noUnderscore = r.replace(/_/g, '');
     if (REGION_FALLBACKS[noUnderscore]) return REGION_FALLBACKS[noUnderscore];
-    
+
     const noSpace = r.replace(/\s/g, '');
     if (REGION_FALLBACKS[noSpace]) return REGION_FALLBACKS[noSpace];
   }
-  
+
   return REGION_FALLBACKS['GLOBAL'];
 }
