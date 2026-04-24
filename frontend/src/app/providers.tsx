@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { queryClient } from '../shared/lib/queryClient';
 import { useAuthStore } from '../features/auth/store/authStore';
+import { AuthProvider } from '../context/AuthContext';
 
 const AuthInitializer = ({ children }: { children: ReactNode }) => {
   const refreshAuth = useAuthStore((state) => state.refreshAuth);
@@ -22,10 +23,12 @@ const AuthInitializer = ({ children }: { children: ReactNode }) => {
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthInitializer>
-        {children}
-        <Toaster position="top-right" />
-      </AuthInitializer>
+      <AuthProvider>
+        <AuthInitializer>
+          {children}
+          <Toaster position="top-right" />
+        </AuthInitializer>
+      </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

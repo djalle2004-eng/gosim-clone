@@ -1,11 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  type ReactNode,
-} from 'react';
-import { api } from '../lib/api';
+import { createContext, useContext, ReactNode } from 'react';
+import { useAuthStore } from '../features/auth/store/authStore';
+import { api } from '../shared/lib/axios';
 
 export type UserRole =
   | 'USER'
@@ -37,28 +32,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const checkAuth = async () => {
-    try {
-      const res = await api.get('/auth/me');
-      setUser(res.data);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // Validate session automatically against server on launch
-    checkAuth();
-  }, []);
+  const { user, login: storeLogin, logout: storeLogout, refreshAuth } = useAuthStore();
 
   const login = async (data: any) => {
     const res = await api.post('/auth/login', data);
-    setUser(res.data.user);
+    storeLogin(res.data.user, res.data.accessToken);
     return res.data.user;
   };
 
@@ -70,14 +48,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await api.post('/auth/logout');
     } finally {
-      setUser(null);
+      storeLogout();
       window.location.href = '/login';
+    }
+  };
+
+  const checkAuth = async () => {
+    try {
+      await refreshAuth();
+    } catch (error) {
+      // already handled in store
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, login, register, logout, checkAuth }}
+      value={{ 
+        user: user as User | null, 
+        isLoading: false, 
+        login, 
+        register, 
+        logout, 
+        checkAuth 
+      }}
     >
       {children}
     </AuthContext.Provider>
