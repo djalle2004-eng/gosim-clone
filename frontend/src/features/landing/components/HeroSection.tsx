@@ -3,10 +3,19 @@ import { Play, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function HeroSection() {
-  const flags = ['🇫🇷', '🇹🇷', '🇦🇪', '🇺🇸', '🇬🇧', '🇯🇵', '🇪🇸', '🇮🇹'];
+  const flags = [
+    { emoji: '🇫🇷', code: 'FR' },
+    { emoji: '🇹🇷', code: 'TR' },
+    { emoji: '🇦🇪', code: 'AE' },
+    { emoji: '🇺🇸', code: 'US' },
+    { emoji: '🇬🇧', code: 'GB' },
+    { emoji: '🇯🇵', code: 'JP' },
+    { emoji: '🇪🇸', code: 'ES' },
+    { emoji: '🇮🇹', code: 'IT' }
+  ];
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-900 pt-20">
+    <section className="relative min-h-[100vh] flex flex-col items-center justify-center overflow-hidden bg-slate-900 pt-32 pb-64">
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -inset-[10px] opacity-50">
@@ -35,23 +44,23 @@ export function HeroSection() {
           key={index}
           initial={{ opacity: 0, y: 100 }}
           animate={{
-            opacity: [0.4, 0.8, 0.4],
+            opacity: [0.05, 0.15, 0.05],
             y: [-20, 20, -20],
             x: Math.sin(index) * 50,
           }}
           transition={{
-            duration: 5 + index,
+            duration: 15 + index,
             repeat: Infinity,
             delay: index * 0.5,
           }}
-          className="absolute text-4xl select-none"
+          className="absolute text-7xl select-none font-bold text-white pointer-events-none hidden lg:block"
           style={{
-            left: `${10 + index * 15}%`,
-            top: `${20 + (index % 3) * 25}%`,
-            zIndex: 1,
+            left: `${5 + index * 12}%`,
+            top: `${15 + (index % 4) * 20}%`,
+            zIndex: 0,
           }}
         >
-          {flag}
+          {flag.code}
         </motion.div>
       ))}
 
@@ -96,7 +105,7 @@ export function HeroSection() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute bottom-32 left-0 right-0 border-t border-white/10 bg-black/20 backdrop-blur-md py-6 hidden md:block z-20"
+        className="absolute bottom-48 left-0 right-0 border-t border-white/10 bg-black/40 backdrop-blur-xl py-8 hidden md:block z-20"
       >
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center max-w-5xl mx-auto text-slate-300 font-medium">
