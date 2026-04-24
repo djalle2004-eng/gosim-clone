@@ -1,47 +1,101 @@
-# GoSIM Marketplace Clone
+# 🌍 GoSIM eSIM Marketplace - منصة eSIM المتكاملة
 
-Full-stack eSIM marketplace monorepo built with React, Express, Prisma, and PostgreSQL.
+منصة متكاملة للتجارة الإلكترونية متخصصة في بيع شرائح الاتصال الإلكترونية (eSIM)، مبنية بأحدث التقنيات لضمان السرعة، الأمان، وسهولة الاستخدام.
 
-## Prerequisites
+---
 
+## 🚀 المواصفات التقنية (Technical Stack)
+
+تعتمد المنصة على بنية **Monorepo** لضمان تناغم الكود وسهولة التطوير بين الواجهة الأمامية والخلفية.
+
+### 💻 الواجهة الأمامية (Frontend)
+- **Framework**: React 18 مع Vite لضمان سرعة بناء خيالية.
+- **State Management**: React Query (TanStack Query) لإدارة البيانات والـ Cache، و Zustand لإدارة حالة المستخدم والسلة.
+- **Styling**: Tailwind CSS مع Vanilla CSS لتصاميم عصرية واحترافية.
+- **Animations**: Framer Motion لتوفير تجربة مستخدم سلسة وانتقالات حركية جذابة.
+- **Icons**: Lucide React.
+
+### ⚙️ الظهر البرمجي (Backend)
+- **Runtime**: Node.js مع TypeScript لضمان أمان الكود.
+- **Framework**: Express.js مجهز بنظام Middleware متقدم.
+- **Database ORM**: Prisma لربط قاعدة البيانات بكفاءة عالية.
+- **Caching**: Redis لإدارة الجلسات وسرعة الوصول للبيانات المتكررة.
+- **Security**: Passport.js (JWT Strategy) مع دعم التحقق بخطوتين (2FA) ونظام تصفية للمدخلات.
+
+### 🗄️ قواعد البيانات والبنية التحتية
+- **PostgreSQL**: قاعدة البيانات الأساسية لتخزين الباقات، المستخدمين، والطلبات.
+- **Docker**: لاستضافة قواعد البيانات (Postgres & Redis) في بيئة معزولة ومستقرة.
+
+---
+
+## ✨ الخصائص والميزات الأساسية
+
+### 🛒 متجر الباقات (Marketplace)
+- **بحث متقدم**: محرك بحث سريع (Debounced) للبحث عن الدول والمناطق.
+- **نظام فلاتر ذكي**: تصفية حسب المنطقة، كمية البيانات، الصلاحية، وسرعة الشبكة (4G/5G).
+- **التمرير اللانهائي (Infinite Scroll)**: تحميل الباقات بشكل ديناميكي لضمان سرعة تصفح عالية.
+- **نظام الصور الذكي**: توزيع آلي لصور الدول مع نظام احتياطي (Fallback) حسب المنطقة الجغرافية.
+
+### 👤 حساب المستخدم (User Dashboard)
+- **إدارة الـ eSIMs**: استعراض الشرائح المشتراة مع تفاصيل التفعيل.
+- **تتبع الطلبات**: سجل كامل للمشتريات وحالة الدفع.
+- **الملف الشخصي**: إدارة البيانات الشخصية وإعدادات الأمان (2FA).
+- **نظام الإشعارات**: تنبيهات فورية لحالة الطلبات والعروض.
+
+### 🛡️ لوحة التحكم للإدارة (Admin Panel)
+- **إدارة المحتوى**: إضافة وتعديل الدول، المناطق، وباقات eSIM.
+- **إحصائيات فورية**: مراقبة المبيعات، نمو المستخدمين، والطلبات الجديدة.
+- **إدارة الطلبات**: معالجة عمليات الشراء ومتابعة الدفع الإلكتروني.
+- **التحكم في المستخدمين**: إدارة الصلاحيات وتجميد/تفعيل الحسابات.
+
+### 💳 نظام الدفع والتحقق
+- **بوابة Stripe**: لدعم الدفع العالمي عبر البطاقات الائتمانية.
+- **دعم CIB**: تكامل مخصص لعمليات الدفع المحلية.
+- **نظام التحقق**: إرسال رسائل تفعيل البريد الإلكتروني ورموز التحقق عبر SMTP.
+
+---
+
+## 🛠️ كيفية التشغيل (Installation)
+
+### المتطلبات الأساسية
 - Node.js >= 18
 - Docker & Docker Compose
-- Stripe Account (for payments)
+- Stripe API Keys
 
-## Setup
-
-1. Clone the repository and install dependencies:
-
+### خطوات التشغيل
+1. **تثبيت التبعيات**:
    ```bash
    npm install
    ```
 
-2. Setup environment variables:
-   Copy `.env.example` to `.env` in the root folder, backend, and frontend if needed.
-
-3. Start Infrastructure (Postgres & Redis):
-
+2. **إعداد البنية التحتية**:
    ```bash
    docker-compose up -d
    ```
 
-4. Database Setup:
-
+3. **إعداد قاعدة البيانات**:
    ```bash
    npm run prisma:generate --workspace=backend
-   # Once you add models, use npx prisma db push --schema=./backend/prisma/schema.prisma
+   npm run prisma:seed --workspace=backend
    ```
 
-5. Start the development servers:
+4. **تشغيل المشروع (Development)**:
    ```bash
    npm run dev
    ```
-   Frontend runs on http://localhost:5173
-   Backend runs on http://localhost:5000
 
-## Stack
+---
 
-- **Frontend**: Vite, React (TypeScript), Tailwind CSS, Shadcn UI
-- **Backend**: Express (TypeScript), Prisma
-- **Database**: PostgreSQL & Redis
-- **Infra**: Docker Compose
+## 📂 هيكلة المشروع (Folder Structure)
+- `frontend/`: تطبيق React (Vite).
+- `backend/`: تطبيق Node.js Express.
+- `shared/`: حزمة مشتركة للأنواع (Types) والوظائف المساعدة.
+- `docker-compose.yml`: إعدادات Postgres و Redis.
+
+---
+
+## 🌐 النشر (Deployment)
+المشروع مهيأ للنشر التلقائي عبر **Render** أو **Vercel/Heroku** مع دعم كامل لمتغيرات البيئة (Environment Variables).
+
+---
+**GoSIM Marketplace © 2026** - تم تطويره بكل شغف لتقديم أفضل تجربة eSIM في المنطقة.
