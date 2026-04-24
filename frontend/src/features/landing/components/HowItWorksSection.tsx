@@ -6,19 +6,22 @@ export function HowItWorksSection() {
     {
       icon: Search,
       title: 'اختر خطتك',
-      description: 'ابحث عن وجهتك واختر خطة البيانات التي تناسب احتياجاتك ومدة رحلتك.',
+      description:
+        'ابحث عن وجهتك واختر خطة البيانات التي تناسب احتياجاتك ومدة رحلتك.',
       color: 'bg-blue-100 text-blue-600',
     },
     {
       icon: CreditCard,
       title: 'ادفع بأمان',
-      description: 'أكمل عملية الدفع بأمان باستخدام وسائل الدفع الموثوقة أو البطاقة الذهبية.',
+      description:
+        'أكمل عملية الدفع بأمان باستخدام وسائل الدفع الموثوقة أو البطاقة الذهبية.',
       color: 'bg-emerald-100 text-emerald-600',
     },
     {
       icon: QrCode,
       title: 'فعّل فوراً',
-      description: 'امسح رمز الـ QR الذي سيصلك عبر البريد الإلكتروني وابدأ التصفح فوراً.',
+      description:
+        'امسح رمز الـ QR الذي سيصلك عبر البريد الإلكتروني وابدأ التصفح فوراً.',
       color: 'bg-purple-100 text-purple-600',
     },
   ];
@@ -31,7 +34,8 @@ export function HowItWorksSection() {
             كيف تعمل الخدمة؟
           </h2>
           <p className="text-lg text-slate-600">
-            احصل على اتصال إنترنت في أي مكان في العالم خلال 3 خطوات بسيطة فقط، بدون الحاجة لزيارة أي متجر.
+            احصل على اتصال إنترنت في أي مكان في العالم خلال 3 خطوات بسيطة فقط،
+            بدون الحاجة لزيارة أي متجر.
           </p>
         </div>
 
@@ -48,7 +52,9 @@ export function HowItWorksSection() {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="flex flex-col items-center text-center bg-white p-6 rounded-2xl"
             >
-              <div className={`w-20 h-20 rounded-full flex items-center justify-center ${step.color} mb-6 shadow-sm border border-white ring-8 ring-white`}>
+              <div
+                className={`w-20 h-20 rounded-full flex items-center justify-center ${step.color} mb-6 shadow-sm border border-white ring-8 ring-white`}
+              >
                 <step.icon className="w-10 h-10" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">

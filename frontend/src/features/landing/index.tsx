@@ -12,7 +12,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col font-sans" dir="rtl">
       <Navbar />
-      
+
       <main className="flex-1">
         <HeroSection />
         <SearchFilterSection />

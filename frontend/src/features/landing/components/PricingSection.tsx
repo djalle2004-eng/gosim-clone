@@ -59,7 +59,8 @@ export function PricingSection() {
             خطط للشركات والأعمال
           </h2>
           <p className="text-lg text-slate-600">
-            سواء كنت مسافراً منفرداً أو تدير شركة بآلاف الموظفين، لدينا الخطة المناسبة لضمان اتصالك دائماً.
+            سواء كنت مسافراً منفرداً أو تدير شركة بآلاف الموظفين، لدينا الخطة
+            المناسبة لضمان اتصالك دائماً.
           </p>
         </div>
 
@@ -72,8 +73,8 @@ export function PricingSection() {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className={`relative bg-white rounded-3xl p-8 border ${
-                plan.isPopular 
-                  ? 'border-cyan-400 shadow-2xl shadow-cyan-100 scale-100 md:scale-105 z-10' 
+                plan.isPopular
+                  ? 'border-cyan-400 shadow-2xl shadow-cyan-100 scale-100 md:scale-105 z-10'
                   : 'border-slate-200 shadow-lg'
               }`}
             >
@@ -83,12 +84,22 @@ export function PricingSection() {
                 </div>
               )}
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">{plan.name}</h3>
-                <p className="text-slate-500 text-sm mb-6">{plan.description}</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                  {plan.name}
+                </h3>
+                <p className="text-slate-500 text-sm mb-6">
+                  {plan.description}
+                </p>
                 <div className="flex items-end justify-center gap-1">
-                  {plan.price !== 'مخصص' && <span className="text-3xl font-bold text-slate-900">$</span>}
-                  <span className="text-5xl font-black text-slate-900">{plan.price}</span>
-                  {plan.period && <span className="text-slate-500 mb-2">{plan.period}</span>}
+                  {plan.price !== 'مخصص' && (
+                    <span className="text-3xl font-bold text-slate-900">$</span>
+                  )}
+                  <span className="text-5xl font-black text-slate-900">
+                    {plan.price}
+                  </span>
+                  {plan.period && (
+                    <span className="text-slate-500 mb-2">{plan.period}</span>
+                  )}
                 </div>
               </div>
 
@@ -104,7 +115,11 @@ export function PricingSection() {
                         <X className="w-4 h-4 text-slate-400" />
                       </div>
                     )}
-                    <span className={feature.included ? 'text-slate-700' : 'text-slate-400'}>
+                    <span
+                      className={
+                        feature.included ? 'text-slate-700' : 'text-slate-400'
+                      }
+                    >
                       {feature.name}
                     </span>
                   </li>

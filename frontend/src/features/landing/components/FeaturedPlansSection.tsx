@@ -1,15 +1,16 @@
 import { motion } from 'framer-motion';
 import { Wifi, Clock, Globe2, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getCountryImage } from '../../../lib/country-images';
 
 export function FeaturedPlansSection() {
   const plans = [
-    { id: '1', country: 'تركيا', flag: '🇹🇷', data: '10GB', days: 30, price: 15, isBestSeller: true },
-    { id: '2', country: 'أوروبا', flag: '🇪🇺', data: '20GB', days: 30, price: 25, isBestSeller: true },
-    { id: '3', country: 'عالمي', flag: '🌍', data: '5GB', days: 15, price: 12, isBestSeller: false },
-    { id: '4', country: 'الإمارات', flag: '🇦🇪', data: '3GB', days: 7, price: 9, isBestSeller: false },
-    { id: '5', country: 'فرنسا', flag: '🇫🇷', data: '10GB', days: 30, price: 18, isBestSeller: true },
-    { id: '6', country: 'السعودية', flag: '🇸🇦', data: '5GB', days: 15, price: 14, isBestSeller: false },
+    { id: '1', country: 'تركيا', code: 'TR', flag: '🇹🇷', data: '10GB', days: 30, price: 15, isBestSeller: true },
+    { id: '2', country: 'أوروبا', code: 'EU', flag: '🇪🇺', data: '20GB', days: 30, price: 25, isBestSeller: true },
+    { id: '3', country: 'عالمي', code: 'GLOBAL', flag: '🌍', data: '5GB', days: 15, price: 12, isBestSeller: false },
+    { id: '4', country: 'الإمارات', code: 'AE', flag: '🇦🇪', data: '3GB', days: 7, price: 9, isBestSeller: false },
+    { id: '5', country: 'فرنسا', code: 'FR', flag: '🇫🇷', data: '10GB', days: 30, price: 18, isBestSeller: true },
+    { id: '6', country: 'السعودية', code: 'SA', flag: '🇸🇦', data: '5GB', days: 15, price: 14, isBestSeller: false },
   ];
 
   return (
@@ -41,50 +42,54 @@ export function FeaturedPlansSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="bg-white rounded-2xl p-6 border border-slate-100 hover:border-cyan-200 hover:shadow-xl hover:shadow-cyan-100 transition-all group relative overflow-hidden"
+              className="bg-white rounded-2xl border border-slate-100 hover:border-cyan-200 hover:shadow-xl hover:shadow-cyan-100 transition-all group relative overflow-hidden flex flex-col"
             >
-              {plan.isBestSeller && (
-                <div className="absolute top-4 left-4 bg-gradient-to-r from-orange-400 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                  الأكثر مبيعاً
+              {/* Country Background Image */}
+              <div className="relative h-40 overflow-hidden">
+                <img 
+                  src={getCountryImage(plan.code)} 
+                  alt={plan.country}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute bottom-3 right-4 flex items-center gap-2">
+                  <span className="text-2xl">{plan.flag}</span>
+                  <h3 className="text-white font-bold text-lg">{plan.country}</h3>
                 </div>
-              )}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-4xl border border-slate-100 shadow-sm group-hover:scale-110 transition-transform">
-                  {plan.flag}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">{plan.country}</h3>
-                  <div className="flex items-center gap-1 text-slate-500 text-sm mt-1">
-                    <Globe2 className="w-4 h-4" /> تغطية كاملة
+                {plan.isBestSeller && (
+                  <div className="absolute top-3 left-3 bg-gradient-to-r from-orange-400 to-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                    الأكثر مبيعاً
                   </div>
-                </div>
+                )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-slate-50 p-3 rounded-xl flex items-center gap-3">
-                  <Wifi className="w-5 h-5 text-cyan-500" />
-                  <div>
-                    <div className="text-xs text-slate-500">البيانات</div>
-                    <div className="font-bold text-slate-900">{plan.data}</div>
+              <div className="p-5 flex-1 flex flex-col">
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="bg-slate-50 p-3 rounded-xl flex items-center gap-2">
+                    <Wifi className="w-4 h-4 text-cyan-500" />
+                    <div>
+                      <div className="text-[10px] text-slate-500">البيانات</div>
+                      <div className="font-bold text-slate-900 text-sm">{plan.data}</div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-blue-500" />
+                    <div>
+                      <div className="text-[10px] text-slate-500">المدة</div>
+                      <div className="font-bold text-slate-900 text-sm">{plan.days} أيام</div>
+                    </div>
                   </div>
                 </div>
-                <div className="bg-slate-50 p-3 rounded-xl flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-blue-500" />
-                  <div>
-                    <div className="text-xs text-slate-500">المدة</div>
-                    <div className="font-bold text-slate-900">{plan.days} أيام</div>
-                  </div>
-                </div>
-              </div>
 
-              <div className="flex items-center justify-between mt-2 pt-6 border-t border-slate-100">
-                <div>
-                  <div className="text-sm text-slate-500 mb-1">السعر</div>
-                  <div className="text-2xl font-black text-slate-900">${plan.price}</div>
+                <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-50">
+                  <div>
+                    <div className="text-[10px] text-slate-500">السعر</div>
+                    <div className="text-2xl font-black text-slate-900">${plan.price}</div>
+                  </div>
+                  <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-cyan-600 transition-colors shadow-sm">
+                    اشتر الآن
+                  </button>
                 </div>
-                <button className="bg-slate-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-cyan-600 transition-colors shadow-md">
-                  اشتر الآن
-                </button>
               </div>
             </motion.div>
           ))}

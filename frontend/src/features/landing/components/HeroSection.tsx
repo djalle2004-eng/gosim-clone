@@ -46,7 +46,7 @@ export function HeroSection() {
           }}
           className="absolute text-4xl select-none"
           style={{
-            left: `${10 + (index * 15)}%`,
+            left: `${10 + index * 15}%`,
             top: `${20 + (index % 3) * 25}%`,
             zIndex: 1,
           }}
@@ -96,7 +96,7 @@ export function HeroSection() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
-        className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-black/20 backdrop-blur-md py-6 hidden md:block z-20"
+        className="absolute bottom-32 left-0 right-0 border-t border-white/10 bg-black/20 backdrop-blur-md py-6 hidden md:block z-20"
       >
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center max-w-5xl mx-auto text-slate-300 font-medium">

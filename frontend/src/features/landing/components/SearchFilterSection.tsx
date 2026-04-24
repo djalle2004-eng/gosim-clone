@@ -72,7 +72,7 @@ export function SearchFilterSection() {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h3 className="text-sm font-semibold text-slate-500 mb-3">
                 الوجهات الشائعة

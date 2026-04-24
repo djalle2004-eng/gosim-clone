@@ -33,8 +33,12 @@ export function TrustBadges() {
               <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mb-4 text-slate-700">
                 <badge.icon className="w-8 h-8" />
               </div>
-              <h4 className="text-lg font-bold text-slate-900 mb-2">{badge.title}</h4>
-              <p className="text-sm text-slate-500 max-w-[200px]">{badge.desc}</p>
+              <h4 className="text-lg font-bold text-slate-900 mb-2">
+                {badge.title}
+              </h4>
+              <p className="text-sm text-slate-500 max-w-[200px]">
+                {badge.desc}
+              </p>
             </div>
           ))}
         </div>
