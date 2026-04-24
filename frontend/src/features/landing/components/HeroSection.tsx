@@ -11,11 +11,11 @@ export function HeroSection() {
     { emoji: '🇬🇧', code: 'GB' },
     { emoji: '🇯🇵', code: 'JP' },
     { emoji: '🇪🇸', code: 'ES' },
-    { emoji: '🇮🇹', code: 'IT' }
+    { emoji: '🇮🇹', code: 'IT' },
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-slate-900 pt-20">
+    <section className="relative flex flex-col overflow-hidden bg-slate-900 pt-32 lg:pt-48">
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -inset-[10px] opacity-50">
@@ -64,7 +64,7 @@ export function HeroSection() {
       ))}
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col items-center justify-center container relative z-10 mx-auto px-4 md:px-6 text-center py-20">
+      <div className="flex-1 container relative z-10 mx-auto px-4 md:px-6 text-center pb-24 lg:pb-32">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -110,23 +110,39 @@ export function HeroSection() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center md:justify-between items-center max-w-5xl mx-auto gap-8 md:gap-4 text-slate-300 font-medium">
             <div className="flex flex-col items-center">
-              <span className="text-3xl md:text-4xl font-black text-white mb-1">190+</span>
-              <span className="text-sm uppercase tracking-wider opacity-60">دولة ومنطقة</span>
+              <span className="text-3xl md:text-4xl font-black text-white mb-1">
+                190+
+              </span>
+              <span className="text-sm uppercase tracking-wider opacity-60">
+                دولة ومنطقة
+              </span>
             </div>
             <div className="hidden md:block h-12 w-px bg-white/10"></div>
             <div className="flex flex-col items-center">
-              <span className="text-3xl md:text-4xl font-black text-white mb-1">10M+</span>
-              <span className="text-sm uppercase tracking-wider opacity-60">مستخدم سعيد</span>
+              <span className="text-3xl md:text-4xl font-black text-white mb-1">
+                10M+
+              </span>
+              <span className="text-sm uppercase tracking-wider opacity-60">
+                مستخدم سعيد
+              </span>
             </div>
             <div className="hidden md:block h-12 w-px bg-white/10"></div>
             <div className="flex flex-col items-center">
-              <span className="text-3xl md:text-4xl font-black text-white mb-1">99.9%</span>
-              <span className="text-sm uppercase tracking-wider opacity-60">وقت التشغيل</span>
+              <span className="text-3xl md:text-4xl font-black text-white mb-1">
+                99.9%
+              </span>
+              <span className="text-sm uppercase tracking-wider opacity-60">
+                وقت التشغيل
+              </span>
             </div>
             <div className="hidden md:block h-12 w-px bg-white/10"></div>
             <div className="flex flex-col items-center">
-              <span className="text-3xl md:text-4xl font-black text-white mb-1">4.8★</span>
-              <span className="text-sm uppercase tracking-wider opacity-60">متوسط التقييم</span>
+              <span className="text-3xl md:text-4xl font-black text-white mb-1">
+                4.8★
+              </span>
+              <span className="text-sm uppercase tracking-wider opacity-60">
+                متوسط التقييم
+              </span>
             </div>
           </div>
         </div>
