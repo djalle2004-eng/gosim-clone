@@ -32,20 +32,14 @@ export function MarketplacePage() {
     queryFn: async ({ pageParam = 1 }) => {
       // Mocking the query structure to fit typical backend integration
       const params = new URLSearchParams();
-      if (debouncedSearch) params.append('search', debouncedSearch);
-      if (filters.regions?.length)
-        params.append('regions', filters.regions.join(','));
-      if (filters.dataAmount)
-        params.append('dataAmount', filters.dataAmount.toString());
-      if (filters.validity)
-        params.append('validity', filters.validity.toString());
-      if (filters.maxPrice)
-        params.append('maxPrice', filters.maxPrice.toString());
-      if (filters.speed?.length)
-        params.append('speed', filters.speed.join(','));
-      if (filters.providers?.length)
-        params.append('providers', filters.providers.join(','));
-      params.append('sort', filters.sort);
+      if (debouncedSearch) params.append('q', debouncedSearch);
+      if (filters.regions?.length) params.append('region', filters.regions[0]);
+      if (filters.dataAmount) params.append('minData', filters.dataAmount.toString());
+      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice.toString());
+      if (filters.validity) params.append('validity', filters.validity.toString());
+      if (filters.speed?.length) params.append('speed', filters.speed[0]);
+      if (filters.providers?.length) params.append('providers', filters.providers.join(','));
+      params.append('sortBy', filters.sort);
       params.append('page', pageParam.toString());
       params.append('limit', '12');
 
@@ -53,7 +47,7 @@ export function MarketplacePage() {
       return response.data;
     },
     getNextPageParam: (lastPage) => {
-      if (lastPage.page < lastPage.totalPages) return lastPage.page + 1;
+      if (lastPage.pagination.page < lastPage.pagination.pages) return lastPage.pagination.page + 1;
       return undefined;
     },
     initialPageParam: 1,

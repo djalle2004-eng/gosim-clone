@@ -4,12 +4,14 @@ import { Prisma } from '@prisma/client';
 export const buildWhereClause = (filters: any): Prisma.ESimPlanWhereInput => {
   const where: Prisma.ESimPlanWhereInput = { isActive: true };
 
-  if (filters.region) {
-    where.country = { region: filters.region as any };
-  }
-
-  if (filters.countryCode) {
-    where.country = { code: filters.countryCode.toUpperCase() };
+  if (filters.region || filters.countryCode) {
+    where.country = {};
+    if (filters.region) {
+      where.country.region = filters.region as any;
+    }
+    if (filters.countryCode) {
+      where.country.code = filters.countryCode.toUpperCase();
+    }
   }
 
   if (filters.minPrice || filters.maxPrice) {
@@ -22,7 +24,7 @@ export const buildWhereClause = (filters: any): Prisma.ESimPlanWhereInput => {
     where.dataAmount = { gte: parseInt(filters.minData, 10) };
   }
 
-  if (filters.unlimited === 'true') {
+  if (filters.unlimited === 'true' || filters.unlimited === true) {
     where.isUnlimited = true;
   }
 
@@ -31,14 +33,21 @@ export const buildWhereClause = (filters: any): Prisma.ESimPlanWhereInput => {
   }
 
   if (filters.speed) {
-    where.speed = filters.speed as any;
+    // If multiple speeds, we'd need 'in'. For now assume single or handle accordingly
+    if (Array.isArray(filters.speed)) {
+      where.speed = { in: filters.speed as any };
+    } else {
+      where.speed = filters.speed as any;
+    }
   }
 
   if (filters.search) {
-    const searchString = filters.search.trim().split(/\s+/).join(' | ');
+    const q = filters.search.trim();
     where.OR = [
-      { name: { search: searchString } },
-      { country: { nameEn: { search: searchString } } },
+      { name: { contains: q, mode: 'insensitive' } },
+      { country: { nameEn: { contains: q, mode: 'insensitive' } } },
+      { country: { nameAr: { contains: q, mode: 'insensitive' } } },
+      { slug: { contains: q, mode: 'insensitive' } },
     ];
   }
 
