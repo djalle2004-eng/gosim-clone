@@ -10,26 +10,32 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@soufsim-clone/shared": "*",
+    "@stripe/react-stripe-js": "^2.6.0",
+    "@stripe/stripe-js": "^3.0.0",
+    "@tanstack/react-query": "^5.100.1",
+    "@tanstack/react-query-devtools": "^5.100.1",
+    "@tanstack/react-table": "^8.13.2",
+    "axios": "^1.15.2",
+    "canvas-confetti": "^1.9.2",
+    "clsx": "^2.1.0",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^1.9.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.22.3",
-    "@tanstack/react-query": "^5.28.4",
-    "framer-motion": "^11.0.8",
-    "lucide-react": "^0.359.0",
-    "clsx": "^2.1.0",
-    "tailwind-merge": "^2.2.1",
-    "@stripe/stripe-js": "^3.0.0",
-    "@stripe/react-stripe-js": "^2.6.0",
-    "canvas-confetti": "^1.9.2",
-    "@tanstack/react-table": "^8.13.2",
+    "react-hook-form": "^7.73.1",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^6.30.3",
     "recharts": "^2.12.2",
-    "react-hot-toast": "^2.4.1",
-    "axios": "^1.6.8"
+    "tailwind-merge": "^2.2.1",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.6.4",
     "@eslint/js": "^9.39.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/canvas-confetti": "^1.6.4",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -43,7 +49,6 @@
     "tailwindcss": "^4.2.2",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.0",
-    "vite": "^8.0.4",
-    "@tailwindcss/vite": "^4.2.2"
+    "vite": "^8.0.4"
   }
 }

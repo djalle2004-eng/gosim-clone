@@ -1,8 +1,8 @@
 import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
+  Share2,
+  MessageCircle,
+  Link as LinkIcon,
+  Globe,
   CreditCard,
 } from 'lucide-react';
 
@@ -55,25 +55,25 @@ export default function Footer() {
                 href="#"
                 className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-cyan-400 hover:border-cyan-400 transition-colors"
               >
-                <Facebook className="w-5 h-5" />
+                <Share2 className="w-5 h-5" />
               </a>
               <a
                 href="#"
                 className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-cyan-400 hover:border-cyan-400 transition-colors"
               >
-                <Twitter className="w-5 h-5" />
+                <MessageCircle className="w-5 h-5" />
               </a>
               <a
                 href="#"
                 className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-cyan-400 hover:border-cyan-400 transition-colors"
               >
-                <Instagram className="w-5 h-5" />
+                <Globe className="w-5 h-5" />
               </a>
               <a
                 href="#"
                 className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-cyan-400 hover:border-cyan-400 transition-colors"
               >
-                <Linkedin className="w-5 h-5" />
+                <LinkIcon className="w-5 h-5" />
               </a>
             </div>
           </div>

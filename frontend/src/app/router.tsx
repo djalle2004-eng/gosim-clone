@@ -1,33 +1,33 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import PlansPage from './pages/PlansPage';
-import PlanDetailPage from './pages/PlanDetailPage';
-import CheckoutPage from './pages/CheckoutPage';
-import OrderSuccessPage from './pages/OrderSuccessPage';
-import DashboardLayout from './pages/dashboard/DashboardLayout';
-import MyESimsPage from './pages/dashboard/MyESimsPage';
-import MyOrdersPage from './pages/dashboard/MyOrdersPage';
-import ProfilePage from './pages/dashboard/ProfilePage';
-import NotificationsPage from './pages/dashboard/NotificationsPage';
-import SupportPage from './pages/dashboard/SupportPage';
+import { createBrowserRouter, createRoutesFromElements, Route, Navigate } from 'react-router-dom';
+import HomePage from '../pages/HomePage';
+import PlansPage from '../pages/PlansPage';
+import PlanDetailPage from '../pages/PlanDetailPage';
+import CheckoutPage from '../pages/CheckoutPage';
+import OrderSuccessPage from '../pages/OrderSuccessPage';
+import DashboardLayout from '../pages/dashboard/DashboardLayout';
+import MyESimsPage from '../pages/dashboard/MyESimsPage';
+import MyOrdersPage from '../pages/dashboard/MyOrdersPage';
+import ProfilePage from '../pages/dashboard/ProfilePage';
+import NotificationsPage from '../pages/dashboard/NotificationsPage';
+import SupportPage from '../pages/dashboard/SupportPage';
 
-import AdminLayout from './pages/admin/AdminLayout';
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
-import AdminPlansPage from './pages/admin/AdminPlansPage';
-import AdminOrdersPage from './pages/admin/AdminOrdersPage';
-import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminESimsPage from './pages/admin/AdminESimsPage';
-import AdminCountriesPage from './pages/admin/AdminCountriesPage';
-import AdminSettingsPage from './pages/admin/AdminSettingsPage';
+import AdminLayout from '../pages/admin/AdminLayout';
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
+import AdminPlansPage from '../pages/admin/AdminPlansPage';
+import AdminOrdersPage from '../pages/admin/AdminOrdersPage';
+import AdminUsersPage from '../pages/admin/AdminUsersPage';
+import AdminESimsPage from '../pages/admin/AdminESimsPage';
+import AdminCountriesPage from '../pages/admin/AdminCountriesPage';
+import AdminSettingsPage from '../pages/admin/AdminSettingsPage';
 
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import VerifyEmailPage from './pages/auth/VerifyEmailPage';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import LoginPage from '../pages/auth/LoginPage';
+import RegisterPage from '../pages/auth/RegisterPage';
+import VerifyEmailPage from '../pages/auth/VerifyEmailPage';
+import { ProtectedRoute } from '../components/ProtectedRoute';
 
-function App() {
-  return (
-    <Routes>
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
       <Route path="/" element={<HomePage />} />
       <Route path="/plans" element={<PlansPage />} />
       <Route path="/plans/:slug" element={<PlanDetailPage />} />
@@ -71,8 +71,6 @@ function App() {
           </Route>
         </Route>
       </Route>
-    </Routes>
-  );
-}
-
-export default App;
+    </>
+  )
+);
