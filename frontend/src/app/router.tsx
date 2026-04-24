@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
+import LandingPage from '../features/landing/index';
 import PlansPage from '../pages/PlansPage';
 import PlanDetailPage from '../pages/PlanDetailPage';
 import CheckoutPage from '../pages/CheckoutPage';
@@ -33,7 +33,7 @@ import { ProtectedRoute } from '../components/ProtectedRoute';
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/plans" element={<PlansPage />} />
       <Route path="/plans/:slug" element={<PlanDetailPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
