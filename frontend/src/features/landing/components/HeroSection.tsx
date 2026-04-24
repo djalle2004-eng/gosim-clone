@@ -44,17 +44,17 @@ export function HeroSection() {
           key={index}
           initial={{ opacity: 0 }}
           animate={{
-            opacity: [0.2, 0.5, 0.2],
-            y: [-20, 30, -20],
-            rotate: [-5, 5, -5],
+            opacity: [0.3, 0.7, 0.3],
+            y: [-15, 25, -15],
+            rotate: [-10, 10, -10],
           }}
           transition={{
             duration: 12 + index,
             repeat: Infinity,
             delay: index * 0.5,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
-          className="absolute text-5xl md:text-7xl select-none pointer-events-none hidden lg:block filter blur-[1px]"
+          className="absolute text-5xl md:text-6xl select-none pointer-events-none hidden sm:block"
           style={{
             left: `${5 + index * 12}%`,
             top: `${10 + (index % 4) * 20}%`,
