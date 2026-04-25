@@ -68,13 +68,13 @@ export const register = async (req: Request, res: Response) => {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'strict',
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000,
     });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'strict',
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -141,23 +141,26 @@ export const login = async (req: Request, res: Response) => {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'strict',
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000,
     });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'strict',
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: (data.rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000,
     });
 
     return res.json({
       message: 'Connecté avec succès',
+      accessToken,
       user: {
         id: user.id,
         role: user.role,
         email: user.email,
         isVerified: user.isVerified,
+        firstName: user.firstName,
+        lastName: user.lastName,
       },
     });
   } catch (err) {
@@ -317,17 +320,28 @@ export const refresh = async (req: Request, res: Response) => {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'strict',
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000,
     });
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'strict',
+      sameSite: isProd ? 'none' : 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    return res.json({ message: 'Tokens rafraîchis' });
+    return res.json({ 
+      message: 'Tokens rafraîchis',
+      accessToken,
+      user: {
+        id: user.id,
+        role: user.role,
+        email: user.email,
+        isVerified: user.isVerified,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      }
+    });
   } catch (err) {
     return res.status(500).json({ message: 'Erreur interne' });
   }
@@ -410,13 +424,13 @@ export const verify2FA = async (req: Request, res: Response) => {
           res.cookie('accessToken', tokens.accessToken, {
             httpOnly: true,
             secure: isProd,
-            sameSite: 'strict',
+            sameSite: isProd ? 'none' : 'lax',
             maxAge: 15 * 60 * 1000,
           });
           res.cookie('refreshToken', tokens.refreshToken, {
             httpOnly: true,
             secure: isProd,
-            sameSite: 'strict',
+            sameSite: isProd ? 'none' : 'lax',
             maxAge: (rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000,
           });
           return res.json({
@@ -442,13 +456,13 @@ export const verify2FA = async (req: Request, res: Response) => {
       res.cookie('accessToken', tokens.accessToken, {
         httpOnly: true,
         secure: isProd,
-        sameSite: 'strict',
+        sameSite: isProd ? 'none' : 'lax',
         maxAge: 15 * 60 * 1000,
       });
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: isProd,
-        sameSite: 'strict',
+        sameSite: isProd ? 'none' : 'lax',
         maxAge: (rememberMe ? 90 : 30) * 24 * 60 * 60 * 1000,
       });
       return res.json({
@@ -490,3 +504,4 @@ export const disable2FA = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Erreur interne' });
   }
 };
+

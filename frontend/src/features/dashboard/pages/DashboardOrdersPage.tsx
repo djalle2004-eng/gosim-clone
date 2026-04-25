@@ -2,18 +2,43 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import {
-  CheckCircle2, Clock, XCircle, Download, Filter,
-  Search, ChevronDown, FileText,
+  CheckCircle2,
+  Clock,
+  XCircle,
+  Download,
+  Filter,
+  Search,
+  ChevronDown,
+  FileText,
 } from 'lucide-react';
 import { api } from '../../../lib/api';
 
 type StatusFilter = 'ALL' | 'PAID' | 'PENDING' | 'FAILED' | 'CANCELLED';
 
-const STATUS_CONFIG: Record<string, { label: string; icon: React.ElementType; badge: string }> = {
-  PAID:      { label: 'مدفوع',   icon: CheckCircle2, badge: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
-  PENDING:   { label: 'معلق',    icon: Clock,        badge: 'bg-amber-100 text-amber-700 border-amber-200' },
-  FAILED:    { label: 'فاشل',    icon: XCircle,      badge: 'bg-red-100 text-red-700 border-red-200' },
-  CANCELLED: { label: 'ملغى',    icon: XCircle,      badge: 'bg-slate-100 text-slate-600 border-slate-200' },
+const STATUS_CONFIG: Record<
+  string,
+  { label: string; icon: React.ElementType; badge: string }
+> = {
+  PAID: {
+    label: 'مدفوع',
+    icon: CheckCircle2,
+    badge: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+  },
+  PENDING: {
+    label: 'معلق',
+    icon: Clock,
+    badge: 'bg-amber-100 text-amber-700 border-amber-200',
+  },
+  FAILED: {
+    label: 'فاشل',
+    icon: XCircle,
+    badge: 'bg-red-100 text-red-700 border-red-200',
+  },
+  CANCELLED: {
+    label: 'ملغى',
+    icon: XCircle,
+    badge: 'bg-slate-100 text-slate-600 border-slate-200',
+  },
 };
 
 export default function DashboardOrdersPage() {
@@ -23,13 +48,17 @@ export default function DashboardOrdersPage() {
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ['my-orders'],
-    queryFn: async () => { const r = await api.get('/orders'); return r.data; },
+    queryFn: async () => {
+      const r = await api.get('/orders');
+      return r.data;
+    },
   });
 
   const filtered = useMemo(() => {
     return orders.filter((o: any) => {
       if (statusFilter !== 'ALL' && o.status !== statusFilter) return false;
-      if (search && !o.id.toLowerCase().includes(search.toLowerCase())) return false;
+      if (search && !o.id.toLowerCase().includes(search.toLowerCase()))
+        return false;
       if (dateFrom && new Date(o.createdAt) < new Date(dateFrom)) return false;
       return true;
     });
@@ -44,10 +73,15 @@ export default function DashboardOrdersPage() {
       `$${o.totalPrice?.toFixed(2)}`,
       STATUS_CONFIG[o.status]?.label || o.status,
     ]);
-    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
-    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
+    const blob = new Blob(['\ufeff' + csv], {
+      type: 'text/csv;charset=utf-8;',
+    });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'orders.csv'; a.click();
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'orders.csv';
+    a.click();
     URL.revokeObjectURL(url);
   };
 
@@ -65,7 +99,7 @@ export default function DashboardOrdersPage() {
           <Search className="w-4 h-4 text-slate-400 flex-shrink-0" />
           <input
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="بحث برقم الطلب..."
             className="bg-transparent text-sm text-slate-700 placeholder:text-slate-400 outline-none flex-1"
           />
@@ -77,7 +111,7 @@ export default function DashboardOrdersPage() {
             <Filter className="w-4 h-4 text-slate-400" />
             <select
               value={statusFilter}
-              onChange={e => setStatusFilter(e.target.value as StatusFilter)}
+              onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
               className="bg-transparent text-sm text-slate-700 outline-none pr-2"
             >
               <option value="ALL">كل الحالات</option>
@@ -95,7 +129,7 @@ export default function DashboardOrdersPage() {
           <input
             type="date"
             value={dateFrom}
-            onChange={e => setDateFrom(e.target.value)}
+            onChange={(e) => setDateFrom(e.target.value)}
             className="bg-transparent text-sm text-slate-700 outline-none"
           />
         </div>
@@ -125,19 +159,34 @@ export default function DashboardOrdersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">رقم الطلب</th>
-                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">التاريخ</th>
-                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">الخطة</th>
-                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">المبلغ</th>
-                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">الحالة</th>
-                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">فاتورة</th>
+                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">
+                    رقم الطلب
+                  </th>
+                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">
+                    التاريخ
+                  </th>
+                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">
+                    الخطة
+                  </th>
+                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">
+                    المبلغ
+                  </th>
+                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">
+                    الحالة
+                  </th>
+                  <th className="px-5 py-3 text-right font-bold text-slate-500 text-xs">
+                    فاتورة
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((order: any, idx: number) => {
-                  const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.PENDING;
+                  const cfg =
+                    STATUS_CONFIG[order.status] || STATUS_CONFIG.PENDING;
                   const Icon = cfg.icon;
-                  const planNames = order.orderItems.map((i: any) => i.plan?.name).join(', ');
+                  const planNames = order.orderItems
+                    .map((i: any) => i.plan?.name)
+                    .join(', ');
 
                   return (
                     <motion.tr
@@ -153,12 +202,16 @@ export default function DashboardOrdersPage() {
                       <td className="px-5 py-4 text-slate-500">
                         {new Date(order.createdAt).toLocaleDateString('ar-DZ')}
                       </td>
-                      <td className="px-5 py-4 text-slate-700 max-w-[180px] truncate">{planNames}</td>
+                      <td className="px-5 py-4 text-slate-700 max-w-[180px] truncate">
+                        {planNames}
+                      </td>
                       <td className="px-5 py-4 font-bold text-slate-800">
                         ${order.totalPrice?.toFixed(2)}
                       </td>
                       <td className="px-5 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${cfg.badge}`}>
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${cfg.badge}`}
+                        >
                           <Icon className="w-3 h-3" />
                           {cfg.label}
                         </span>
