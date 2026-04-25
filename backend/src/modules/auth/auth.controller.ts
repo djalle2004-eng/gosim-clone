@@ -330,7 +330,7 @@ export const refresh = async (req: Request, res: Response) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    return res.json({ 
+    return res.json({
       message: 'Tokens rafraîchis',
       accessToken,
       user: {
@@ -340,7 +340,7 @@ export const refresh = async (req: Request, res: Response) => {
         isVerified: user.isVerified,
         firstName: user.firstName,
         lastName: user.lastName,
-      }
+      },
     });
   } catch (err) {
     return res.status(500).json({ message: 'Erreur interne' });
@@ -504,4 +504,3 @@ export const disable2FA = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Erreur interne' });
   }
 };
-

@@ -8,14 +8,19 @@ import { useAuthStore } from '../features/auth/store/authStore';
 import { AuthProvider } from '../context/AuthContext';
 
 const AuthInitializer = ({ children }: { children: ReactNode }) => {
-  const refreshAuth = useAuthStore((state) => state.refreshAuth);
+  const { isInitialized, refreshAuth } = useAuthStore();
 
   useEffect(() => {
-    // Attempt to silently refresh token on app load if we have an httpOnly cookie
-    refreshAuth().catch(() => {
-      // ignore, user is just not logged in
-    });
-  }, [refreshAuth]);
+    // If already hydrated from localStorage by zustand-persist, mark as initialized
+    // and skip heavy network call (access token still in memory from persist).
+    // Otherwise, attempt a silent refresh using the httpOnly cookie.
+    if (!isInitialized) {
+      refreshAuth().catch(() => {
+        // ignore: user is just not logged in, isInitialized will be set to true inside refreshAuth()
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <>{children}</>;
 };

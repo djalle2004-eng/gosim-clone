@@ -95,4 +95,3 @@ export const verifyToken = async (
       .json({ message: 'Non autorisé - Refresh Token invalide' });
   }
 };
-

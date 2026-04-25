@@ -35,6 +35,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const {
     user,
+    isInitialized,
     login: storeLogin,
     logout: storeLogout,
     refreshAuth,
@@ -62,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const checkAuth = async () => {
     try {
       await refreshAuth();
-    } catch (error) {
+    } catch {
       // already handled in store
     }
   };
@@ -71,7 +72,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user: user as User | null,
-        isLoading: false,
+        // isLoading = true only while the initial refresh has NOT been attempted yet
+        isLoading: !isInitialized,
         login,
         register,
         logout,
