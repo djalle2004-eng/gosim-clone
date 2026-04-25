@@ -10,9 +10,16 @@ import PlanDetailPage from '../pages/PlanDetailPage';
 import CheckoutPage from '../pages/CheckoutPage';
 import OrderSuccessPage from '../pages/OrderSuccessPage';
 import DashboardLayout from '../pages/dashboard/DashboardLayout';
-import MyESimsPage from '../pages/dashboard/MyESimsPage';
-import MyOrdersPage from '../pages/dashboard/MyOrdersPage';
-import ProfilePage from '../pages/dashboard/ProfilePage';
+
+// New feature dashboard pages
+import DashboardOverviewPage from '../features/dashboard/pages/DashboardOverviewPage';
+import DashboardESimsPage from '../features/dashboard/pages/DashboardESimsPage';
+import DashboardOrdersPage from '../features/dashboard/pages/DashboardOrdersPage';
+import DashboardWalletPage from '../features/dashboard/pages/DashboardWalletPage';
+import DashboardReferralPage from '../features/dashboard/pages/DashboardReferralPage';
+import DashboardSettingsPage from '../features/dashboard/pages/DashboardSettingsPage';
+
+// Legacy pages kept for reference
 import NotificationsPage from '../pages/dashboard/NotificationsPage';
 import SupportPage from '../pages/dashboard/SupportPage';
 
@@ -43,17 +50,17 @@ export const router = createBrowserRouter(
       {/* Public Auth Routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-
-      {/* Semi-Protected for email verification only */}
       <Route path="/verify" element={<VerifyEmailPage />} />
 
       {/* Protected User Dashboard Routes */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Navigate to="/dashboard/esims" replace />} />
-          <Route path="esims" element={<MyESimsPage />} />
-          <Route path="orders" element={<MyOrdersPage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route index element={<DashboardOverviewPage />} />
+          <Route path="esims" element={<DashboardESimsPage />} />
+          <Route path="orders" element={<DashboardOrdersPage />} />
+          <Route path="wallet" element={<DashboardWalletPage />} />
+          <Route path="referral" element={<DashboardReferralPage />} />
+          <Route path="settings" element={<DashboardSettingsPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="support" element={<SupportPage />} />
         </Route>
@@ -69,7 +76,6 @@ export const router = createBrowserRouter(
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="esims" element={<AdminESimsPage />} />
 
-          {/* Countries is Super Admin Only */}
           <Route element={<ProtectedRoute requireSuperAdmin={true} />}>
             <Route path="countries" element={<AdminCountriesPage />} />
             <Route path="settings" element={<AdminSettingsPage />} />

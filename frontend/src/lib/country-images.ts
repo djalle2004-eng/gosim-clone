@@ -3,13 +3,20 @@
 
 // These specific images are known to work and not be blocked by DNS/adblockers:
 const KNOWN_WORKING = {
-  CITY_AE: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000&auto=format&fit=crop',
-  MOSQUE_MA: 'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=1000&auto=format&fit=crop',
-  TREE_AFRICA: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1000&auto=format&fit=crop',
-  MOUNTAIN_CA: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=1000&auto=format&fit=crop',
-  CITY_GLOBAL: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop',
-  CITY_ASIA: 'https://images.unsplash.com/photo-1535139262971-c5184570f711?q=80&w=1000&auto=format&fit=crop',
-  CITY_EU: 'https://images.unsplash.com/photo-1469796466635-455ede028aca?q=80&w=1000&auto=format&fit=crop'
+  CITY_AE:
+    'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000&auto=format&fit=crop',
+  MOSQUE_MA:
+    'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?q=80&w=1000&auto=format&fit=crop',
+  TREE_AFRICA:
+    'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1000&auto=format&fit=crop',
+  MOUNTAIN_CA:
+    'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=1000&auto=format&fit=crop',
+  CITY_GLOBAL:
+    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000&auto=format&fit=crop',
+  CITY_ASIA:
+    'https://images.unsplash.com/photo-1535139262971-c5184570f711?q=80&w=1000&auto=format&fit=crop',
+  CITY_EU:
+    'https://images.unsplash.com/photo-1469796466635-455ede028aca?q=80&w=1000&auto=format&fit=crop',
 };
 
 const COUNTRY_IMAGES: Record<string, string> = {
@@ -33,7 +40,7 @@ const COUNTRY_IMAGES: Record<string, string> = {
   TH: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?q=80&w=1000&auto=format&fit=crop',
   KR: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?q=80&w=1000&auto=format&fit=crop',
   SG: 'https://images.unsplash.com/photo-1506466010722-395aa2bef877?q=80&w=1000&auto=format&fit=crop',
-  
+
   // Known working MENA/Africa overrides
   AE: KNOWN_WORKING.CITY_AE,
   SA: KNOWN_WORKING.CITY_AE,
@@ -61,17 +68,17 @@ export function getCountryImage(code: string, region?: string): string {
   if (normalizedCode && COUNTRY_IMAGES[normalizedCode]) {
     return COUNTRY_IMAGES[normalizedCode];
   }
-  
+
   if (region) {
     const r = region.toString().trim().toUpperCase();
     if (REGION_FALLBACKS[r]) return REGION_FALLBACKS[r];
-    
+
     const noUnderscore = r.replace(/_/g, '');
     if (REGION_FALLBACKS[noUnderscore]) return REGION_FALLBACKS[noUnderscore];
-    
+
     const noSpace = r.replace(/\s/g, '');
     if (REGION_FALLBACKS[noSpace]) return REGION_FALLBACKS[noSpace];
   }
-  
+
   return REGION_FALLBACKS['GLOBAL'];
 }
