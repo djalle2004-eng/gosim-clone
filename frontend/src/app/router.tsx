@@ -7,7 +7,7 @@ import {
 import LandingPage from '../features/landing/index';
 import { MarketplacePage } from '../features/marketplace/pages/MarketplacePage';
 import PlanDetailPage from '../pages/PlanDetailPage';
-import CheckoutPage from '../pages/CheckoutPage';
+import CheckoutFlowPage from '../features/checkout/pages/CheckoutFlowPage';
 import OrderSuccessPage from '../pages/OrderSuccessPage';
 import DashboardLayout from '../pages/dashboard/DashboardLayout';
 
@@ -43,7 +43,7 @@ export const router = createBrowserRouter(
       <Route path="/" element={<LandingPage />} />
       <Route path="/plans" element={<MarketplacePage />} />
       <Route path="/plans/:slug" element={<PlanDetailPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/checkout" element={<CheckoutFlowPage />} />
       <Route path="/checkout/success" element={<OrderSuccessPage />} />
       <Route path="/checkout/cib-simulated" element={<OrderSuccessPage />} />
 

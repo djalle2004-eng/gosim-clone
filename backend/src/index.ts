@@ -13,6 +13,7 @@ import paymentsRoutes from './modules/payments/payments.routes';
 import adminRoutes from './modules/admin/admin.routes';
 import kycRoutes from './modules/kyc/kyc.routes';
 import settingsRoutes from './modules/settings/settings.routes';
+import checkoutRoutes from './modules/checkout/checkout.routes';
 import { User } from '@soufsim-clone/shared';
 import path from 'path';
 import { apiLimiter, publicLimiter } from './middleware/rateLimiter';
@@ -49,6 +50,7 @@ app.use('/api/payments', apiLimiter, paymentsRoutes);
 app.use('/api/admin', apiLimiter, adminRoutes);
 app.use('/api/admin/settings', apiLimiter, settingsRoutes);
 app.use('/api/kyc', apiLimiter, kycRoutes);
+app.use('/api/checkout', apiLimiter, checkoutRoutes);
 
 // Expose static local uploads statically so clients can load the Passport Image via HTTP later
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
