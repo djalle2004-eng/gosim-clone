@@ -37,6 +37,15 @@ import RegisterPage from '../pages/auth/RegisterPage';
 import VerifyEmailPage from '../pages/auth/VerifyEmailPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 
+// Partner Portal
+import PartnerLayout from '../features/partner/components/PartnerLayout';
+import PartnerOverviewPage from '../features/partner/pages/PartnerOverviewPage';
+import ApiKeysPage from '../features/partner/pages/ApiKeysPage';
+import WebhooksPage from '../features/partner/pages/WebhooksPage';
+import ApiPlaygroundPage from '../features/partner/pages/ApiPlaygroundPage';
+import SdkDocsPage from '../features/partner/pages/SdkDocsPage';
+import BillingPage from '../features/partner/pages/BillingPage';
+
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -63,6 +72,19 @@ export const router = createBrowserRouter(
           <Route path="settings" element={<DashboardSettingsPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="support" element={<SupportPage />} />
+        </Route>
+      </Route>
+
+      {/* Partner Portal Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/partner" element={<PartnerLayout />}>
+          <Route index element={<Navigate to="overview" replace />} />
+          <Route path="overview" element={<PartnerOverviewPage />} />
+          <Route path="keys" element={<ApiKeysPage />} />
+          <Route path="webhooks" element={<WebhooksPage />} />
+          <Route path="playground" element={<ApiPlaygroundPage />} />
+          <Route path="docs" element={<SdkDocsPage />} />
+          <Route path="billing" element={<BillingPage />} />
         </Route>
       </Route>
 
