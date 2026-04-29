@@ -119,15 +119,31 @@ export default function SdkDocsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-white">SDK Documentation</h1>
-        <p className="text-slate-400 mt-1">Ready-to-use code snippets to integrate GoSIM into your application.</p>
+        <p className="text-slate-400 mt-1">
+          Ready-to-use code snippets to integrate GoSIM into your application.
+        </p>
       </div>
 
       {/* Response Format */}
       <div className="bg-[#111120] border border-white/5 rounded-2xl p-5">
-        <h3 className="text-sm font-bold text-white mb-3">📦 Standard Response Format</h3>
+        <h3 className="text-sm font-bold text-white mb-3">
+          📦 Standard Response Format
+        </h3>
         <div className="bg-[#0d0d14] rounded-xl p-4 relative">
-          <button onClick={() => handleCopy(`{\n  "success": true,\n  "data": { ... },\n  "meta": { "page": 1, "limit": 20, "total": 150 },\n  "requestId": "req_1234567890"\n}`, 'format')} className="absolute top-3 right-3 text-slate-500 hover:text-white p-1.5 rounded-lg hover:bg-white/5">
-            {copiedId === 'format' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+          <button
+            onClick={() =>
+              handleCopy(
+                `{\n  "success": true,\n  "data": { ... },\n  "meta": { "page": 1, "limit": 20, "total": 150 },\n  "requestId": "req_1234567890"\n}`,
+                'format'
+              )
+            }
+            className="absolute top-3 right-3 text-slate-500 hover:text-white p-1.5 rounded-lg hover:bg-white/5"
+          >
+            {copiedId === 'format' ? (
+              <Check className="w-4 h-4 text-emerald-400" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
           </button>
           <pre className="text-sm font-mono text-slate-300">{`{
   "success": true,
@@ -143,7 +159,7 @@ export default function SdkDocsPage() {
         {/* Snippet selector + Language toggle */}
         <div className="flex items-center justify-between p-4 border-b border-white/5">
           <div className="flex gap-2 flex-wrap">
-            {snippetKeys.map(key => (
+            {snippetKeys.map((key) => (
               <button
                 key={key}
                 onClick={() => setActiveSnippet(key)}
@@ -154,7 +170,7 @@ export default function SdkDocsPage() {
             ))}
           </div>
           <div className="flex items-center gap-1 bg-white/5 rounded-xl p-1">
-            {LANGUAGES.map(lang => (
+            {LANGUAGES.map((lang) => (
               <button
                 key={lang}
                 onClick={() => setActiveLang(lang)}
@@ -172,21 +188,40 @@ export default function SdkDocsPage() {
             onClick={() => handleCopy(currentCode, 'snippet')}
             className="absolute top-4 right-4 text-slate-500 hover:text-white p-1.5 rounded-lg hover:bg-white/5 z-10"
           >
-            {copiedId === 'snippet' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            {copiedId === 'snippet' ? (
+              <Check className="w-4 h-4 text-emerald-400" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
           </button>
           <pre className="p-6 text-sm font-mono text-slate-300 overflow-auto bg-[#0d0d14]">
             {currentCode.split('\n').map((line, i) => {
-              const isComment = line.trim().startsWith('//') || line.trim().startsWith('#') || line.trim().startsWith('*');
+              const isComment =
+                line.trim().startsWith('//') ||
+                line.trim().startsWith('#') ||
+                line.trim().startsWith('*');
               return (
                 <div key={i}>
                   {isComment ? (
                     <span className="text-slate-600">{line}</span>
                   ) : (
-                    <span dangerouslySetInnerHTML={{ __html: line
-                      .replace(/('.*?'|".*?")/g, '<span style="color:#86efac">$1</span>')
-                      .replace(/\b(import|from|const|let|async|await|return|export)\b/g, '<span style="color:#c084fc">$1</span>')
-                      .replace(/\b(\d+)\b/g, '<span style="color:#fbbf24">$1</span>')
-                    }} />
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: line
+                          .replace(
+                            /('.*?'|".*?")/g,
+                            '<span style="color:#86efac">$1</span>'
+                          )
+                          .replace(
+                            /\b(import|from|const|let|async|await|return|export)\b/g,
+                            '<span style="color:#c084fc">$1</span>'
+                          )
+                          .replace(
+                            /\b(\d+)\b/g,
+                            '<span style="color:#fbbf24">$1</span>'
+                          ),
+                      }}
+                    />
                   )}
                 </div>
               );
@@ -198,21 +233,36 @@ export default function SdkDocsPage() {
       {/* Authentication Guide */}
       <div className="bg-[#111120] border border-white/5 rounded-2xl p-5">
         <h3 className="font-bold text-white mb-4">🔐 Authentication</h3>
-        <p className="text-slate-400 text-sm mb-4">All API requests must include your API key in the request header:</p>
+        <p className="text-slate-400 text-sm mb-4">
+          All API requests must include your API key in the request header:
+        </p>
         <div className="bg-[#0d0d14] rounded-xl p-4 relative">
-          <button onClick={() => handleCopy('X-API-Key: ak_live_YOUR_KEY', 'auth')} className="absolute top-3 right-3 text-slate-500 hover:text-white p-1.5 rounded-lg hover:bg-white/5">
-            {copiedId === 'auth' ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+          <button
+            onClick={() => handleCopy('X-API-Key: ak_live_YOUR_KEY', 'auth')}
+            className="absolute top-3 right-3 text-slate-500 hover:text-white p-1.5 rounded-lg hover:bg-white/5"
+          >
+            {copiedId === 'auth' ? (
+              <Check className="w-4 h-4 text-emerald-400" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
           </button>
-          <code className="text-cyan-300 font-mono text-sm">X-API-Key: ak_live_YOUR_KEY</code>
+          <code className="text-cyan-300 font-mono text-sm">
+            X-API-Key: ak_live_YOUR_KEY
+          </code>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div className="bg-white/5 rounded-xl p-3">
             <div className="text-emerald-400 font-medium mb-1">✓ Correct</div>
-            <code className="text-slate-400 text-xs">X-API-Key: ak_live_abc123</code>
+            <code className="text-slate-400 text-xs">
+              X-API-Key: ak_live_abc123
+            </code>
           </div>
           <div className="bg-white/5 rounded-xl p-3">
             <div className="text-red-400 font-medium mb-1">✗ Incorrect</div>
-            <code className="text-slate-400 text-xs">Authorization: Bearer ak_live_abc123</code>
+            <code className="text-slate-400 text-xs">
+              Authorization: Bearer ak_live_abc123
+            </code>
           </div>
         </div>
       </div>

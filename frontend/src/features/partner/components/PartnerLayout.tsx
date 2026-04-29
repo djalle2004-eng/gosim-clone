@@ -15,12 +15,32 @@ import {
 import { useAuthStore } from '../../auth/store/authStore';
 
 const NAV_ITEMS = [
-  { id: 'overview', label: 'Overview', icon: LayoutDashboard, path: '/partner/overview' },
+  {
+    id: 'overview',
+    label: 'Overview',
+    icon: LayoutDashboard,
+    path: '/partner/overview',
+  },
   { id: 'keys', label: 'API Keys', icon: Key, path: '/partner/keys' },
-  { id: 'webhooks', label: 'Webhooks', icon: Webhook, path: '/partner/webhooks' },
-  { id: 'playground', label: 'API Playground', icon: Play, path: '/partner/playground' },
+  {
+    id: 'webhooks',
+    label: 'Webhooks',
+    icon: Webhook,
+    path: '/partner/webhooks',
+  },
+  {
+    id: 'playground',
+    label: 'API Playground',
+    icon: Play,
+    path: '/partner/playground',
+  },
   { id: 'docs', label: 'SDK Docs', icon: BookOpen, path: '/partner/docs' },
-  { id: 'billing', label: 'Billing & Usage', icon: CreditCard, path: '/partner/billing' },
+  {
+    id: 'billing',
+    label: 'Billing & Usage',
+    icon: CreditCard,
+    path: '/partner/billing',
+  },
 ];
 
 export default function PartnerLayout() {
@@ -51,7 +71,8 @@ export default function PartnerLayout() {
         <nav className="flex-1 p-3 space-y-1">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
-            const active = pathname === item.path || pathname.startsWith(item.path);
+            const active =
+              pathname === item.path || pathname.startsWith(item.path);
             return (
               <Link
                 key={item.id}
@@ -63,8 +84,12 @@ export default function PartnerLayout() {
                 }`}
               >
                 <Icon className="w-5 h-5 shrink-0" />
-                {sidebarOpen && <span className="text-sm font-medium">{item.label}</span>}
-                {sidebarOpen && active && <ChevronRight className="w-3 h-3 ml-auto" />}
+                {sidebarOpen && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
+                {sidebarOpen && active && (
+                  <ChevronRight className="w-3 h-3 ml-auto" />
+                )}
               </Link>
             );
           })}
@@ -78,15 +103,25 @@ export default function PartnerLayout() {
                 {user?.firstName?.[0] || 'P'}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-white truncate">{user?.firstName || 'Partner'}</div>
-                <div className="text-xs text-slate-500 truncate">{user?.email}</div>
+                <div className="text-sm font-medium text-white truncate">
+                  {user?.firstName || 'Partner'}
+                </div>
+                <div className="text-xs text-slate-500 truncate">
+                  {user?.email}
+                </div>
               </div>
-              <button onClick={logout} className="text-slate-500 hover:text-red-400 transition-colors">
+              <button
+                onClick={logout}
+                className="text-slate-500 hover:text-red-400 transition-colors"
+              >
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <button onClick={logout} className="w-full flex justify-center p-2 text-slate-500 hover:text-red-400 transition-colors">
+            <button
+              onClick={logout}
+              className="w-full flex justify-center p-2 text-slate-500 hover:text-red-400 transition-colors"
+            >
               <LogOut className="w-4 h-4" />
             </button>
           )}
@@ -112,7 +147,9 @@ export default function PartnerLayout() {
             </div>
             <button className="relative text-slate-400 hover:text-white transition-colors">
               <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-500 rounded-full text-[8px] flex items-center justify-center">3</span>
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-500 rounded-full text-[8px] flex items-center justify-center">
+                3
+              </span>
             </button>
           </div>
         </header>
