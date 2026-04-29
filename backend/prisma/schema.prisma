@@ -191,11 +191,12 @@ model User {
   apiKeys           ApiKey[]
   webhookEndpoints  WebhookEndpoint[]
 
-  // 2FA & Security
   twoFactorSecret  String?
   twoFactorEnabled Boolean        @default(false)
   backupCodes      Json?
   refreshTokens    RefreshToken[]
+  pushSubscriptions PushSubscription[]
+  inAppNotifications InAppNotification[]
 
   @@index([email])
   @@index([role])
@@ -746,3 +747,48 @@ model PromoCode {
   @@index([isActive])
   @@map("promo_codes")
 }
+
+// =======================
+// PUSH SUBSCRIPTIONS
+// =======================
+
+model PushSubscription {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription Json     // Full PushSubscription object from browser
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@map("push_subscriptions")
+}
+
+// =======================
+// IN-APP NOTIFICATIONS
+// =======================
+
+enum NotificationCategory {
+  ORDER
+  ESIM
+  PAYMENT
+  SYSTEM
+  PROMOTION
+}
+
+model InAppNotification {
+  id        String               @id @default(uuid())
+  userId    String
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  category  NotificationCategory @default(SYSTEM)
+  url       String?
+  isRead    Boolean              @default(false)
+  createdAt DateTime             @default(now())
+
+  @@index([userId, isRead])
+  @@index([userId, createdAt])
+  @@map("in_app_notifications")
+}
+

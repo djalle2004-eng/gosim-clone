@@ -3,15 +3,21 @@ import { create } from 'zustand';
 export interface Notification {
   id: string;
   title: string;
-  message: string;
+  body: string;
+  category?: string;
+  url?: string;
   isRead: boolean;
   createdAt: string;
+  // Legacy support
+  message?: string;
 }
 
 interface NotificationState {
   notifications: Notification[];
   unreadCount: number;
-  setNotifications: (notifications: Notification[]) => void;
+  setNotifications: (notifications: Notification[], unreadCount?: number) => void;
+  addNotification: (notification: Notification) => void;
+  incrementUnread: () => void;
   markAsRead: (id: string) => void;
   markAllRead: () => void;
 }
@@ -19,11 +25,21 @@ interface NotificationState {
 export const useNotificationStore = create<NotificationState>((set) => ({
   notifications: [],
   unreadCount: 0,
-  setNotifications: (notifications) =>
+
+  setNotifications: (notifications, unreadCount) =>
     set({
       notifications,
-      unreadCount: notifications.filter((n) => !n.isRead).length,
+      unreadCount: unreadCount ?? notifications.filter((n) => !n.isRead).length,
     }),
+
+  addNotification: (notification) =>
+    set((state) => ({
+      notifications: [notification, ...state.notifications],
+    })),
+
+  incrementUnread: () =>
+    set((state) => ({ unreadCount: state.unreadCount + 1 })),
+
   markAsRead: (id) =>
     set((state) => {
       const updated = state.notifications.map((n) =>
@@ -31,12 +47,13 @@ export const useNotificationStore = create<NotificationState>((set) => ({
       );
       return {
         notifications: updated,
-        unreadCount: updated.filter((n) => !n.isRead).length,
+        unreadCount: Math.max(0, state.unreadCount - 1),
       };
     }),
+
   markAllRead: () =>
-    set((state) => {
-      const updated = state.notifications.map((n) => ({ ...n, isRead: true }));
-      return { notifications: updated, unreadCount: 0 };
-    }),
+    set((state) => ({
+      notifications: state.notifications.map((n) => ({ ...n, isRead: true })),
+      unreadCount: 0,
+    })),
 }));
