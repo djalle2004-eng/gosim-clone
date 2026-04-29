@@ -15,7 +15,7 @@ import {
   getWebhooks,
   deleteWebhook,
   getBalance,
-  topupBalance
+  topupBalance,
 } from './partner.controller';
 
 const router = Router();
@@ -46,17 +46,37 @@ router.get('/plans/:id', authenticateApiKey(['plans:read']), getPlanById);
 
 router.post('/orders', authenticateApiKey(['orders:create']), createOrder);
 router.get('/orders/:id', authenticateApiKey(['orders:read']), getOrderStatus);
-router.post('/orders/:id/cancel', authenticateApiKey(['orders:create']), cancelOrder);
+router.post(
+  '/orders/:id/cancel',
+  authenticateApiKey(['orders:create']),
+  cancelOrder
+);
 
 router.get('/esims', authenticateApiKey(['esims:read']), getEsims);
 router.get('/esims/:iccid', authenticateApiKey(['esims:read']), getEsimDetails);
-router.get('/esims/:iccid/qrcode', authenticateApiKey(['esims:read']), getEsimQrCode);
-router.post('/esims/:iccid/topup', authenticateApiKey(['esims:manage']), topupEsim);
-router.get('/esims/:iccid/usage', authenticateApiKey(['esims:read']), getEsimUsage);
+router.get(
+  '/esims/:iccid/qrcode',
+  authenticateApiKey(['esims:read']),
+  getEsimQrCode
+);
+router.post(
+  '/esims/:iccid/topup',
+  authenticateApiKey(['esims:manage']),
+  topupEsim
+);
+router.get(
+  '/esims/:iccid/usage',
+  authenticateApiKey(['esims:read']),
+  getEsimUsage
+);
 
 router.post('/webhooks', authenticateApiKey(['webhooks:write']), addWebhook);
 router.get('/webhooks', authenticateApiKey(['webhooks:read']), getWebhooks);
-router.delete('/webhooks/:id', authenticateApiKey(['webhooks:write']), deleteWebhook);
+router.delete(
+  '/webhooks/:id',
+  authenticateApiKey(['webhooks:write']),
+  deleteWebhook
+);
 
 router.get('/balance', authenticateApiKey(), getBalance);
 router.post('/balance/topup', authenticateApiKey(), topupBalance);

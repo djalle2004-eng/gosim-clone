@@ -27,8 +27,9 @@ async function checkRateLimit(keyHash: string, tier: string): Promise<boolean> {
     const dailyUsage = results?.[0] as number;
     const minUsage = results?.[2] as number;
 
-    const dailyLimit = TIER_DAILY_LIMITS[tier as keyof typeof TIER_DAILY_LIMITS] || 100;
-    
+    const dailyLimit =
+      TIER_DAILY_LIMITS[tier as keyof typeof TIER_DAILY_LIMITS] || 100;
+
     // 500 requests per minute burst limit
     if (minUsage > 500) {
       return false;
@@ -90,7 +91,7 @@ export const authenticateApiKey = (requiredScopes: string[] = []) => {
 
         let scopesArray: string[] = [];
         if (dbKey.scopes && Array.isArray(dbKey.scopes)) {
-           scopesArray = dbKey.scopes as string[];
+          scopesArray = dbKey.scopes as string[];
         }
 
         keyData = {
@@ -103,17 +104,22 @@ export const authenticateApiKey = (requiredScopes: string[] = []) => {
         if (redisClient.isOpen) {
           await redisClient.setEx(cacheKey, 3600, JSON.stringify(keyData)); // Cache for 1 hour
         }
-        
+
         // Update last used asynchronously
-        prisma.apiKey.update({
-          where: { id: dbKey.id },
-          data: { lastUsedAt: new Date() },
-        }).catch(console.error);
+        prisma.apiKey
+          .update({
+            where: { id: dbKey.id },
+            data: { lastUsedAt: new Date() },
+          })
+          .catch(console.error);
       }
 
       // Check scopes
       if (requiredScopes.length > 0) {
-        const hasScope = requiredScopes.every(scope => keyData.scopes.includes(scope) || keyData.scopes.includes('*'));
+        const hasScope = requiredScopes.every(
+          (scope) =>
+            keyData.scopes.includes(scope) || keyData.scopes.includes('*')
+        );
         if (!hasScope) {
           return res.status(403).json({
             success: false,

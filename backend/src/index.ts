@@ -39,11 +39,10 @@ const swaggerOptions = {
     info: {
       title: 'GoSIM Partner API',
       version: '1.0.0',
-      description: 'API for GoSIM Partners and Resellers to manage eSIMs, Orders, and Webhooks.',
+      description:
+        'API for GoSIM Partners and Resellers to manage eSIMs, Orders, and Webhooks.',
     },
-    servers: [
-      { url: 'http://localhost:5000' }
-    ],
+    servers: [{ url: 'http://localhost:5000' }],
   },
   apis: ['./src/modules/partner/*.routes.ts'],
 };

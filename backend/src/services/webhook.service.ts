@@ -2,17 +2,21 @@ import crypto from 'crypto';
 import prisma from '../lib/db';
 import axios from 'axios';
 
-export const triggerWebhook = async (userId: string, event: string, payload: any) => {
+export const triggerWebhook = async (
+  userId: string,
+  event: string,
+  payload: any
+) => {
   // Find all active webhooks for this user
   const allWebhooks = await prisma.webhookEndpoint.findMany({
     where: {
       userId,
       isActive: true,
-    }
+    },
   });
 
   // Filter in memory since events is a Json array
-  const webhooks = allWebhooks.filter(wh => {
+  const webhooks = allWebhooks.filter((wh) => {
     if (wh.events && Array.isArray(wh.events)) {
       return (wh.events as string[]).includes(event);
     }
@@ -31,7 +35,7 @@ export const triggerWebhook = async (userId: string, event: string, payload: any
         status: 'PENDING',
         attempts: 0,
         nextRetry: new Date(),
-      }
+      },
     });
 
     // Fire asynchronously
@@ -44,10 +48,15 @@ const RETRY_INTERVALS = [0, 60 * 1000, 5 * 60 * 1000, 30 * 60 * 1000]; // 0s, 1m
 export const processDelivery = async (deliveryId: string) => {
   const delivery = await prisma.webhookDelivery.findUnique({
     where: { id: deliveryId },
-    include: { webhook: true }
+    include: { webhook: true },
   });
 
-  if (!delivery || delivery.status === 'SUCCESS' || delivery.attempts >= RETRY_INTERVALS.length) return;
+  if (
+    !delivery ||
+    delivery.status === 'SUCCESS' ||
+    delivery.attempts >= RETRY_INTERVALS.length
+  )
+    return;
 
   const payloadStr = JSON.stringify(delivery.payload);
   const signature = crypto
@@ -65,9 +74,9 @@ export const processDelivery = async (deliveryId: string) => {
         'Content-Type': 'application/json',
         'X-Webhook-Signature': signature,
         'X-GoSIM-Event': delivery.event,
-        'X-GoSIM-Delivery': delivery.id
+        'X-GoSIM-Delivery': delivery.id,
       },
-      timeout: 10000 // 10s timeout
+      timeout: 10000, // 10s timeout
     });
 
     status = res.status >= 200 && res.status < 300 ? 'SUCCESS' : 'FAILED';
@@ -91,8 +100,8 @@ export const processDelivery = async (deliveryId: string) => {
       attempts: newAttempts,
       nextRetry,
       response: responseData,
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    },
   });
 };
 
@@ -101,9 +110,9 @@ export const runWebhookCron = async () => {
   const pendingDeliveries = await prisma.webhookDelivery.findMany({
     where: {
       status: 'PENDING',
-      nextRetry: { lte: new Date() }
+      nextRetry: { lte: new Date() },
     },
-    take: 50 // batch size
+    take: 50, // batch size
   });
 
   for (const delivery of pendingDeliveries) {
