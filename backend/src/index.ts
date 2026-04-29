@@ -14,6 +14,9 @@ import adminRoutes from './modules/admin/admin.routes';
 import kycRoutes from './modules/kyc/kyc.routes';
 import settingsRoutes from './modules/settings/settings.routes';
 import checkoutRoutes from './modules/checkout/checkout.routes';
+import partnerRoutes from './modules/partner/partner.routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 import { User } from '@soufsim-clone/shared';
 import path from 'path';
 import { apiLimiter, publicLimiter } from './middleware/rateLimiter';
@@ -28,6 +31,26 @@ app.use(
   })
 );
 app.use(helmet());
+
+// Swagger setup
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'GoSIM Partner API',
+      version: '1.0.0',
+      description: 'API for GoSIM Partners and Resellers to manage eSIMs, Orders, and Webhooks.',
+    },
+    servers: [
+      { url: 'http://localhost:5000' }
+    ],
+  },
+  apis: ['./src/modules/partner/*.routes.ts'],
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api/docs/spec.json', (req, res) => res.json(swaggerSpec));
 
 // Webhooks require RAW body for signature verification
 app.use(
@@ -51,6 +74,7 @@ app.use('/api/admin', apiLimiter, adminRoutes);
 app.use('/api/admin/settings', apiLimiter, settingsRoutes);
 app.use('/api/kyc', apiLimiter, kycRoutes);
 app.use('/api/checkout', apiLimiter, checkoutRoutes);
+app.use('/v1/partner', partnerRoutes);
 
 // Expose static local uploads statically so clients can load the Passport Image via HTTP later
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));

@@ -674,8 +674,34 @@ model WebhookEndpoint {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  deliveries WebhookDelivery[]
+
   @@index([userId])
   @@map("webhook_endpoints")
+}
+
+model WebhookDelivery {
+  id        String          @id @default(uuid())
+  webhookId String
+  webhook   WebhookEndpoint @relation(fields: [webhookId], references: [id])
+  event     String
+  payload   Json
+  status    DeliveryStatus  @default(PENDING)
+  attempts  Int             @default(0)
+  nextRetry DateTime?
+  response  Json?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([webhookId])
+  @@index([status, nextRetry])
+  @@map("webhook_deliveries")
+}
+
+enum DeliveryStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
 
 // =======================

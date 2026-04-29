@@ -64,10 +64,16 @@ export const useCartStore = create<CartState>()(
       removePromo: () => set({ promoCode: null, discountRate: 0 }),
       clearCart: () => set({ items: [], promoCode: null, discountRate: 0 }),
       getTotalDzd: () => {
-        return get().items.reduce((acc, item) => acc + item.priceDzd * item.quantity, 0);
+        return get().items.reduce(
+          (acc, item) => acc + item.priceDzd * item.quantity,
+          0
+        );
       },
       getTotalUsd: () => {
-        return get().items.reduce((acc, item) => acc + item.priceUsd * item.quantity, 0);
+        return get().items.reduce(
+          (acc, item) => acc + item.priceUsd * item.quantity,
+          0
+        );
       },
       getDiscountDzd: () => {
         return get().getTotalDzd() * get().discountRate;

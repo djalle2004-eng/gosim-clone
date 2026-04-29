@@ -23,7 +23,8 @@ export const createIntent = async (req: Request, res: Response) => {
       if (!plan) throw new Error(`Plan ${item.planId} not found`);
 
       // Determine price based on currency
-      const unitPrice = currency === 'DZD' ? (plan.priceDZD || plan.price * 150) : plan.price;
+      const unitPrice =
+        currency === 'DZD' ? plan.priceDZD || plan.price * 150 : plan.price;
       const itemTotal = unitPrice * item.quantity;
       totalAmount += itemTotal;
 

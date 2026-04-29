@@ -1,4 +1,8 @@
-import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import { useState } from 'react';
 import { ShieldCheck, Landmark, Phone, Wallet } from 'lucide-react';
 import { useCartStore } from '../../marketplace/store/cartStore';
@@ -9,7 +13,11 @@ interface PaymentStepProps {
   onBack: () => void;
 }
 
-export default function PaymentStep({ method, onSuccess, onBack }: PaymentStepProps) {
+export default function PaymentStep({
+  method,
+  onSuccess,
+  onBack,
+}: PaymentStepProps) {
   const stripe = useStripe();
   const elements = useElements();
   const cart = useCartStore();
@@ -48,13 +56,19 @@ export default function PaymentStep({ method, onSuccess, onBack }: PaymentStepPr
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
             <PaymentElement options={{ layout: 'tabs' }} />
           </div>
-          {error && <div className="text-red-500 text-sm font-medium p-3 bg-red-50 rounded-xl">{error}</div>}
-          <button 
-            type="submit" 
+          {error && (
+            <div className="text-red-500 text-sm font-medium p-3 bg-red-50 rounded-xl">
+              {error}
+            </div>
+          )}
+          <button
+            type="submit"
             disabled={!stripe || isProcessing}
             className="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all disabled:opacity-50"
           >
-            {isProcessing ? 'جاري المعالجة والمصادقة 3D...' : `دفع ${cart.getFinalTotalDzd().toLocaleString()} د.ج`}
+            {isProcessing
+              ? 'جاري المعالجة والمصادقة 3D...'
+              : `دفع ${cart.getFinalTotalDzd().toLocaleString()} د.ج`}
           </button>
         </form>
       );
@@ -63,27 +77,41 @@ export default function PaymentStep({ method, onSuccess, onBack }: PaymentStepPr
     if (method === 'cib' || method === 'edahabia') {
       return (
         <div className="text-center py-8">
-          <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 ${method === 'cib' ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600'}`}>
-            {method === 'cib' ? <Landmark className="w-10 h-10" /> : <Phone className="w-10 h-10" />}
+          <div
+            className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 ${method === 'cib' ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600'}`}
+          >
+            {method === 'cib' ? (
+              <Landmark className="w-10 h-10" />
+            ) : (
+              <Phone className="w-10 h-10" />
+            )}
           </div>
-          <h3 className="text-2xl font-bold text-slate-800 mb-4">بوابة الدفع الوطنية Satim</h3>
+          <h3 className="text-2xl font-bold text-slate-800 mb-4">
+            بوابة الدفع الوطنية Satim
+          </h3>
           <p className="text-slate-500 mb-8 max-w-md mx-auto">
-            سيتم تحويلك الآن إلى النافذة الرسمية الآمنة لإدخال بيانات {method === 'cib' ? 'بطاقة CIB' : 'البطاقة الذهبية'} الخاصة بك. سيتم إرجاعك تلقائياً هنا بعد نجاح العملية.
+            سيتم تحويلك الآن إلى النافذة الرسمية الآمنة لإدخال بيانات{' '}
+            {method === 'cib' ? 'بطاقة CIB' : 'البطاقة الذهبية'} الخاصة بك. سيتم
+            إرجاعك تلقائياً هنا بعد نجاح العملية.
           </p>
           <div className="bg-slate-100 p-4 rounded-xl mb-8 flex items-center justify-between">
             <span className="text-slate-500">رقم المرجع (Order Ref):</span>
-            <span className="font-mono font-bold text-slate-800">CIB-{Math.floor(Math.random()*1000000)}</span>
+            <span className="font-mono font-bold text-slate-800">
+              CIB-{Math.floor(Math.random() * 1000000)}
+            </span>
           </div>
-          <button 
+          <button
             onClick={() => {
               setIsProcessing(true);
               // MOCKING the CIB redirect flow
-              setTimeout(() => { onSuccess(); }, 2000);
+              setTimeout(() => {
+                onSuccess();
+              }, 2000);
             }}
             disabled={isProcessing}
             className="w-full bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all disabled:opacity-50"
           >
-             {isProcessing ? 'جاري التحويل للبنك...' : 'متابعة إلى بوابة الدفع'}
+            {isProcessing ? 'جاري التحويل للبنك...' : 'متابعة إلى بوابة الدفع'}
           </button>
         </div>
       );
@@ -95,17 +123,23 @@ export default function PaymentStep({ method, onSuccess, onBack }: PaymentStepPr
           <div className="w-20 h-20 mx-auto rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center mb-6">
             <Wallet className="w-10 h-10" />
           </div>
-          <h3 className="text-2xl font-bold text-slate-800 mb-4">الدفع من المحفظة</h3>
-          <p className="text-slate-500 mb-8 max-w-md mx-auto">سيتم الخصم المباشر من رصيد محفظتك المتاح.</p>
-          <button 
+          <h3 className="text-2xl font-bold text-slate-800 mb-4">
+            الدفع من المحفظة
+          </h3>
+          <p className="text-slate-500 mb-8 max-w-md mx-auto">
+            سيتم الخصم المباشر من رصيد محفظتك المتاح.
+          </p>
+          <button
             onClick={() => {
               setIsProcessing(true);
-              setTimeout(() => { onSuccess(); }, 1500);
+              setTimeout(() => {
+                onSuccess();
+              }, 1500);
             }}
             disabled={isProcessing}
             className="w-full bg-cyan-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all disabled:opacity-50"
           >
-             {isProcessing ? 'جاري الخصم...' : 'تأكيد الدفع'}
+            {isProcessing ? 'جاري الخصم...' : 'تأكيد الدفع'}
           </button>
         </div>
       );
@@ -116,9 +150,13 @@ export default function PaymentStep({ method, onSuccess, onBack }: PaymentStepPr
     <div className="max-w-2xl mx-auto">
       <div className="bg-white border border-slate-200 p-8 rounded-3xl shadow-sm">
         {renderContent()}
-        
+
         <div className="mt-8 flex items-center justify-between">
-          <button onClick={onBack} disabled={isProcessing} className="text-slate-500 hover:text-slate-800 font-medium px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors">
+          <button
+            onClick={onBack}
+            disabled={isProcessing}
+            className="text-slate-500 hover:text-slate-800 font-medium px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors"
+          >
             &rarr; الرجوع للسلة
           </button>
           <div className="flex items-center gap-2 text-slate-400 text-xs">
