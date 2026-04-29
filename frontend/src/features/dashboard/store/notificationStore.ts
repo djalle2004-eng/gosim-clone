@@ -15,7 +15,10 @@ export interface Notification {
 interface NotificationState {
   notifications: Notification[];
   unreadCount: number;
-  setNotifications: (notifications: Notification[], unreadCount?: number) => void;
+  setNotifications: (
+    notifications: Notification[],
+    unreadCount?: number
+  ) => void;
   addNotification: (notification: Notification) => void;
   incrementUnread: () => void;
   markAsRead: (id: string) => void;

@@ -78,7 +78,10 @@ export const webhookWorker = new Worker<WebhookQueueJob>(
 );
 
 webhookWorker.on('failed', (job, err) => {
-  console.error(`[webhookQueue] Delivery ${job?.data.deliveryId} failed:`, err.message);
+  console.error(
+    `[webhookQueue] Delivery ${job?.data.deliveryId} failed:`,
+    err.message
+  );
 });
 
 // ─── Helper ───────────────────────────────────────────────────────────────────

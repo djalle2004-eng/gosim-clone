@@ -17,8 +17,13 @@ export default function NotificationBell() {
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { notifications, unreadCount, setNotifications, markAsRead, markAllRead } =
-    useNotificationStore();
+  const {
+    notifications,
+    unreadCount,
+    setNotifications,
+    markAsRead,
+    markAllRead,
+  } = useNotificationStore();
 
   // Fetch notifications from API
   const fetchNotifications = async () => {
@@ -40,7 +45,10 @@ export default function NotificationBell() {
   // Close on outside click
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -119,7 +127,10 @@ export default function NotificationBell() {
                     <CheckCheck className="w-3.5 h-3.5" /> Mark all read
                   </button>
                 )}
-                <button onClick={() => setOpen(false)} className="text-slate-500 hover:text-white p-1">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-slate-500 hover:text-white p-1"
+                >
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -157,11 +168,15 @@ export default function NotificationBell() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <p className={`text-sm font-medium ${!notif.isRead ? 'text-white' : 'text-slate-300'}`}>
+                        <p
+                          className={`text-sm font-medium ${!notif.isRead ? 'text-white' : 'text-slate-300'}`}
+                        >
                           {notif.title}
                         </p>
                         {notif.category && (
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full shrink-0 font-medium ${CATEGORY_COLORS[notif.category] || CATEGORY_COLORS.SYSTEM}`}>
+                          <span
+                            className={`text-[10px] px-1.5 py-0.5 rounded-full shrink-0 font-medium ${CATEGORY_COLORS[notif.category] || CATEGORY_COLORS.SYSTEM}`}
+                          >
                             {notif.category}
                           </span>
                         )}
@@ -169,7 +184,9 @@ export default function NotificationBell() {
                       <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">
                         {notif.body || notif.message}
                       </p>
-                      <p className="text-[10px] text-slate-600 mt-1">{timeAgo(notif.createdAt)}</p>
+                      <p className="text-[10px] text-slate-600 mt-1">
+                        {timeAgo(notif.createdAt)}
+                      </p>
                     </div>
                     {notif.url && (
                       <ExternalLink className="w-3.5 h-3.5 text-slate-600 shrink-0 mt-1" />

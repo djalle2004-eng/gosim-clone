@@ -78,11 +78,17 @@ router.post('/push/subscribe', async (req: Request, res: Response) => {
   const { subscription } = req.body;
 
   if (!subscription?.endpoint) {
-    return res.status(400).json({ success: false, error: 'Invalid push subscription' });
+    return res
+      .status(400)
+      .json({ success: false, error: 'Invalid push subscription' });
   }
 
   await prisma.pushSubscription.create({
-    data: { userId, subscription, userAgent: req.headers['user-agent'] ?? null },
+    data: {
+      userId,
+      subscription,
+      userAgent: req.headers['user-agent'] ?? null,
+    },
   });
 
   res.json({ success: true, message: 'Push subscription registered.' });
@@ -110,7 +116,9 @@ router.delete('/push/unsubscribe', async (req: Request, res: Response) => {
 router.get('/vapid-public-key', (req: Request, res: Response) => {
   const publicKey = process.env.VAPID_PUBLIC_KEY;
   if (!publicKey) {
-    return res.status(503).json({ success: false, error: 'Push notifications not configured.' });
+    return res
+      .status(503)
+      .json({ success: false, error: 'Push notifications not configured.' });
   }
   res.json({ success: true, publicKey });
 });

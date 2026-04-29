@@ -13,10 +13,14 @@ export const useNotificationSocket = () => {
   const connect = useCallback(() => {
     if (!user?.id || connected.current) return;
 
-    socket = io(import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000', {
-      withCredentials: true,
-      transports: ['websocket', 'polling'],
-    });
+    socket = io(
+      import.meta.env.VITE_API_URL?.replace('/api', '') ||
+        'http://localhost:5000',
+      {
+        withCredentials: true,
+        transports: ['websocket', 'polling'],
+      }
+    );
 
     socket.on('connect', () => {
       connected.current = true;

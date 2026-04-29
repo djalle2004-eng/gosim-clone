@@ -31,7 +31,9 @@ export const provisioningQueue = new Queue<ESimProvisioningJob | ESimTopupJob>(
 
 // ─── Worker ───────────────────────────────────────────────────────────────────
 
-export const provisioningWorker = new Worker<ESimProvisioningJob | ESimTopupJob>(
+export const provisioningWorker = new Worker<
+  ESimProvisioningJob | ESimTopupJob
+>(
   'esim_provisioning',
   async (job: Job<ESimProvisioningJob | ESimTopupJob>) => {
     console.log(`[provisioningQueue] Processing job ${job.id}:`, job.name);
@@ -40,11 +42,14 @@ export const provisioningWorker = new Worker<ESimProvisioningJob | ESimTopupJob>
       const data = job.data as ESimProvisioningJob;
       // Delegate to the provider-specific service
       // Dynamically import to avoid circular deps
-      const { provisionESim } = await import('../services/esim-provider.service');
+      const { provisionESim } =
+        await import('../services/esim-provider.service');
       await provisionESim(data.planId, 1);
     } else if (job.name === 'topup') {
       const data = job.data as ESimTopupJob;
-      console.log(`[provisioningQueue] Topup for ICCID ${data.iccid}, package ${data.packageId}`);
+      console.log(
+        `[provisioningQueue] Topup for ICCID ${data.iccid}, package ${data.packageId}`
+      );
       // Hook into the provider topup service here
     }
   },
@@ -56,7 +61,10 @@ provisioningWorker.on('completed', (job) => {
 });
 
 provisioningWorker.on('failed', (job, err) => {
-  console.error(`[provisioningQueue] Job ${job?.id} failed after ${job?.attemptsMade} attempts:`, err.message);
+  console.error(
+    `[provisioningQueue] Job ${job?.id} failed after ${job?.attemptsMade} attempts:`,
+    err.message
+  );
 });
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

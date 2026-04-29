@@ -18,7 +18,10 @@ cron.schedule('0 */6 * * *', async () => {
     const data = (await res.json()) as any;
 
     // Log exchange rates (store in cache or env in production)
-    console.log('[Job] Exchange rates updated. Base: USD, Rates count:', Object.keys(data.rates || {}).length);
+    console.log(
+      '[Job] Exchange rates updated. Base: USD, Rates count:',
+      Object.keys(data.rates || {}).length
+    );
     console.log('[Job] Exchange rates updated successfully.');
   } catch (err: any) {
     console.error('[Job] Exchange rate sync failed:', err.message);
@@ -85,7 +88,8 @@ cron.schedule('0 9 * * *', async () => {
         iccid: esim.iccid,
         planName,
         expiresAt:
-          esim.expiresAt?.toLocaleDateString('en-US', { dateStyle: 'long' }) || '',
+          esim.expiresAt?.toLocaleDateString('en-US', { dateStyle: 'long' }) ||
+          '',
         daysLeft,
       });
 
@@ -100,7 +104,9 @@ cron.schedule('0 9 * * *', async () => {
       await notifyESimExpiring(esim.userId, daysLeft, planName);
     }
 
-    console.log(`[Job] Sent expiry reminders for ${expiringEsims.length} eSIMs.`);
+    console.log(
+      `[Job] Sent expiry reminders for ${expiringEsims.length} eSIMs.`
+    );
   } catch (err: any) {
     console.error('[Job] Expiry reminder job failed:', err.message);
   }

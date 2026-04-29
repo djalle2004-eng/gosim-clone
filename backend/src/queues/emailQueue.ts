@@ -116,7 +116,8 @@ function baseTemplate(content: string, previewText: string): string {
 }
 
 function welcomeHtml(name: string): string {
-  return baseTemplate(`
+  return baseTemplate(
+    `
     <div class="header">
       <h1>🌍 Welcome to GoSIM!</h1>
       <p>Your global eSIM journey starts here</p>
@@ -132,11 +133,14 @@ function welcomeHtml(name: string): string {
         <p style="color:#94a3b8; margin:8px 0;">4. Scan & travel connected! ✈️</p>
       </div>
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/plans" class="btn">Browse eSIM Plans →</a></center>
-    </div>`, 'Welcome to GoSIM!');
+    </div>`,
+    'Welcome to GoSIM!'
+  );
 }
 
 function orderConfirmationHtml(job: OrderConfirmationEmailJob): string {
-  return baseTemplate(`
+  return baseTemplate(
+    `
     <div class="header">
       <h1>✅ Order Confirmed!</h1>
       <p>Your eSIM is being activated</p>
@@ -151,11 +155,14 @@ function orderConfirmationHtml(job: OrderConfirmationEmailJob): string {
       </div>
       ${job.qrCodeUrl ? `<div class="qr-box"><p style="color:#94a3b8;margin-top:0;">Your eSIM QR Code</p><img src="${job.qrCodeUrl}" alt="eSIM QR Code"/><p style="color:#64748b;font-size:12px;">Scan this with your phone's camera to activate your eSIM</p></div>` : ''}
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/dashboard/orders" class="btn">View Order Details →</a></center>
-    </div>`, 'Your GoSIM Order is Confirmed');
+    </div>`,
+    'Your GoSIM Order is Confirmed'
+  );
 }
 
 function esimActivatedHtml(job: ESimActivatedEmailJob): string {
-  return baseTemplate(`
+  return baseTemplate(
+    `
     <div class="header">
       <h1>📱 eSIM Activated!</h1>
       <p>You're ready to connect in ${job.country}</p>
@@ -177,11 +184,14 @@ function esimActivatedHtml(job: ESimActivatedEmailJob): string {
       <div class="card" style="background:#0d0d14;">
         <p style="color:#94a3b8;margin:0;font-size:14px;"><strong style="color:#06b6d4;">💡 Tip:</strong> Go to Settings → Cellular → Add eSIM on your device, then scan the QR code above.</p>
       </div>
-    </div>`, 'Your GoSIM eSIM is Activated!');
+    </div>`,
+    'Your GoSIM eSIM is Activated!'
+  );
 }
 
 function dataLowAlertHtml(job: DataLowAlertEmailJob): string {
-  return baseTemplate(`
+  return baseTemplate(
+    `
     <div class="header" style="background:linear-gradient(135deg,#b45309,#92400e);">
       <h1>⚠️ Low Data Alert</h1>
       <p>Only ${job.remainingMb}MB remaining on your eSIM</p>
@@ -194,11 +204,14 @@ function dataLowAlertHtml(job: DataLowAlertEmailJob): string {
         <div><div class="label">Remaining Data</div><div class="value" style="color:#fb923c;">${job.remainingMb} MB</div></div>
       </div>
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/dashboard/esims" class="btn" style="background:linear-gradient(135deg,#b45309,#d97706);">Top Up Data →</a></center>
-    </div>`, 'Low Data Warning — GoSIM');
+    </div>`,
+    'Low Data Warning — GoSIM'
+  );
 }
 
 function expiringHtml(job: ESimExpiringSoonEmailJob): string {
-  return baseTemplate(`
+  return baseTemplate(
+    `
     <div class="header" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">
       <h1>⏳ eSIM Expiring Soon</h1>
       <p>${job.daysLeft} day${job.daysLeft !== 1 ? 's' : ''} remaining</p>
@@ -212,11 +225,14 @@ function expiringHtml(job: ESimExpiringSoonEmailJob): string {
         <div><div class="label">Days Left</div><div class="value">${job.daysLeft} day${job.daysLeft !== 1 ? 's' : ''}</div></div>
       </div>
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/plans" class="btn" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">Renew Plan →</a></center>
-    </div>`, 'Your GoSIM eSIM is Expiring Soon');
+    </div>`,
+    'Your GoSIM eSIM is Expiring Soon'
+  );
 }
 
 function resetPasswordHtml(job: ResetPasswordEmailJob): string {
-  return baseTemplate(`
+  return baseTemplate(
+    `
     <div class="header">
       <h1>🔐 Reset Your Password</h1>
       <p>We received a request to reset your GoSIM password</p>
@@ -228,7 +244,9 @@ function resetPasswordHtml(job: ResetPasswordEmailJob): string {
       <div class="card" style="background:#0d0d14;">
         <p style="color:#64748b;margin:0;font-size:12px;">If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
       </div>
-    </div>`, 'Reset Your GoSIM Password');
+    </div>`,
+    'Reset Your GoSIM Password'
+  );
 }
 
 // ─── Worker ───────────────────────────────────────────────────────────────────

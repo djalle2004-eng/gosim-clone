@@ -81,7 +81,11 @@ export const markAllAsRead = (userId: string) =>
 
 // ─── Preset Notification Factories ───────────────────────────────────────────
 
-export const notifyOrderConfirmed = (userId: string, orderId: string, planName: string) =>
+export const notifyOrderConfirmed = (
+  userId: string,
+  orderId: string,
+  planName: string
+) =>
   createNotification({
     userId,
     title: '✅ Order Confirmed',
@@ -108,7 +112,11 @@ export const notifyDataLow = (userId: string, remainingMb: number) =>
     url: `/dashboard/esims`,
   });
 
-export const notifyESimExpiring = (userId: string, daysLeft: number, planName: string) =>
+export const notifyESimExpiring = (
+  userId: string,
+  daysLeft: number,
+  planName: string
+) =>
   createNotification({
     userId,
     title: '⏳ eSIM Expiring Soon',

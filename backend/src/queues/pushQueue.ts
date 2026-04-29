@@ -61,7 +61,9 @@ export const pushWorker = new Worker<PushNotificationJob>(
     );
 
     const failed = results.filter((r) => r.status === 'rejected').length;
-    console.log(`[pushQueue] Sent ${subscriptions.length - failed}/${subscriptions.length} notifications to user ${userId}`);
+    console.log(
+      `[pushQueue] Sent ${subscriptions.length - failed}/${subscriptions.length} notifications to user ${userId}`
+    );
   },
   { connection: redisConnection, concurrency: 5 }
 );
@@ -81,7 +83,7 @@ export const pushOrderConfirmed = (userId: string, orderId: string) =>
   enqueuePush({
     userId,
     title: '✅ Order Confirmed!',
-    body: 'Your eSIM is being activated. You\'ll receive it shortly.',
+    body: "Your eSIM is being activated. You'll receive it shortly.",
     url: `/dashboard/orders`,
     tag: `order-${orderId}`,
   });
