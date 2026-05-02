@@ -507,8 +507,6 @@ export default function AdminAnalyticsPage() {
           <div className="grid grid-cols-3 gap-4">
             {[
               {
-                'X-SoufSim-Event': delivery.event,
-                'X-SoufSim-Delivery': delivery.id,
                 label: 'Top Market',
                 value: '🇩🇿 Algeria',
                 sub: '$18,204 revenue',
