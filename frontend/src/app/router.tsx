@@ -31,6 +31,7 @@ import AdminUsersPage from '../pages/admin/AdminUsersPage';
 import AdminESimsPage from '../pages/admin/AdminESimsPage';
 import AdminCountriesPage from '../pages/admin/AdminCountriesPage';
 import AdminSettingsPage from '../pages/admin/AdminSettingsPage';
+import AdminAnalyticsPage from '../pages/admin/AdminAnalyticsPage';
 
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
@@ -97,6 +98,7 @@ export const router = createBrowserRouter(
           <Route path="orders" element={<AdminOrdersPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="esims" element={<AdminESimsPage />} />
+          <Route path="analytics" element={<AdminAnalyticsPage />} />
 
           <Route element={<ProtectedRoute requireSuperAdmin={true} />}>
             <Route path="countries" element={<AdminCountriesPage />} />

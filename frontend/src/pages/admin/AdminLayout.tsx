@@ -10,6 +10,7 @@ import {
   ChevronDown,
   Globe,
   Settings,
+  BarChart2,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useState } from 'react';
@@ -47,6 +48,11 @@ export default function AdminLayout() {
       label: 'مراقبة الـ eSIMs',
       path: '/admin/esims',
       icon: <Smartphone className="w-5 h-5" />,
+    },
+    {
+      label: 'التحليلات',
+      path: '/admin/analytics',
+      icon: <BarChart2 className="w-5 h-5" />,
     },
   ];
 
