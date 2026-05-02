@@ -99,10 +99,13 @@ app.use('/api/auth', publicLimiter, authRoutes);
 app.use('/api/countries', publicLimiter, countriesRoutes);
 app.use('/api/plans', publicLimiter, plansRoutes);
 
+import financeRoutes from './modules/admin/finance.routes';
+
 // Protected endpoints limit
 app.use('/api/orders', apiLimiter, ordersRoutes);
 app.use('/api/payments', apiLimiter, paymentsRoutes);
 app.use('/api/admin', apiLimiter, adminRoutes);
+app.use('/api/admin/finance', apiLimiter, financeRoutes);
 app.use('/api/admin/settings', apiLimiter, settingsRoutes);
 app.use('/api/kyc', apiLimiter, kycRoutes);
 app.use('/api/checkout', apiLimiter, checkoutRoutes);

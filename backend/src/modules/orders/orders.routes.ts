@@ -17,7 +17,10 @@ router.get('/', getHistory);
 router.get('/:id', getDetails);
 router.post('/:id/cancel', cancel);
 
+import { FinanceController } from '../admin/finance.controller';
+
 // Admin Action
+router.get('/:id/invoice', FinanceController.downloadInvoice);
 router.post('/:id/refund', refund);
 
 export default router;

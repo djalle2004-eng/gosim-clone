@@ -27,6 +27,7 @@ import AdminLayout from '../pages/admin/AdminLayout';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import AdminPlansPage from '../pages/admin/AdminPlansPage';
 import AdminOrdersPage from '../pages/admin/AdminOrdersPage';
+import AdminFinancePage from '../pages/admin/AdminFinancePage';
 import AdminUsersPage from '../pages/admin/AdminUsersPage';
 import AdminESimsPage from '../pages/admin/AdminESimsPage';
 import AdminCountriesPage from '../pages/admin/AdminCountriesPage';
@@ -99,6 +100,7 @@ export const router = createBrowserRouter(
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="esims" element={<AdminESimsPage />} />
           <Route path="analytics" element={<AdminAnalyticsPage />} />
+          <Route path="finance" element={<AdminFinancePage />} />
 
           <Route element={<ProtectedRoute requireSuperAdmin={true} />}>
             <Route path="countries" element={<AdminCountriesPage />} />

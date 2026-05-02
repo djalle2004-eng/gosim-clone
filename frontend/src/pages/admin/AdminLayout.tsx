@@ -11,6 +11,7 @@ import {
   Globe,
   Settings,
   BarChart2,
+  DollarSign,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useState } from 'react';
@@ -53,6 +54,11 @@ export default function AdminLayout() {
       label: 'التحليلات',
       path: '/admin/analytics',
       icon: <BarChart2 className="w-5 h-5" />,
+    },
+    {
+      label: 'المالية',
+      path: '/admin/finance',
+      icon: <DollarSign className="w-5 h-5" />,
     },
   ];
 
