@@ -73,8 +73,8 @@ export const processDelivery = async (deliveryId: string) => {
       headers: {
         'Content-Type': 'application/json',
         'X-Webhook-Signature': signature,
-        'X-GoSIM-Event': delivery.event,
-        'X-GoSIM-Delivery': delivery.id,
+        'X-SoufSim-Event': delivery.event,
+        'X-SoufSim-Delivery': delivery.id,
       },
       timeout: 10000, // 10s timeout
     });

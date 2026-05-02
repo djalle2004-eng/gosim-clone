@@ -7,7 +7,7 @@ const CODE_SNIPPETS: Record<string, Record<string, string>> = {
   'List Plans': {
     JavaScript: `import axios from 'axios';
 
-const response = await axios.get('https://api.gosim.dz/v1/partner/plans', {
+const response = await axios.get('https://api.soufsim.dz/v1/partner/plans', {
   headers: {
     'X-API-Key': 'ak_live_YOUR_KEY',
     'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ console.log(response.data);`,
     Python: `import requests
 
 response = requests.get(
-    'https://api.gosim.dz/v1/partner/plans',
+    'https://api.soufsim.dz/v1/partner/plans',
     headers={
         'X-API-Key': 'ak_live_YOUR_KEY',
         'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ print(response.json())`,
     PHP: `<?php
 $client = new \GuzzleHttp\Client();
 
-$response = $client->get('https://api.gosim.dz/v1/partner/plans', [
+$response = $client->get('https://api.soufsim.dz/v1/partner/plans', [
     'headers' => [
         'X-API-Key' => 'ak_live_YOUR_KEY',
         'Content-Type' => 'application/json',
@@ -43,14 +43,14 @@ $response = $client->get('https://api.gosim.dz/v1/partner/plans', [
 
 $data = json_decode($response->getBody(), true);`,
 
-    cURL: `curl -X GET "https://api.gosim.dz/v1/partner/plans?page=1&limit=20" \\
+    cURL: `curl -X GET "https://api.soufsim.dz/v1/partner/plans?page=1&limit=20" \\
   -H "X-API-Key: ak_live_YOUR_KEY" \\
   -H "Content-Type: application/json"`,
   },
 
   'Create Order': {
     JavaScript: `const response = await axios.post(
-  'https://api.gosim.dz/v1/partner/orders',
+  'https://api.soufsim.dz/v1/partner/orders',
   { planId: 'plan_xyz123', quantity: 1 },
   { headers: { 'X-API-Key': 'ak_live_YOUR_KEY' } }
 );
@@ -58,19 +58,19 @@ $data = json_decode($response->getBody(), true);`,
 const { orderId, status } = response.data.data;`,
 
     Python: `response = requests.post(
-    'https://api.gosim.dz/v1/partner/orders',
+    'https://api.soufsim.dz/v1/partner/orders',
     json={'planId': 'plan_xyz123', 'quantity': 1},
     headers={'X-API-Key': 'ak_live_YOUR_KEY'}
 )
 
 order = response.json()['data']`,
 
-    PHP: `$response = $client->post('https://api.gosim.dz/v1/partner/orders', [
+    PHP: `$response = $client->post('https://api.soufsim.dz/v1/partner/orders', [
     'headers' => ['X-API-Key' => 'ak_live_YOUR_KEY'],
     'json' => ['planId' => 'plan_xyz123', 'quantity' => 1]
 ]);`,
 
-    cURL: `curl -X POST "https://api.gosim.dz/v1/partner/orders" \\
+    cURL: `curl -X POST "https://api.soufsim.dz/v1/partner/orders" \\
   -H "X-API-Key: ak_live_YOUR_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{"planId":"plan_xyz123","quantity":1}'`,
@@ -78,24 +78,24 @@ order = response.json()['data']`,
 
   'Get eSIM QR Code': {
     JavaScript: `const res = await axios.get(
-  \`https://api.gosim.dz/v1/partner/esims/\${iccid}/qrcode\`,
+  \`https://api.soufsim.dz/v1/partner/esims/\${iccid}/qrcode\`,
   { headers: { 'X-API-Key': 'ak_live_YOUR_KEY' } }
 );
 
 const { qrCodeUrl } = res.data.data;`,
 
     Python: `res = requests.get(
-    f'https://api.gosim.dz/v1/partner/esims/{iccid}/qrcode',
+    f'https://api.soufsim.dz/v1/partner/esims/{iccid}/qrcode',
     headers={'X-API-Key': 'ak_live_YOUR_KEY'}
 )
 qr_url = res.json()['data']['qrCodeUrl']`,
 
-    PHP: `$res = $client->get("https://api.gosim.dz/v1/partner/esims/{$iccid}/qrcode", [
+    PHP: `$res = $client->get("https://api.soufsim.dz/v1/partner/esims/{$iccid}/qrcode", [
     'headers' => ['X-API-Key' => 'ak_live_YOUR_KEY']
 ]);
 $qrUrl = json_decode($res->getBody(), true)['data']['qrCodeUrl'];`,
 
-    cURL: `curl "https://api.gosim.dz/v1/partner/esims/{iccid}/qrcode" \\
+    cURL: `curl "https://api.soufsim.dz/v1/partner/esims/{iccid}/qrcode" \\
   -H "X-API-Key: ak_live_YOUR_KEY"`,
   },
 };
@@ -120,7 +120,7 @@ export default function SdkDocsPage() {
       <div>
         <h1 className="text-2xl font-bold text-white">SDK Documentation</h1>
         <p className="text-slate-400 mt-1">
-          Ready-to-use code snippets to integrate GoSIM into your application.
+          Ready-to-use code snippets to integrate SoufSim into your application.
         </p>
       </div>
 

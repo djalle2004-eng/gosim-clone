@@ -47,9 +47,9 @@ export const webhookWorker = new Worker<WebhookQueueJob>(
       const res = await axios.post(url, payload, {
         headers: {
           'Content-Type': 'application/json',
-          'X-GoSIM-Signature': `sha256=${signature}`,
-          'X-GoSIM-Event': event,
-          'X-GoSIM-Delivery': deliveryId,
+          'X-SoufSim-Signature': `sha256=${signature}`,
+          'X-SoufSim-Event': event,
+          'X-SoufSim-Delivery': deliveryId,
         },
         timeout: 10_000,
       });

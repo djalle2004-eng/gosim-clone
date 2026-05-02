@@ -42,7 +42,7 @@ export default function DashboardReferralPage() {
   const [copied, setCopied] = useState(false);
 
   const referralCode = `REF-${(user?.id || '').slice(0, 6).toUpperCase()}`;
-  const referralLink = `https://gosim-web.onrender.com/register?ref=${referralCode}`;
+  const referralLink = `https://soufsim-web.onrender.com/register?ref=${referralCode}`;
 
   const totalEarned = MOCK_REFERRALS.reduce((s, r) => s + r.earned, 0);
   const pendingEarned = 1.5;

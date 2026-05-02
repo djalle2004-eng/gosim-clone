@@ -21,8 +21,9 @@ export default function CartReviewStep({
 
   const handleApplyPromo = () => {
     // Mock validation
-    if (promoInput.toUpperCase() === 'GOSIM10') {
-      cart.applyPromo('GOSIM10', 0.1);
+    if (promoInput.toUpperCase() === 'SOUFSIM10') {
+      cart.applyPromo('SOUFSIM10', 0.1);
+      setPromoInput('');
     } else {
       alert('كود خصم غير صحيح');
     }
@@ -114,7 +115,7 @@ export default function CartReviewStep({
           <Tag className="text-cyan-500 w-6 h-6" />
           <input
             type="text"
-            placeholder="أدخل كود الخصم (جرب GOSIM10)"
+            placeholder="أدخل كود الخصم (جرب SOUFSIM10)"
             value={promoInput}
             onChange={(e) => setPromoInput(e.target.value)}
             className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 outline-none focus:border-cyan-500"

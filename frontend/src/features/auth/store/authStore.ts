@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: 'gosim-auth',
+      name: 'soufsim-auth',
       // Only persist user data and token to localStorage for faster hydration
       partialize: (state) => ({
         user: state.user,

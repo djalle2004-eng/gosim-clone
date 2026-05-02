@@ -68,10 +68,10 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'GoSIM Partner API',
+      title: 'SoufSim Partner API',
       version: '1.0.0',
       description:
-        'API for GoSIM Partners and Resellers to manage eSIMs, Orders, and Webhooks.',
+        'API for SoufSim Partners and Resellers to manage eSIMs, Orders, and Webhooks.',
     },
     servers: [{ url: 'http://localhost:5000' }],
   },

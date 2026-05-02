@@ -61,7 +61,7 @@ export default function PartnerLayout() {
           </div>
           {sidebarOpen && (
             <div>
-              <div className="text-sm font-bold text-white">GoSIM</div>
+              <div className="text-sm font-bold text-white">SoufSim</div>
               <div className="text-xs text-cyan-400/80">Partner Portal</div>
             </div>
           )}

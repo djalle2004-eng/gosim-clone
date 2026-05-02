@@ -36,7 +36,7 @@ const ALL_EVENTS = [
 const MOCK_WEBHOOKS = [
   {
     id: 'wh_1',
-    url: 'https://myapp.com/webhooks/gosim',
+    url: 'https://myapp.com/webhooks/soufsim',
     events: ['order.completed', 'esim.activated'],
     active: true,
     deliveries: [

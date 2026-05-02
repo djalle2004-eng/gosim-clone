@@ -1,6 +1,6 @@
 # INVOICE / PROJECT QUOTATION
 
-**Project Name:** GoSIM eSIM Store Platform (Web + Mobile)
+**Project Name:** SoufSim eSIM Store Platform (Web + Mobile)
 **Client:** Esim souf (Algeria)
 **Date:** April 27, 2026
 **Status:** Detailed Proposal
@@ -70,4 +70,4 @@ _Note: These are direct payments to service providers and are not included in th
 ---
 
 _Authorized by:_
-**GoSIM Technical Development Team**
+**SoufSim Technical Development Team**

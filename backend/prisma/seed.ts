@@ -1095,16 +1095,16 @@ async function main() {
   const hashedUserPassword = await bcrypt.hash('User@123456', 12);
 
   await prisma.user.upsert({
-    where: { email: 'admin@soufsim.dz' },
+    where: { email: 'superadmin@soufsim.dz' },
     update: {
       password: hashedAdminPassword,
       role: Role.SUPER_ADMIN,
     },
     create: {
-      email: 'admin@soufsim.dz',
+      email: 'superadmin@soufsim.dz',
       password: hashedAdminPassword,
       firstName: 'SoufSim',
-      lastName: 'Admin',
+      lastName: 'SuperAdmin',
       role: Role.SUPER_ADMIN,
       isActive: true,
       isVerified: true,
@@ -1115,7 +1115,7 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: 'admin@gosim.dz',
+      email: 'admin@soufsim.dz',
       password: hashedAdminPassword,
       firstName: 'Platform',
       lastName: 'Admin',
@@ -1129,7 +1129,7 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: 'demo@gosim.dz',
+      email: 'demo@soufsim.dz',
       password: hashedUserPassword,
       firstName: 'Demo',
       lastName: 'User',
@@ -1150,9 +1150,9 @@ async function main() {
   console.log(`   • Users     : 3`);
   console.log('═══════════════════════════════════════\n');
   console.log('🔑 Admin credentials:');
-  console.log('   superadmin@gosim.dz  /  Admin@123456');
-  console.log('   admin@gosim.dz       /  Admin@123456');
-  console.log('   demo@gosim.dz        /  User@123456\n');
+  console.log('   superadmin@soufsim.dz  /  Admin@123456');
+  console.log('   admin@soufsim.dz       /  Admin@123456');
+  console.log('   demo@soufsim.dz        /  User@123456\n');
 }
 
 main()

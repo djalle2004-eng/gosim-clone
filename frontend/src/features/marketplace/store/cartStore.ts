@@ -83,7 +83,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: 'gosim-cart',
+      name: 'soufsim-cart',
     }
   )
 );

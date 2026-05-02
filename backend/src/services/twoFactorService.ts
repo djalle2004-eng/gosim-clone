@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 export class TwoFactorService {
   static generateSecret(email: string) {
     const secret = speakeasy.generateSecret({
-      name: `GoSIM (${email})`,
+      name: `SoufSim (${email})`,
     });
     return secret;
   }

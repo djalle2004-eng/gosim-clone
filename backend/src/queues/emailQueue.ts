@@ -107,8 +107,8 @@ function baseTemplate(content: string, previewText: string): string {
   <div class="container">
     ${content}
     <div class="footer">
-      <p>GoSIM • The smarter way to stay connected</p>
-      <p style="margin-top:8px;">© ${new Date().getFullYear()} GoSIM. All rights reserved.</p>
+      <p>SoufSim • The smarter way to stay connected</p>
+      <p style="margin-top:8px;">© ${new Date().getFullYear()} SoufSim. All rights reserved.</p>
     </div>
   </div>
 </body>
@@ -119,12 +119,12 @@ function welcomeHtml(name: string): string {
   return baseTemplate(
     `
     <div class="header">
-      <h1>🌍 Welcome to GoSIM!</h1>
+      <h1>🌍 Welcome to SoufSim!</h1>
       <p>Your global eSIM journey starts here</p>
     </div>
     <div class="body">
       <p style="color:#94a3b8; font-size:16px;">Hi <strong style="color:#e2e8f0;">${name}</strong>,</p>
-      <p style="color:#94a3b8;">Welcome to <strong style="color:#06b6d4;">GoSIM</strong> — the easiest way to stay connected worldwide with instant eSIM activation.</p>
+      <p style="color:#94a3b8;">Welcome to <strong style="color:#06b6d4;">SoufSim</strong> — the easiest way to stay connected worldwide with instant eSIM activation.</p>
       <div class="card">
         <p style="color:#e2e8f0; font-weight:700; margin-top:0;">🚀 Getting started is simple:</p>
         <p style="color:#94a3b8; margin:8px 0;">1. Browse our global eSIM plans</p>
@@ -134,7 +134,7 @@ function welcomeHtml(name: string): string {
       </div>
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/plans" class="btn">Browse eSIM Plans →</a></center>
     </div>`,
-    'Welcome to GoSIM!'
+    'Welcome to SoufSim!'
   );
 }
 
@@ -156,7 +156,7 @@ function orderConfirmationHtml(job: OrderConfirmationEmailJob): string {
       ${job.qrCodeUrl ? `<div class="qr-box"><p style="color:#94a3b8;margin-top:0;">Your eSIM QR Code</p><img src="${job.qrCodeUrl}" alt="eSIM QR Code"/><p style="color:#64748b;font-size:12px;">Scan this with your phone's camera to activate your eSIM</p></div>` : ''}
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/dashboard/orders" class="btn">View Order Details →</a></center>
     </div>`,
-    'Your GoSIM Order is Confirmed'
+    'Your SoufSim Order is Confirmed'
   );
 }
 
@@ -185,7 +185,7 @@ function esimActivatedHtml(job: ESimActivatedEmailJob): string {
         <p style="color:#94a3b8;margin:0;font-size:14px;"><strong style="color:#06b6d4;">💡 Tip:</strong> Go to Settings → Cellular → Add eSIM on your device, then scan the QR code above.</p>
       </div>
     </div>`,
-    'Your GoSIM eSIM is Activated!'
+    'Your SoufSim eSIM is Activated!'
   );
 }
 
@@ -205,7 +205,7 @@ function dataLowAlertHtml(job: DataLowAlertEmailJob): string {
       </div>
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/dashboard/esims" class="btn" style="background:linear-gradient(135deg,#b45309,#d97706);">Top Up Data →</a></center>
     </div>`,
-    'Low Data Warning — GoSIM'
+    'Low Data Warning — SoufSim'
   );
 }
 
@@ -226,7 +226,7 @@ function expiringHtml(job: ESimExpiringSoonEmailJob): string {
       </div>
       <center><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/plans" class="btn" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">Renew Plan →</a></center>
     </div>`,
-    'Your GoSIM eSIM is Expiring Soon'
+    'Your SoufSim eSIM is Expiring Soon'
   );
 }
 
@@ -235,7 +235,7 @@ function resetPasswordHtml(job: ResetPasswordEmailJob): string {
     `
     <div class="header">
       <h1>🔐 Reset Your Password</h1>
-      <p>We received a request to reset your GoSIM password</p>
+      <p>We received a request to reset your SoufSim password</p>
     </div>
     <div class="body">
       <p style="color:#94a3b8;">Hi <strong style="color:#e2e8f0;">${job.name}</strong>,</p>
@@ -245,7 +245,7 @@ function resetPasswordHtml(job: ResetPasswordEmailJob): string {
         <p style="color:#64748b;margin:0;font-size:12px;">If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
       </div>
     </div>`,
-    'Reset Your GoSIM Password'
+    'Reset Your SoufSim Password'
   );
 }
 
@@ -260,7 +260,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
 
     switch (data.type) {
       case 'welcome':
-        subject = '🌍 Welcome to GoSIM — Your Global eSIM Platform';
+        subject = '🌍 Welcome to SoufSim — Your Global eSIM Platform';
         html = welcomeHtml(data.name);
         break;
       case 'order_confirmation':
@@ -268,7 +268,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
         html = orderConfirmationHtml(data);
         break;
       case 'esim_activated':
-        subject = `📱 Your GoSIM eSIM is Active — ${data.country}`;
+        subject = `📱 Your SoufSim eSIM is Active — ${data.country}`;
         html = esimActivatedHtml(data);
         break;
       case 'data_low_alert':
@@ -280,7 +280,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
         html = expiringHtml(data);
         break;
       case 'reset_password':
-        subject = '🔐 Reset Your GoSIM Password';
+        subject = '🔐 Reset Your SoufSim Password';
         html = resetPasswordHtml(data);
         break;
     }
