@@ -62,10 +62,10 @@ export default function AdminLayout() {
     },
   ];
 
-  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
+  const canSeeSuperAdminItems = user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN';
 
   // Add Super Admin only items
-  if (isSuperAdmin) {
+  if (canSeeSuperAdminItems) {
     navItems.push({
       label: 'إدارة الدول',
       path: '/admin/countries',

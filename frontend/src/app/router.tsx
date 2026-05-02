@@ -102,7 +102,7 @@ export const router = createBrowserRouter(
           <Route path="analytics" element={<AdminAnalyticsPage />} />
           <Route path="finance" element={<AdminFinancePage />} />
 
-          <Route element={<ProtectedRoute requireSuperAdmin={true} />}>
+          <Route element={<ProtectedRoute requireAdmin={true} />}>
             <Route path="countries" element={<AdminCountriesPage />} />
             <Route path="settings" element={<AdminSettingsPage />} />
           </Route>
