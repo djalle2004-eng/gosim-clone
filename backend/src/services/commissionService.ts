@@ -13,7 +13,9 @@ export class CommissionService {
         commissionAmount: { gt: 0 },
       },
       include: {
-        referrer: { select: { id: true, email: true, firstName: true, lastName: true } },
+        referrer: {
+          select: { id: true, email: true, firstName: true, lastName: true },
+        },
         order: { select: { id: true, totalAmount: true, createdAt: true } },
       },
       orderBy: { createdAt: 'desc' },
@@ -32,13 +34,19 @@ export class CommissionService {
       },
     });
 
-    if (referrals.length === 0) throw new Error('No pending commissions found for the provided IDs.');
+    if (referrals.length === 0)
+      throw new Error('No pending commissions found for the provided IDs.');
 
     // 2. Mock external API Call
-    console.log(`[CommissionService] Processing payout via ${method.toUpperCase()} for ${referrals.length} commissions...`);
-    const totalAmount = referrals.reduce((sum, r) => sum + r.commissionAmount, 0);
+    console.log(
+      `[CommissionService] Processing payout via ${method.toUpperCase()} for ${referrals.length} commissions...`
+    );
+    const totalAmount = referrals.reduce(
+      (sum, r) => sum + r.commissionAmount,
+      0
+    );
     console.log(`[CommissionService] Total Payout: $${totalAmount}`);
-    
+
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
@@ -48,9 +56,9 @@ export class CommissionService {
       data: { isPaid: true },
     });
 
-    // 4. Record wallet transactions if we were paying into internal wallet, 
+    // 4. Record wallet transactions if we were paying into internal wallet,
     // but here we are paying externally, so we just return success.
-    
+
     return {
       success: true,
       paidCount: referrals.length,
@@ -63,9 +71,16 @@ export class CommissionService {
   /**
    * Calculate automatic commission for an order
    */
-  static async calculateCommission(orderId: string, referralCodeId: string, referrerId: string, referredUserId: string) {
+  static async calculateCommission(
+    orderId: string,
+    referralCodeId: string,
+    referrerId: string,
+    referredUserId: string
+  ) {
     const order = await prisma.order.findUnique({ where: { id: orderId } });
-    const code = await prisma.referralCode.findUnique({ where: { id: referralCodeId } });
+    const code = await prisma.referralCode.findUnique({
+      where: { id: referralCodeId },
+    });
 
     if (!order || !code) return;
 

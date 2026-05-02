@@ -78,9 +78,12 @@ export class FinanceController {
     try {
       const orderId = req.params.id;
       const pdfBytes = await InvoiceService.generateInvoice(orderId);
-      
+
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename=invoice-${orderId}.pdf`);
+      res.setHeader(
+        'Content-Disposition',
+        `attachment; filename=invoice-${orderId}.pdf`
+      );
       res.send(Buffer.from(pdfBytes));
     } catch (error: any) {
       res.status(404).json({ success: false, message: error.message });

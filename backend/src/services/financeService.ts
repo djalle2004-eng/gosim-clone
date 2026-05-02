@@ -41,7 +41,8 @@ export class FinanceService {
       totalCost += costPerUnit * item.quantity;
     });
 
-    const grossMargin = totalRevenue > 0 ? ((totalRevenue - totalCost) / totalRevenue) * 100 : 0;
+    const grossMargin =
+      totalRevenue > 0 ? ((totalRevenue - totalCost) / totalRevenue) * 100 : 0;
     const netRevenue = totalRevenue - totalCost; // Simplified net revenue
 
     // 3. Churn Rate (Lost users / Total users at start of period)
@@ -50,7 +51,10 @@ export class FinanceService {
     twoMonthsAgo.setMonth(now.getMonth() - 2);
 
     const activeUsersTwoMonthsAgo = await prisma.order.findMany({
-      where: { createdAt: { gte: twoMonthsAgo, lt: lastMonth }, status: OrderStatus.COMPLETED },
+      where: {
+        createdAt: { gte: twoMonthsAgo, lt: lastMonth },
+        status: OrderStatus.COMPLETED,
+      },
       select: { userId: true },
       distinct: ['userId'],
     });
@@ -61,8 +65,12 @@ export class FinanceService {
       distinct: ['userId'],
     });
 
-    const activeTwoMonthsSet = new Set(activeUsersTwoMonthsAgo.map((u) => u.userId));
-    const activeLastMonthSet = new Set(activeUsersLastMonth.map((u) => u.userId));
+    const activeTwoMonthsSet = new Set(
+      activeUsersTwoMonthsAgo.map((u) => u.userId)
+    );
+    const activeLastMonthSet = new Set(
+      activeUsersLastMonth.map((u) => u.userId)
+    );
 
     let churnedUsers = 0;
     activeTwoMonthsSet.forEach((userId) => {
@@ -70,7 +78,9 @@ export class FinanceService {
     });
 
     const churnRate =
-      activeTwoMonthsSet.size > 0 ? (churnedUsers / activeTwoMonthsSet.size) * 100 : 0;
+      activeTwoMonthsSet.size > 0
+        ? (churnedUsers / activeTwoMonthsSet.size) * 100
+        : 0;
 
     return {
       mrr,
@@ -100,16 +110,23 @@ export class FinanceService {
     });
 
     const revenueMap = new Map<string, number>();
-    
+
     orders.forEach((order) => {
-      const dateKey = period === 'daily' 
-        ? order.createdAt.toISOString().split('T')[0]
-        : `${order.createdAt.getFullYear()}-${(order.createdAt.getMonth() + 1).toString().padStart(2, '0')}`;
-        
-      revenueMap.set(dateKey, (revenueMap.get(dateKey) || 0) + order.totalAmount);
+      const dateKey =
+        period === 'daily'
+          ? order.createdAt.toISOString().split('T')[0]
+          : `${order.createdAt.getFullYear()}-${(order.createdAt.getMonth() + 1).toString().padStart(2, '0')}`;
+
+      revenueMap.set(
+        dateKey,
+        (revenueMap.get(dateKey) || 0) + order.totalAmount
+      );
     });
 
-    return Array.from(revenueMap.entries()).map(([date, revenue]) => ({ date, revenue }));
+    return Array.from(revenueMap.entries()).map(([date, revenue]) => ({
+      date,
+      revenue,
+    }));
   }
 
   /**
@@ -130,14 +147,18 @@ export class FinanceService {
     });
 
     const totalRevenue = totalRevResult._sum.totalAmount || 0;
-    const arpu = uniqueCustomers.length > 0 ? totalRevenue / uniqueCustomers.length : 0;
+    const arpu =
+      uniqueCustomers.length > 0 ? totalRevenue / uniqueCustomers.length : 0;
 
     const summary = await this.getSummary();
     const churn = summary.churnRate > 0 ? summary.churnRate / 100 : 0.05; // default 5% if 0
 
     const ltv = arpu / churn;
 
-    return { arpu: parseFloat(arpu.toFixed(2)), ltv: parseFloat(ltv.toFixed(2)) };
+    return {
+      arpu: parseFloat(arpu.toFixed(2)),
+      ltv: parseFloat(ltv.toFixed(2)),
+    };
   }
 
   /**

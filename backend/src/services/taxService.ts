@@ -14,21 +14,28 @@ export class TaxService {
       where: {
         status: OrderStatus.COMPLETED,
         createdAt: { gte: firstDayOfMonth },
-        taxAmount: { gt: 0 }
+        taxAmount: { gt: 0 },
       },
       include: {
-        user: { select: { country: true, taxId: true } }
-      }
+        user: { select: { country: true, taxId: true } },
+      },
     });
 
-    const taxByCountry = new Map<string, { totalAmount: number; totalTax: number; orderCount: number }>();
+    const taxByCountry = new Map<
+      string,
+      { totalAmount: number; totalTax: number; orderCount: number }
+    >();
 
-    orders.forEach(order => {
-      // If user has a valid B2B taxId, and reverse charge applies, tax is 0. 
+    orders.forEach((order) => {
+      // If user has a valid B2B taxId, and reverse charge applies, tax is 0.
       // But we count collected tax here.
       const country = order.user.country || 'Unknown';
       if (!taxByCountry.has(country)) {
-        taxByCountry.set(country, { totalAmount: 0, totalTax: 0, orderCount: 0 });
+        taxByCountry.set(country, {
+          totalAmount: 0,
+          totalTax: 0,
+          orderCount: 0,
+        });
       }
       const data = taxByCountry.get(country)!;
       data.totalAmount += order.totalAmount;
@@ -38,7 +45,7 @@ export class TaxService {
 
     return Array.from(taxByCountry.entries()).map(([country, stats]) => ({
       country,
-      ...stats
+      ...stats,
     }));
   }
 
@@ -49,7 +56,7 @@ export class TaxService {
     // Basic logic
     // EU typically 20%, DZ 19%, US 0% (sales tax handled differently), etc.
     let taxRate = 0;
-    
+
     // B2B Reverse Charge
     if (hasTaxId) {
       return { taxRate: 0, taxAmount: 0 };
